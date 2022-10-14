@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
 import Button from "components/Button";
+import { showToast } from "helpers";
 
-function Signin({ success, error }) {
+function Signin() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -22,10 +22,10 @@ function Signin({ success, error }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        success();
+        showToast("Giriş başarılı", "success");
       })
-      .catch(() => {
-        error();
+      .catch((error) => {
+        showToast(error.code, "error");
       });
   };
   return (

@@ -5,8 +5,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Button from "components/Button";
+import { showToast } from "helpers";
 
-function Signup({ success, error }) {
+function Signup() {
   const {
     register,
     handleSubmit,
@@ -25,14 +26,18 @@ function Signup({ success, error }) {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  const onSubmit = ({ email, password }) => {
+  const onSubmit = ({ email, password, againPassword }) => {
+    if (password !== againPassword) {
+      showToast("Şifreler uyuşmadı", "error");
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        success();
+        showToast("Başarılı giriş", "succes");
       })
-      .catch(() => {
-        error();
+      .catch((error) => {
+        showToast(error.code, "error");
       });
   };
 
