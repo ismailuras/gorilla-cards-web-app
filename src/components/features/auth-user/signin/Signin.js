@@ -18,7 +18,7 @@ function Signin({ success, error }) {
     },
   });
 
-  const onSubmit = (email, password) => {
+  const onSubmit = ({ email, password }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
