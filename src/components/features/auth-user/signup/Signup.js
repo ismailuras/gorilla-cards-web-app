@@ -2,19 +2,28 @@ import { auth } from "firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import Button from "components/Button";
 
 function Signup({ success, error }) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       email: "",
       password: "",
+      againPassword: "",
     },
   });
+
+  useEffect(() => {
+    const subscription = watch(() => {});
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const onSubmit = ({ email, password }) => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -31,6 +40,12 @@ function Signup({ success, error }) {
     <div className="max-w-[700px] mx-auto my-16 p-4 ">
       <div className="p-2 text-bold text-center text-3xl">
         <h2>Welcome to Signup Page</h2>
+        <p>
+          Already have an account ? Click for{" "}
+          <Link className="underline" to="/signin">
+            Signin
+          </Link>
+        </p>
       </div>
       <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col py-2">
@@ -73,6 +88,26 @@ function Signup({ success, error }) {
           <ErrorMessage
             errors={errors}
             name="password"
+            render={({ message }) => <p>{message}</p>}
+          />
+          <label
+            className="font-medium text-xl mt-5 mb-5"
+            htmlFor="againPassword">
+            Password Again
+          </label>
+          <input
+            id="againPassword"
+            type="password"
+            placeholder="******"
+            className="py-1 font-medium outline mt-4"
+            {...register("againPassword", {
+              required: "This is required",
+              minLength: { message: "Min length ", value: 6 },
+            })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="againPassword"
             render={({ message }) => <p>{message}</p>}
           />
         </div>
