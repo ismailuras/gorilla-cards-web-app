@@ -1,10 +1,10 @@
-import { ToastContainer, toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "firebaseConfig";
-import Button from "components/button/Button";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import Button from "components/Button";
 
-function Signin() {
+function Signin({ success, error }) {
   const {
     register,
     handleSubmit,
@@ -17,67 +17,62 @@ function Signin() {
     },
   });
 
-  const toastifyValues = {
-    position: "top-right",
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  };
-
-  const toastify = () =>
-    toast("Success!", {
-      toastifyValues,
-    });
-
-  const errorTostify = () =>
-    toast("Invalid email or password", {
-      toastifyValues,
-    });
-
   const onSubmit = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        toastify();
+        success();
       })
       .catch(() => {
-        errorTostify();
+        error();
       });
   };
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4 ">
-      <ToastContainer />
       <div className="p-2 text-bold text-center text-3xl">
         <h2>Welcome to Signup Page</h2>
       </div>
       <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col py-2">
-          <label className="font-medium text-xl mb-5">Email</label>
+          <label htmlFor="email" className="font-medium text-xl mb-5">
+            Email
+          </label>
           <input
+            id="email"
             type="email"
             className="py-1 font-medium outline"
-            defaultValue="test"
             {...register("email", {
-              required: true,
+              required: "This is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "invalid email address",
+              },
             })}
           />
-          {errors.email ? <p>This is reqired</p> : ""}
+          <ErrorMessage
+            errors={errors}
+            name="email"
+            render={({ message }) => <p>{message}</p>}
+          />
         </div>
         <div className="flex flex-col py-2">
-          <label className="font-medium text-xl mb-5">Password</label>
+          <label htmlFor="password" className="font-medium text-xl mb-5">
+            Password
+          </label>
           <input
+            id="password"
             type="password"
             className="py-1 font-medium outline"
             {...register("password", {
-              required: true,
-              minLength: 6,
+              required: "This is required",
+              minLength: { message: "Min length 6", value: 6 },
             })}
           />
-          {errors.password ? <p>Min six characters</p> : ""}
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={({ message }) => <p>{message}</p>}
+          />
         </div>
         <Button>Click for</Button>
       </form>
