@@ -2,6 +2,7 @@ import { auth } from "firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { Link } from "react-router-dom";
 import Button from "components/Button";
 
 function Signin({ success, error }) {
@@ -30,7 +31,13 @@ function Signin({ success, error }) {
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4 ">
       <div className="p-2 text-bold text-center text-3xl">
-        <h2>Welcome to Signup Page</h2>
+        <h2>Welcome to Signin Page</h2>
+        <p>
+          Not a member yet? Click for{" "}
+          <Link className="underline" to="/signup">
+            Signup
+          </Link>
+        </p>
       </div>
       <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col py-2">
