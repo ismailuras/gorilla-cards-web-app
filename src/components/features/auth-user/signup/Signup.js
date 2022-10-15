@@ -17,20 +17,11 @@ function Signup() {
     defaultValues: {
       email: "",
       password: "",
-      againPassword: "",
+      rePassword: "",
     },
   });
 
-  useEffect(() => {
-    const subscription = watch(() => {});
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
-  const onSubmit = ({ email, password, againPassword }) => {
-    if (password !== againPassword) {
-      showToast("Şifreler uyuşmadı", "error");
-      return;
-    }
+  const onSubmit = ({ email, password, rePassword }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -40,6 +31,8 @@ function Signup() {
         showToast(error.code, "error");
       });
   };
+
+  const password = watch("password");
 
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4 ">
@@ -95,24 +88,24 @@ function Signup() {
             name="password"
             render={({ message }) => <p>{message}</p>}
           />
-          <label
-            className="font-medium text-xl mt-5 mb-5"
-            htmlFor="againPassword">
+          <label className="font-medium text-xl mt-5 mb-5" htmlFor="rePassword">
             Password Again
           </label>
           <input
-            id="againPassword"
+            id="rePassword"
             type="password"
             placeholder="******"
             className="py-1 font-medium outline mt-4"
-            {...register("againPassword", {
+            {...register("rePassword", {
+              validate: (value) =>
+                value === password || "This password does not match.",
               required: "This is required",
               minLength: { message: "Min length ", value: 6 },
             })}
           />
           <ErrorMessage
             errors={errors}
-            name="againPassword"
+            name="rePassword"
             render={({ message }) => <p>{message}</p>}
           />
         </div>
