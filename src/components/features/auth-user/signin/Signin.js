@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
 import Button from "components/Button";
+import { showToast } from "helpers";
 
-function Signin({ success, error }) {
+function Signin() {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -18,14 +19,22 @@ function Signin({ success, error }) {
     },
   });
 
-  const onSubmit = (email, password) => {
+  const onSubmit = ({ email, password }) => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        success();
+      .then(() => {
+        showToast("You have been sign in succesfully.", "success");
+        reset();
       })
-      .catch(() => {
-        error();
+      .catch((error) => {
+        if (error.code.includes("auth/wrong-password")) {
+          showToast("Password is incorrect. Try again.", "error");
+          return;
+        }
+        if (error.code.includes("auth/user-not-foun")) {
+          showToast("User not found. First signup !", "error");
+          return;
+        }
+        return showToast("Unexpected error occured");
       });
   };
   return (

@@ -3,38 +3,48 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import Button from "components/Button";
+import { showToast } from "helpers";
 
-function Signup({ success, error }) {
+function Signup() {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       email: "",
       password: "",
-      againPassword: "",
+      rePassword: "",
     },
   });
 
-  useEffect(() => {
-    const subscription = watch(() => {});
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
   const onSubmit = ({ email, password }) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        success();
+      .then(() => {
+        showToast("You have signed up successfully", "success");
+        reset();
       })
-      .catch(() => {
-        error();
+      .catch((error) => {
+        if (error.code.includes("auth/email-already-in-use")) {
+          showToast("Email already in use", "error");
+          return;
+        }
+        if (error.code.includes("auth/network-request-failed")) {
+          showToast("Network request failed. Pleas try again.", "error");
+          return;
+        }
+        if (error.code.includes("auth/invalid-user-token")) {
+          showToast("Your account has timed out. Please login again.", "error");
+          return;
+        }
+        return showToast("Unexpected error occured");
       });
   };
+
+  const password = watch("password");
 
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4 ">
@@ -90,28 +100,30 @@ function Signup({ success, error }) {
             name="password"
             render={({ message }) => <p>{message}</p>}
           />
-          <label
-            className="font-medium text-xl mt-5 mb-5"
-            htmlFor="againPassword">
+          <label className="font-medium text-xl mt-5 mb-5" htmlFor="rePassword">
             Password Again
           </label>
           <input
-            id="againPassword"
+            id="rePassword"
             type="password"
             placeholder="******"
             className="py-1 font-medium outline mt-4"
-            {...register("againPassword", {
+            {...register("rePassword", {
+              validate: (value) =>
+                value === password || "This password does not match.",
               required: "This is required",
               minLength: { message: "Min length ", value: 6 },
             })}
           />
           <ErrorMessage
             errors={errors}
-            name="againPassword"
+            name="rePassword"
             render={({ message }) => <p>{message}</p>}
           />
         </div>
-        <Button>SUBMIT</Button>
+        <div>
+          <Button>SUBMIT</Button>
+        </div>
       </form>
     </div>
   );
