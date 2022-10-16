@@ -3,7 +3,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import Button from "components/Button";
 import { showToast } from "helpers";
 
@@ -21,14 +20,13 @@ function Signup() {
     },
   });
 
-  const onSubmit = ({ email, password, rePassword }) => {
+  const onSubmit = ({ email, password }) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        showToast("Başarılı giriş", "succes");
+      .then(() => {
+        showToast("You have signed up successfully", "success");
       })
       .catch((error) => {
-        showToast(error.code, "error");
+        showToast(error.message, "error");
       });
   };
 

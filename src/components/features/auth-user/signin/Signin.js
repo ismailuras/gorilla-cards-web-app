@@ -20,9 +20,8 @@ function Signin() {
 
   const onSubmit = ({ email, password }) => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        showToast("Giriş başarılı", "success");
+      .then(() => {
+        showToast("You have sign in succesfully.", "success");
       })
       .catch((error) => {
         showToast(error.code, "error");
