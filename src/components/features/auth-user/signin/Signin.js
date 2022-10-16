@@ -10,6 +10,7 @@ function Signin() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -21,10 +22,17 @@ function Signin() {
   const onSubmit = ({ email, password }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        showToast("You have sign in succesfully.", "success");
+        showToast("You have been sign in succesfully.", "success");
+        reset();
       })
       .catch((error) => {
-        showToast(error.code, "error");
+        if (error.code.includes("auth/wrong-password")) {
+          showToast("Password is incorrect. Try again.", "error");
+        }
+        if (error.code.includes("auth/user-not-foun")) {
+          showToast("User not found. First signup !", "error");
+          return showToast("Unexpected error occured");
+        }
       });
   };
   return (

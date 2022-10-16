@@ -10,6 +10,7 @@ function Signup() {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm({
@@ -24,15 +25,14 @@ function Signup() {
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         showToast("You have signed up successfully", "success");
+        reset();
       })
       .catch((error) => {
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
-          return showToast("Unexpected error occured");
         }
         if (error.code.includes("auth/network-request-failed")) {
           showToast("Network request failed. Pleas try again.", "error");
-          return showToast("Unexpected error occured");
         }
         if (error.code.includes("auth/invalid-user-token")) {
           showToast("Your account has timed out. Please login again.", "error");
