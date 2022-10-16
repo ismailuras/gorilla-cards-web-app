@@ -28,11 +28,13 @@ function Signin() {
       .catch((error) => {
         if (error.code.includes("auth/wrong-password")) {
           showToast("Password is incorrect. Try again.", "error");
+          return;
         }
         if (error.code.includes("auth/user-not-foun")) {
           showToast("User not found. First signup !", "error");
-          return showToast("Unexpected error occured");
+          return;
         }
+        return showToast("Unexpected error occured");
       });
   };
   return (

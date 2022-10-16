@@ -30,14 +30,17 @@ function Signup() {
       .catch((error) => {
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
+          return;
         }
         if (error.code.includes("auth/network-request-failed")) {
           showToast("Network request failed. Pleas try again.", "error");
+          return;
         }
         if (error.code.includes("auth/invalid-user-token")) {
           showToast("Your account has timed out. Please login again.", "error");
-          return showToast("Unexpected error occured");
+          return;
         }
+        return showToast("Unexpected error occured");
       });
   };
 
