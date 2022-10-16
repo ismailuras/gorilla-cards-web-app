@@ -26,7 +26,18 @@ function Signup() {
         showToast("You have signed up successfully", "success");
       })
       .catch((error) => {
-        showToast(error.message, "error");
+        if (error.code.includes("auth/email-already-in-use")) {
+          showToast("Email already in use", "error");
+          return showToast("Unexpected error occured");
+        }
+        if (error.code.includes("auth/network-request-failed")) {
+          showToast("Network request failed. Pleas try again.", "error");
+          return showToast("Unexpected error occured");
+        }
+        if (error.code.includes("auth/invalid-user-token")) {
+          showToast("Your account has timed out. Please login again.", "error");
+          return showToast("Unexpected error occured");
+        }
       });
   };
 
@@ -107,7 +118,9 @@ function Signup() {
             render={({ message }) => <p>{message}</p>}
           />
         </div>
-        <Button>SUBMIT</Button>
+        <div>
+          <Button>SUBMIT</Button>
+        </div>
       </form>
     </div>
   );
