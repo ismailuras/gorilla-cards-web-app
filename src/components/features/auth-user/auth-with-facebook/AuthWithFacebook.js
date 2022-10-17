@@ -1,16 +1,17 @@
 import { BsFacebook } from "react-icons/bs";
 import { signInWithPopup } from "firebase/auth";
 import { auth, facebookProvider } from "firebaseConfig";
+import { showToast } from "helpers";
 function AuthWithFacebook() {
   const facebookSignin = () => {
     signInWithPopup(auth, facebookProvider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
+      .then(() => {
+        showToast("You have signed up successfully", "success");
       })
       .catch((error) => {
-        console.log(error);
+        showToast(error.code, "error");
       });
+    return showToast("Unexpected error occured");
   };
   return (
     <div>
