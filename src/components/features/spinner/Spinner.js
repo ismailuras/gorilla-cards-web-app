@@ -6,7 +6,6 @@ function Spinner() {
             Loading...
         </span>
     )
-
 }
 
 export default Spinner

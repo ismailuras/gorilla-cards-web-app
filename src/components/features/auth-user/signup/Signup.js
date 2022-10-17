@@ -51,7 +51,6 @@ function Signup() {
         return showToast("Unexpected error occured");
       }
       );
-    reset()
   };
 
   const password = watch("password");

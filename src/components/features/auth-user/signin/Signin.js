@@ -44,7 +44,6 @@ function Signin() {
         }
         return showToast("Unexpected error occured");
       });
-    reset()
   };
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4">
