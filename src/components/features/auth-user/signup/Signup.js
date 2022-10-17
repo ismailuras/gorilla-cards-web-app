@@ -98,7 +98,7 @@ function Signup() {
                 id="password"
                 type={type}
                 placeholder="******"
-                className="py-1 font-medium outline"
+                className="py-1 font-medium outline w-full"
                 {...register("password", {
                   required: "This is required",
                   minLength: { message: "Min length 6", value: 6 },
@@ -120,7 +120,7 @@ function Signup() {
                 id="rePassword"
                 type={type}
                 placeholder="******"
-                className="py-1 font-medium outline mt-4"
+                className="py-1 font-medium outline w-full"
                 {...register("rePassword", {
                   validate: (value) =>
                     value === password || "This password does not match.",

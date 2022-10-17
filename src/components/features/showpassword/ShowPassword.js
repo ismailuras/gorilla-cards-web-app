@@ -12,12 +12,15 @@ function ShowPassword({ children }) {
   };
 
   return (
-    <>
+    <div className="relative w-full">
       {children(inputType)}
-      <button type="button" onClick={handleVisible}>
+      <button
+        className="absolute text-2xl top-1 right-3"
+        type="button"
+        onClick={handleVisible}>
         {isVisible ? <AiOutlineEyeInvisible /> : <AiFillEye />}
       </button>
-    </>
+    </div>
   );
 }
 

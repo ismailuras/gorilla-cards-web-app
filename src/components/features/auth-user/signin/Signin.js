@@ -87,7 +87,7 @@ function Signin() {
               <input
                 id="password"
                 type={type}
-                className="py-1 font-medium outline"
+                className="py-1 font-medium outline w-full"
                 {...register("password", {
                   required: "This is required",
                   minLength: { message: "Min length 6", value: 6 },
