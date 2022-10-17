@@ -1,16 +1,15 @@
-import { useState } from "react";
 import { auth } from "firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { showToast } from "helpers";
-import Button from "components/Button";
 import ShowPassword from "components/features/showpassword/ShowPassword";
+import Button from "components/Button";
 
 function Signin() {
-
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -25,16 +24,15 @@ function Signin() {
   });
 
   const onSubmit = ({ email, password }) => {
-
-    setIsLoading(true)
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         reset();
         showToast("You have been sign in succesfully.", "success");
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((error) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (error.code.includes("auth/wrong-password")) {
           showToast("Password is incorrect. Try again.", "error");
           return;
@@ -89,7 +87,7 @@ function Signin() {
               <input
                 id="password"
                 type={type}
-                className="py-1 font-medium outline"
+                className="py-1 font-medium outline w-full"
                 {...register("password", {
                   required: "This is required",
                   minLength: { message: "Min length 6", value: 6 },

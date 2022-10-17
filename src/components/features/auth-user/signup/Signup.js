@@ -9,8 +9,7 @@ import Button from "components/Button";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 
 function Signup() {
-
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -27,16 +26,15 @@ function Signup() {
   });
 
   const onSubmit = ({ email, password }) => {
-
-    setIsLoading(true)
+    setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((data) => {
         reset();
         showToast("You have signed up successfully", "success");
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((error) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
           return;
@@ -50,13 +48,10 @@ function Signup() {
           return;
         }
         return showToast("Unexpected error occured");
-      }
-      );
+      });
   };
 
   const password = watch("password");
-
-
 
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4">
@@ -97,16 +92,20 @@ function Signup() {
           <label htmlFor="password" className="font-medium text-xl mb-5">
             Password
           </label>
-          <ShowPassword>{(type) => <input
-            id="password"
-            type={type}
-            placeholder="******"
-            className="py-1 font-medium outline"
-            {...register("password", {
-              required: "This is required",
-              minLength: { message: "Min length 6", value: 6 },
-            })}
-          />}</ShowPassword>
+          <ShowPassword>
+            {(type) => (
+              <input
+                id="password"
+                type={type}
+                placeholder="******"
+                className="py-1 font-medium outline w-full"
+                {...register("password", {
+                  required: "This is required",
+                  minLength: { message: "Min length 6", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
           <ErrorMessage
             errors={errors}
             name="password"
@@ -115,18 +114,22 @@ function Signup() {
           <label className="font-medium text-xl mt-5 mb-5" htmlFor="rePassword">
             Password Again
           </label>
-         <ShowPassword>{(type) =>  <input
-            id="rePassword"
-            type={type}
-            placeholder="******"
-            className="py-1 font-medium outline mt-4"
-            {...register("rePassword", {
-              validate: (value) =>
-                value === password || "This password does not match.",
-              required: "This is required",
-              minLength: { message: "Min length ", value: 6 },
-            })}
-          />}</ShowPassword>
+          <ShowPassword>
+            {(type) => (
+              <input
+                id="rePassword"
+                type={type}
+                placeholder="******"
+                className="py-1 font-medium outline w-full"
+                {...register("rePassword", {
+                  validate: (value) =>
+                    value === password || "This password does not match.",
+                  required: "This is required",
+                  minLength: { message: "Min length ", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
           <ErrorMessage
             errors={errors}
             name="rePassword"
