@@ -12,9 +12,9 @@ function ShowPassword({ children }) {
      })
    }
 
-  return <>{children(inputType)}
+  return <div className="relative">{children(inputType)}
   <button type="button" onClick={handleVisible}>{ isVisible ? <AiOutlineEyeInvisible /> : <AiFillEye /> }</button>
-  </>;
+  </div>;
 }
 
 export default ShowPassword;
