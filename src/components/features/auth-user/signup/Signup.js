@@ -3,8 +3,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import Button from "components/Button";
 import { showToast } from "helpers";
+import Button from "components/Button";
+import ShowPassword from "components/features/showpassword/ShowPassword";
 
 function Signup() {
   const {
@@ -85,16 +86,16 @@ function Signup() {
           <label htmlFor="password" className="font-medium text-xl mb-5">
             Password
           </label>
-          <input
+          <ShowPassword>{(type) => <input
             id="password"
-            type="password"
+            type={type}
             placeholder="******"
             className="py-1 font-medium outline"
             {...register("password", {
               required: "This is required",
               minLength: { message: "Min length 6", value: 6 },
             })}
-          />
+          />}</ShowPassword>
           <ErrorMessage
             errors={errors}
             name="password"
@@ -103,9 +104,9 @@ function Signup() {
           <label className="font-medium text-xl mt-5 mb-5" htmlFor="rePassword">
             Password Again
           </label>
-          <input
+         <ShowPassword>{(type) =>  <input
             id="rePassword"
-            type="password"
+            type={type}
             placeholder="******"
             className="py-1 font-medium outline mt-4"
             {...register("rePassword", {
@@ -114,7 +115,7 @@ function Signup() {
               required: "This is required",
               minLength: { message: "Min length ", value: 6 },
             })}
-          />
+          />}</ShowPassword>
           <ErrorMessage
             errors={errors}
             name="rePassword"
