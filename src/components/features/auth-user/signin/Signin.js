@@ -1,11 +1,12 @@
+import { useState } from "react";
 import { auth } from "firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { showToast } from "helpers";
 import Button from "components/Button";
+import ShowPassword from "components/features/showpassword/ShowPassword";
 
 function Signin() {
 
@@ -83,15 +84,19 @@ function Signin() {
           <label htmlFor="password" className="font-medium text-xl mb-5">
             Password
           </label>
-          <input
-            id="password"
-            type="password"
-            className="py-1 font-medium outline"
-            {...register("password", {
-              required: "This is required",
-              minLength: { message: "Min length 6", value: 6 },
-            })}
-          />
+          <ShowPassword>
+            {(type) => (
+              <input
+                id="password"
+                type={type}
+                className="py-1 font-medium outline"
+                {...register("password", {
+                  required: "This is required",
+                  minLength: { message: "Min length 6", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
           <ErrorMessage
             errors={errors}
             name="password"
