@@ -5,7 +5,7 @@ export const showToast = (text, status) => {
   const toaster = toast[status];
   toaster(text, {
     position: toast.POSITION.TOP_RIGHT,
-    autoClose: 1500,
+    autoClose: 1000,
     theme: "light",
     pauseOnHover: false,
   });

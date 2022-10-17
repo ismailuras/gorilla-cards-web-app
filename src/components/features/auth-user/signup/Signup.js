@@ -3,10 +3,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import Button from "components/Button";
 import { showToast } from "helpers";
+import { useState } from "react";
+import Button from "components/Button";
 
 function Signup() {
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -22,12 +26,16 @@ function Signup() {
   });
 
   const onSubmit = ({ email, password }) => {
+
+    setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        showToast("You have signed up successfully", "success");
+      .then((data) => {
         reset();
+        showToast("You have signed up successfully", "success");
+        setIsLoading(false)
       })
       .catch((error) => {
+        setIsLoading(false)
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
           return;
@@ -41,13 +49,17 @@ function Signup() {
           return;
         }
         return showToast("Unexpected error occured");
-      });
+      }
+      );
+    reset()
   };
 
   const password = watch("password");
 
+
+
   return (
-    <div className="max-w-[700px] mx-auto my-16 p-4 ">
+    <div className="max-w-[700px] mx-auto my-16 p-4">
       <div className="p-2 text-bold text-center text-3xl">
         <h2>Welcome to Signup Page</h2>
         <p>
@@ -122,7 +134,7 @@ function Signup() {
           />
         </div>
         <div>
-          <Button>SUBMIT</Button>
+          <Button isLoading={isLoading}>SUBMIT</Button>
         </div>
       </form>
     </div>

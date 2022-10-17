@@ -3,10 +3,14 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
-import Button from "components/Button";
+import { useState } from "react";
 import { showToast } from "helpers";
+import Button from "components/Button";
 
 function Signin() {
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -20,12 +24,16 @@ function Signin() {
   });
 
   const onSubmit = ({ email, password }) => {
+
+    setIsLoading(true)
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        showToast("You have been sign in succesfully.", "success");
         reset();
+        showToast("You have been sign in succesfully.", "success");
+        setIsLoading(false)
       })
       .catch((error) => {
+        setIsLoading(false)
         if (error.code.includes("auth/wrong-password")) {
           showToast("Password is incorrect. Try again.", "error");
           return;
@@ -36,9 +44,10 @@ function Signin() {
         }
         return showToast("Unexpected error occured");
       });
+    reset()
   };
   return (
-    <div className="max-w-[700px] mx-auto my-16 p-4 ">
+    <div className="max-w-[700px] mx-auto my-16 p-4">
       <div className="p-2 text-bold text-center text-3xl">
         <h2>Welcome to Signin Page</h2>
         <p>
@@ -90,7 +99,7 @@ function Signin() {
             render={({ message }) => <p>{message}</p>}
           />
         </div>
-        <Button>Click for</Button>
+        <Button isLoading={isLoading}>Signin</Button>
       </form>
     </div>
   );
