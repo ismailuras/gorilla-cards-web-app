@@ -2,6 +2,7 @@ import { BsFacebook } from "react-icons/bs";
 import { signInWithPopup } from "firebase/auth";
 import { auth, facebookProvider } from "firebaseConfig";
 import { showToast } from "helpers";
+
 function AuthWithFacebook() {
   const facebookSignin = () => {
     signInWithPopup(auth, facebookProvider)
@@ -9,9 +10,21 @@ function AuthWithFacebook() {
         showToast("You have signed up successfully", "success");
       })
       .catch((error) => {
-        showToast(error.code, "error");
+        if (error.code.includes("auth/network-request-failed")) {
+          showToast("Network request failed. Please try again.", "error");
+          return;
+        }
+        if (
+          error.code.includes("auth/account-exists-with-different-credential")
+        ) {
+          showToast(
+            "This e-mail address is already registered. Try logging in.",
+            "error"
+          );
+          return;
+        }
+        return showToast("Unexpected error occured");
       });
-    return showToast("Unexpected error occured");
   };
   return (
     <div>
