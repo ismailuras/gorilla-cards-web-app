@@ -3,7 +3,7 @@ import { auth } from "firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "helpers";
 import Button from "components/Button";
 import ShowPassword from "components/features/showpassword/ShowPassword";
@@ -12,6 +12,7 @@ import AuthWithFacebook from "../auth-with-facebook/AuthWithFacebook";
 
 function Signup() {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,6 +34,7 @@ function Signup() {
       .then((data) => {
         reset();
         showToast("You have signed up successfully", "success");
+        navigate("/user-profile");
         setIsLoading(false);
       })
       .catch((error) => {
