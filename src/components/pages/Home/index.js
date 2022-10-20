@@ -10,6 +10,7 @@ function Home() {
       <p>
         Already a member? Click to login. <Link to="/signin">Signin</Link>
       </p>
+      <Link to="/user-profile">Profile</Link>
     </div>
   );
 }
