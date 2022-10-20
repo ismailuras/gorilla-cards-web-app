@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div>
-      <nav></nav>
       <h1>Welcome to English Guru</h1>
       <p>
         If not, click to create a user account. <Link to="/signup">Signup</Link>
