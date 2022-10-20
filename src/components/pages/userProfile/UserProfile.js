@@ -6,6 +6,7 @@ import { showToast } from "helpers";
 function UserProfile() {
   const navigate = useNavigate();
 
+  const user = auth.currentUser;
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -21,9 +22,20 @@ function UserProfile() {
   };
   return (
     <div>
-      <h3>Welcome to Profile Page</h3>
-      <div></div>
-      <button onClick={handleSignOut}>Logout</button>
+      <h3 className="text-2xl">Profile Page</h3>
+      <div className="p-10">
+        {user !== null &&
+          user.providerData.map((profile) => (
+            <span className="text-xl" key={profile.uid}>
+              Welcome {profile.email}
+            </span>
+          ))}
+      </div>
+      <button
+        onClick={handleSignOut}
+        className="bg-indigo-600 text-white text-md py-2 px-6 my-10 hover:bg-indigo-700 ml-3">
+        Logout
+      </button>
     </div>
   );
 }
