@@ -8,7 +8,6 @@ import { showToast } from "helpers";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
-import AuthWithFacebook from "../auth-with-facebook/AuthWithFacebook";
 
 function Signin() {
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +108,6 @@ function Signin() {
         <div>
           <Button isLoading={isLoading}>Signin</Button>
           <AutWithGoogle />
-          <AuthWithFacebook />
         </div>
       </form>
     </div>
