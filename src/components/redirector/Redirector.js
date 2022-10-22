@@ -6,7 +6,7 @@ function Redirector() {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!loading) {
+    if (loading) {
       if (user) {
         navigate("/user-profile");
       } else {

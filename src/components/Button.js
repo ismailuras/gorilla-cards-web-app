@@ -1,6 +1,6 @@
 import Spinner from "./features/spinner/Spinner";
 
-function Button({ children, loading, isLoading }) {
+function Button({ children, loading }) {
   return (
     <button
       disabled={loading}
