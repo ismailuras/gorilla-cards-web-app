@@ -12,7 +12,6 @@ import { useState } from "react";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
-import ForgotPassword from "components/features/forgot-password/ForgotPassword";
 
 function Signin() {
   const [loading, isLoading] = useState(false);
