@@ -10,7 +10,7 @@ import ShowPassword from "components/features/showpassword/ShowPassword";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
 
 function Signup() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, isLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -28,17 +28,17 @@ function Signup() {
   });
 
   const onSubmit = ({ email, password }) => {
-    setIsLoading(true);
+    isLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((data) => {
         reset();
         showToast("You have signed up successfully", "success");
         navigate("/user-profile");
-        setIsLoading(false);
+        isLoading(false);
         navigate("/user-profile");
       })
       .catch((error) => {
-        setIsLoading(false);
+        isLoading(false);
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
           return;
@@ -141,7 +141,7 @@ function Signup() {
           />
         </div>
         <div>
-          <Button isLoading={isLoading}>SUBMIT</Button>
+          <Button loading={loading}>SUBMIT</Button>
           <AutWithGoogle />
         </div>
       </form>

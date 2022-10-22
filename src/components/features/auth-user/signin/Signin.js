@@ -14,7 +14,7 @@ import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
 
 function Signin() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, isLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -30,18 +30,17 @@ function Signin() {
   });
 
   const onSubmit = async ({ email, password }) => {
-    setIsLoading(true);
+    isLoading(true);
     await setPersistence(auth, browserLocalPersistence);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         reset();
         showToast("You have been sign in succesfully.", "success");
-        setIsLoading(false);
+        isLoading(false);
         navigate("/user-profile");
       })
       .catch((error) => {
-        setIsLoading(false);
-        console.log(error);
+        isLoading(false);
         if (error.code.includes("auth/wrong-password")) {
           showToast("Password is incorrect. Try again.", "error");
           return;
@@ -116,7 +115,7 @@ function Signin() {
           />
         </div>
         <div>
-          <Button isLoading={isLoading}>Signin</Button>
+          <Button loading={loading}>Signin</Button>
           <AutWithGoogle />
         </div>
       </form>
