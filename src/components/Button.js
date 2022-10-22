@@ -1,12 +1,12 @@
 import Spinner from "./features/spinner/Spinner";
 
-function Button({ children, isLoading }) {
+function Button({ children, setIsLoading }) {
   return (
     <button
-      disabled={isLoading}
+      disabled={setIsLoading}
       type="submit"
       className="bg-indigo-600 text-white text-xl py-2 px-6 my-10 rounded hover:bg-indigo-700">
-      {isLoading ? <Spinner isLoading={isLoading} /> : children}
+      {setIsLoading ? <Spinner setIsLoading={setIsLoading} /> : children}
     </button>
   );
 }

@@ -35,6 +35,7 @@ function Signup() {
         showToast("You have signed up successfully", "success");
         navigate("/user-profile");
         setIsLoading(false);
+        navigate("/user-profile");
       })
       .catch((error) => {
         setIsLoading(false);
