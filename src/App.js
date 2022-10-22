@@ -3,30 +3,40 @@ import { Routes, Route } from "react-router-dom";
 import Home from "components/pages/Home";
 import Signup from "components/features/auth-user/signup/Signup";
 import Signin from "components/features/auth-user/signin/Signin";
-import UserProfile from "components/pages/userProfile/UserProfile";
-import "react-toastify/dist/ReactToastify.css";
+import CurrentUser from "components/pages/currentUser/CurrentUser";
 import RequireAuthRoute from "components/require-auth-route/RequireAuthRoute";
+import Redirector from "components/redirector/Redirector";
+import RequireNotLogin from "components/require-not-login/RequireNotLogin";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <div className="min-h-screen w-full ">
       <ToastContainer />
       <Routes>
+        <Route path="/" element={<Redirector />} />
+        <Route path="/home" element={<Home />} />
         <Route
-          path="/"
+          path="/signup"
           element={
-            <RequireAuthRoute>
-              <Home />
-            </RequireAuthRoute>
+            <RequireNotLogin>
+              <Signup />
+            </RequireNotLogin>
           }
         />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route
+          path="/signin"
+          element={
+            <RequireNotLogin>
+              <Signin />
+            </RequireNotLogin>
+          }
+        />
         <Route
           path="/user-profile"
           element={
             <RequireAuthRoute>
-              <UserProfile />
+              <CurrentUser />
             </RequireAuthRoute>
           }
         />

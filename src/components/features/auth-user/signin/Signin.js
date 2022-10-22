@@ -1,16 +1,20 @@
 import { auth } from "firebaseConfig";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { showToast } from "helpers";
+import { useState } from "react";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
 
 function Signin() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, isLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -25,26 +29,31 @@ function Signin() {
     },
   });
 
-  const onSubmit = ({ email, password }) => {
-    setIsLoading(true);
+  const onSubmit = async ({ email, password }) => {
+    isLoading(true);
+    await setPersistence(auth, browserLocalPersistence);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         reset();
         showToast("You have been sign in succesfully.", "success");
-        setIsLoading(false);
+        isLoading(false);
         navigate("/user-profile");
       })
       .catch((error) => {
-        setIsLoading(false);
+        isLoading(false);
         if (error.code.includes("auth/wrong-password")) {
           showToast("Password is incorrect. Try again.", "error");
+          return;
+        }
+        if (error.code.includes("auth/email-already-in-use")) {
+          showToast("Email already in use", "error");
           return;
         }
         if (error.code.includes("auth/user-not-found")) {
           showToast("User not found. First signup !", "error");
           return;
         }
-        return showToast("Unexpected error occured");
+        return showToast("Unexpected error occured", "error");
       });
   };
 
@@ -106,7 +115,7 @@ function Signin() {
           />
         </div>
         <div>
-          <Button isLoading={isLoading}>Signin</Button>
+          <Button loading={loading}>Signin</Button>
           <AutWithGoogle />
         </div>
       </form>
