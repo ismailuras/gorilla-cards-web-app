@@ -4,10 +4,6 @@ import { showToast } from "helpers";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function CurrentUser() {
-  const buttonStyles = [
-    "bg-indigo-600 hover:bg-indigo-400 mb-6 text-white p-2 rounded",
-  ];
-
   const [user, loading, error] = useAuthState(auth);
 
   const handleLogout = () => {
@@ -30,7 +26,9 @@ function CurrentUser() {
         </div>
       )}
       <div>
-        <button className={buttonStyles.join(" ")} onClick={handleLogout}>
+        <button
+          className="bg-indigo-600 hover:bg-indigo-400 mb-6 text-white p-2 rounded"
+          onClick={handleLogout}>
           Logout
         </button>
       </div>
