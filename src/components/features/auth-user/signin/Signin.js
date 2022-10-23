@@ -16,11 +16,15 @@ import MyModal from "components/features/modal/MyModal";
 import ForgotPassword from "components/features/forgot-password/ForgotPassword";
 
 function Signin() {
+  const common = [
+    "text-white text-xl p-2 rounded bg-indigo-600 hover:bg-indigo-500",
+  ];
+
   const [loading, isLoading] = useState(false);
   const [isForgotModalOpen, setForgotModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openForgatModal = () => {
+  const openForgotModal = () => {
     setForgotModalOpen(true);
   };
 
@@ -127,8 +131,13 @@ function Signin() {
         </div>
         <div>
           <Button loading={loading}>Signin</Button>
-          <Button onClick={openForgatModal}>Forgot Password</Button>
           <AutWithGoogle />
+          <button
+            onClick={openForgotModal}
+            className={common.join(" ")}
+            type="button">
+            Forgot Password
+          </button>
         </div>
       </form>
       <MyModal
