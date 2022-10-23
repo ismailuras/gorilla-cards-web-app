@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import Home from "components/pages/Home";
+import Navbar from "components/navbar/Navbar";
 import Signup from "components/features/auth-user/signup/Signup";
 import Signin from "components/features/auth-user/signin/Signin";
 import CurrentUser from "components/pages/currentUser/CurrentUser";
@@ -12,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div className="min-h-screen w-full ">
+      <Navbar />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Redirector />} />
