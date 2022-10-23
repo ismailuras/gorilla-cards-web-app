@@ -1,6 +1,5 @@
 import { auth } from "firebaseConfig";
 import { signOut } from "firebase/auth";
-import { Link } from "react-router-dom";
 import { showToast } from "helpers";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -14,7 +13,7 @@ function CurrentUser() {
   };
 
   return (
-    <div>
+    <div className="flex justify-around items-center p-10">
       {loading && (
         <div>
           <span>Initialising User</span>
@@ -23,12 +22,15 @@ function CurrentUser() {
       {error && showToast("Unexpected error occured", "error")}
       {user && (
         <div>
-          <span>Welcome {user.email}</span>
+          <span className="text-2xl">Welcome {user.email}</span>
         </div>
       )}
       <div>
-        <Link to={"/home"}>Home</Link>
-        <button onClick={handleLogout}>Logout</button>
+        <button
+          className="bg-indigo-600 hover:bg-indigo-400 mb-6 text-white p-2 rounded"
+          onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );

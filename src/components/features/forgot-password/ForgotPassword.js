@@ -3,7 +3,11 @@ import { auth } from "firebaseConfig";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { sendPasswordResetEmail } from "firebase/auth";
+import Spinner from "components/features/spinner/Spinner";
+import { useState } from "react";
 function ForgotPassword({ onClose }) {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -15,12 +19,14 @@ function ForgotPassword({ onClose }) {
   });
 
   const onSubmit = ({ email }) => {
+    setLoading(true);
     sendPasswordResetEmail(auth, email)
       .then(() => {
         showToast(
           "Password reset email has been sent. Please check.(Also check spam.)",
           "success"
         );
+        setLoading(false);
         onClose();
         return;
       })
@@ -59,7 +65,7 @@ function ForgotPassword({ onClose }) {
           render={({ message }) => <p>{message}</p>}
         />
         <button className="bg-indigo-600 p-1 mt-5 text-white text-xl rounded hover:bg-indigo-700">
-          Send Reset Email
+          {loading ? <Spinner /> : "Send reset email."}
         </button>
       </form>
     </div>

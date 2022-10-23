@@ -14,6 +14,7 @@ import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
 import MyModal from "components/features/modal/MyModal";
 import ForgotPassword from "components/features/forgot-password/ForgotPassword";
+import Spinner from "components/features/spinner/Spinner";
 
 function Signin() {
   const common = [
