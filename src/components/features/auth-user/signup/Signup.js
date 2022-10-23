@@ -68,7 +68,7 @@ function Signup() {
           </Link>
         </p>
       </div>
-      <form className="flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-col">
         <div className="flex flex-col py-2">
           <label htmlFor="email" className="font-medium text-xl mb-5">
             Email
@@ -141,9 +141,7 @@ function Signup() {
           />
         </div>
         <div>
-          <Button onClick={handleSubmit(onSubmit)} loading={loading}>
-            SUBMIT
-          </Button>
+          <Button loading={loading}>SUBMIT</Button>
           <AutWithGoogle />
         </div>
       </form>

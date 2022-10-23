@@ -3,7 +3,7 @@ import { auth } from "firebaseConfig";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { sendPasswordResetEmail } from "firebase/auth";
-function ForgotPassword({ closeModal }) {
+function ForgotPassword({ onClose }) {
   const {
     register,
     handleSubmit,
@@ -21,7 +21,7 @@ function ForgotPassword({ closeModal }) {
           "Password reset email has been sent. Please check.(Also check spam.)",
           "success"
         );
-        closeModal(true);
+        onClose();
         return;
       })
       .catch((error) => {
@@ -35,20 +35,15 @@ function ForgotPassword({ closeModal }) {
 
   return (
     <div>
-      <div>
-        <button
-          onClick={closeModal}
-          className="bg-red-400 p-1 rounded text-white">
-          Close
-        </button>
-      </div>
-      <form className="w-96 h-72 flex flex-col justify-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-96 h-72 flex flex-col justify-center">
         <label className="font-medium text-xl mb-10" htmlFor="email">
           Please enter a registered e-mail address.
         </label>
         <input
           id="email"
-          className="w-full p-1 px-2 outline-none"
+          className="w-full p-1 px-2 outline border-dashed"
           placeholder="example@mail.com"
           {...register("email", {
             required: "This is required",
@@ -63,10 +58,7 @@ function ForgotPassword({ closeModal }) {
           name="email"
           render={({ message }) => <p>{message}</p>}
         />
-        <button
-          type="button"
-          onClick={handleSubmit(onSubmit)}
-          className="bg-indigo-600 p-1 mt-5 text-white text-xl rounded hover:bg-indigo-700">
+        <button className="bg-indigo-600 p-1 mt-5 text-white text-xl rounded hover:bg-indigo-700">
           Send Reset Email
         </button>
       </form>
