@@ -12,6 +12,7 @@ import { useState } from "react";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
+import ShowModal from "components/features/modal/ShowModal";
 
 function Signin() {
   const [loading, isLoading] = useState(false);
@@ -68,7 +69,7 @@ function Signin() {
           </Link>
         </p>
       </div>
-      <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex-col">
         <div className="flex flex-col py-2">
           <label htmlFor="email" className="font-medium text-xl mb-5">
             Email
@@ -115,7 +116,10 @@ function Signin() {
           />
         </div>
         <div>
-          <Button loading={loading}>Signin</Button>
+          <Button onClick={handleSubmit(onSubmit)} loading={loading}>
+            Signin
+          </Button>
+          <ShowModal />
           <AutWithGoogle />
         </div>
       </form>
