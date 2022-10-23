@@ -68,7 +68,7 @@ function Signup() {
           </Link>
         </p>
       </div>
-      <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-col">
         <div className="flex flex-col py-2">
           <label htmlFor="email" className="font-medium text-xl mb-5">
             Email

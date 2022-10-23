@@ -1,16 +1,12 @@
 import Spinner from "./features/spinner/Spinner";
 
-function Button({ children, loading }) {
+function Button({ children, loading, onClick }) {
+  const common = ["text-white text-xl rounded p-2"];
+  const primary = [...common, "bg-indigo-600 hover:bg-indigo-400 mb-6"];
+
   return (
-    <button
-      disabled={loading}
-      type="submit"
-      className={
-        loading
-          ? "opacity-60 bg-indigo-600 text-white text-xl py-2 px-6 my-10 rounded"
-          : "bg-indigo-600 text-white text-xl py-2 px-6 my-10 rounded hover:bg-indigo-700"
-      }>
-      {loading ? <Spinner loading={loading} /> : children}
+    <button onClick={onClick} disabled={loading} className={primary.join(" ")}>
+      {loading ? <Spinner classNames={primary.join(" ")} /> : children}
     </button>
   );
 }

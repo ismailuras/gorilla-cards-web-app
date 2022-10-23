@@ -12,10 +12,25 @@ import { useState } from "react";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
+import MyModal from "components/features/modal/MyModal";
+import ForgotPassword from "components/features/forgot-password/ForgotPassword";
 
 function Signin() {
+  const common = [
+    "text-white text-xl p-2 rounded bg-indigo-600 hover:bg-indigo-500",
+  ];
+
   const [loading, isLoading] = useState(false);
+  const [isForgotModalOpen, setForgotModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const openForgotModal = () => {
+    setForgotModalOpen(true);
+  };
+
+  const handleCloseForgotModal = () => {
+    setForgotModalOpen(false);
+  };
 
   const {
     register,
@@ -68,7 +83,7 @@ function Signin() {
           </Link>
         </p>
       </div>
-      <form className="flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-col">
         <div className="flex flex-col py-2">
           <label htmlFor="email" className="font-medium text-xl mb-5">
             Email
@@ -117,8 +132,20 @@ function Signin() {
         <div>
           <Button loading={loading}>Signin</Button>
           <AutWithGoogle />
+          <button
+            onClick={openForgotModal}
+            className={common.join(" ")}
+            type="button">
+            Forgot Password
+          </button>
         </div>
       </form>
+      <MyModal
+        isOpen={isForgotModalOpen}
+        setOpen={setForgotModalOpen}
+        title="Forgot Password">
+        <ForgotPassword onClose={handleCloseForgotModal} />
+      </MyModal>
     </div>
   );
 }
