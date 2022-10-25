@@ -12,7 +12,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
   content: {
-    position: "absolute",
     top: "40px",
     left: "40px",
     right: "40px",

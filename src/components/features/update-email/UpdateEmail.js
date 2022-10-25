@@ -26,15 +26,18 @@ function UpdateEmail() {
   const onSubmit = async ({ email, currentPassword }) => {
     setLoading(true);
     const currentEmail = [];
-    user.providerData.forEach((profile) => {
+    user.providerData.map((profile) => {
       currentEmail.push(profile.email);
     });
-    if (email === currentEmail.toString()) {
+    if (email === currentEmail[0]) {
       showToast("The email entered is already primary", "error");
       return;
     }
     try {
       await reAuth(currentPassword);
+      await updateEmail(user, email, currentPassword);
+      reset();
+      showToast("Email address has been successfully changed.", "success");
     } catch (error) {
       if (error.code.includes("auth/wrong-password")) {
         showToast("Wrong password. Try again.", "error");
@@ -44,21 +47,14 @@ function UpdateEmail() {
         showToast("Please enter a valid e-mail address.", "error");
         return;
       }
+      if (error.code.includes("auth/network-request-failed")) {
+        showToast("Network request failed. Pleas try again.", "error");
+        return;
+      }
+      return showToast("Unexpected error occured. Try again", "error");
     } finally {
       setLoading(false);
     }
-    updateEmail(user, email, currentPassword)
-      .then(() => {
-        reset();
-        showToast("Email address has been successfully changed.", "success");
-      })
-      .catch((error) => {
-        if (error.code.includes("auth/network-request-failed")) {
-          showToast("Network request failed. Pleas try again.", "error");
-          return;
-        }
-        return showToast("Unexpected error occured. Try again", "error");
-      });
   };
 
   return (

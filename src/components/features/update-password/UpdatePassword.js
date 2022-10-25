@@ -30,27 +30,22 @@ function UpdatePassword() {
     setLoading(true);
     try {
       await reAuth(currentPasswordForUpdate);
+      await updatePassword(user, newPassword);
+      reset();
+      showToast("Password updated successfully.", "success");
     } catch (error) {
       if (error.code.includes("auth/wrong-password")) {
         showToast("Wrong password. Try again.", "error");
+        return;
+      }
+      if (error.code.includes("auth/network-request-failed")) {
+        showToast("Network request failed. Pleas try again.", "error");
         return;
       }
       return showToast("Unexpected error occured. Try again", "error");
     } finally {
       setLoading(false);
     }
-    updatePassword(user, newPassword)
-      .then(() => {
-        reset();
-        showToast("Password updated successfully.", "success");
-      })
-      .catch((error) => {
-        if (error.code.includes("auth/network-request-failed")) {
-          showToast("Network request failed. Pleas try again.", "error");
-          return;
-        }
-        return showToast("Unexpected error occured. Try again", "error");
-      });
   };
 
   const newPassword = watch("newPassword");
