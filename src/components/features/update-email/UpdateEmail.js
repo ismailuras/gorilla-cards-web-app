@@ -25,14 +25,6 @@ function UpdateEmail() {
 
   const onSubmit = async ({ email, currentPassword }) => {
     setLoading(true);
-    const currentEmail = [];
-    user.providerData.map((profile) => {
-      currentEmail.push(profile.email);
-    });
-    if (email === currentEmail[0]) {
-      showToast("The email entered is already primary", "error");
-      return;
-    }
     try {
       await reAuth(currentPassword);
       await updateEmail(user, email, currentPassword);
@@ -54,6 +46,14 @@ function UpdateEmail() {
       return showToast("Unexpected error occured. Try again", "error");
     } finally {
       setLoading(false);
+    }
+    const currentEmail = [];
+    user.providerData.map((profile) => {
+      currentEmail.push(profile.email);
+    });
+    if (email === currentEmail[0]) {
+      showToast("The email entered is already primary", "error");
+      return;
     }
   };
 
