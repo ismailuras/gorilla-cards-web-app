@@ -40,35 +40,33 @@ function ForgotPassword({ onClose }) {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-96 h-72 flex flex-col justify-center">
-        <label className="font-medium text-xl mb-10" htmlFor="email">
-          Please enter a registered e-mail address.
-        </label>
-        <input
-          id="email"
-          className="w-full p-1 px-2 outline border-dashed"
-          placeholder="example@mail.com"
-          {...register("email", {
-            required: "This is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address",
-            },
-          })}
-        />
-        <ErrorMessage
-          errors={errors}
-          name="email"
-          render={({ message }) => <p>{message}</p>}
-        />
-        <button className="bg-indigo-600 p-1 mt-5 text-white text-xl rounded hover:bg-indigo-700">
-          {loading ? <Spinner /> : "Send reset email."}
-        </button>
-      </form>
-    </div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-96 h-72 flex flex-col justify-center">
+      <label className="font-medium text-xl mb-10" htmlFor="email">
+        Please enter a registered e-mail address.
+      </label>
+      <input
+        id="email"
+        className="w-full p-1 px-2 outline border-solid"
+        placeholder="example@mail.com"
+        {...register("email", {
+          required: "This is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "invalid email address",
+          },
+        })}
+      />
+      <ErrorMessage
+        errors={errors}
+        name="email"
+        render={({ message }) => <p>{message}</p>}
+      />
+      <button className="bg-indigo-600 p-1 mt-5 text-white text-xl rounded hover:bg-indigo-700">
+        {loading ? <Spinner /> : "Send reset email."}
+      </button>
+    </form>
   );
 }
 

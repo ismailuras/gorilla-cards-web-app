@@ -13,7 +13,7 @@ function Redirector() {
         navigate("/home");
       }
     }
-  }, [user, loading]);
+  }, [user, loading, navigate]);
   return null;
 }
 

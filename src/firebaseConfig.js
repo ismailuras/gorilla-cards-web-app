@@ -2,7 +2,8 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
-  FacebookAuthProvider,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -15,8 +16,16 @@ const firebaseConfig = {
   measurementId: "G-XPJLSE987Q",
 };
 
+export const reAuth = async (currentPassword) => {
+  const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(
+    auth.currentUser.email,
+    currentPassword
+  );
+  await reauthenticateWithCredential(user, credential);
+};
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
-export const facebookProvider = new FacebookAuthProvider();
 export default app;
