@@ -11,6 +11,19 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
   },
+  content: {
+    top: "40px",
+    left: "40px",
+    right: "40px",
+    bottom: "40px",
+    border: "1px solid #ccc",
+    background: "#fff",
+    overflow: "auto",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "4px",
+    width: "600px",
+    margin: "0 auto",
+  },
 };
 
 function MyModal({ title, children, isOpen, setOpen }) {

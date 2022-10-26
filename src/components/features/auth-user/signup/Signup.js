@@ -51,7 +51,7 @@ function Signup() {
           showToast("Your account has timed out. Please login again.", "error");
           return;
         }
-        return showToast("Unexpected error occured");
+        return showToast("Unexpected error occured. Try again", "error");
       });
   };
 
