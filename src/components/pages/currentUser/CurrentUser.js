@@ -36,9 +36,7 @@ function CurrentUser() {
           </button>
         </div>
       </div>
-      <div className="w-96 h-screen border flex-1 bg-blue-500 mt-10">
-        middle
-      </div>
+      <div className="w-96 h-screen border flex-1  mt-10"></div>
       <div className="w-96 h-screen border flex-1 mt-10">
         <div className="p-10">
           {loading && (
