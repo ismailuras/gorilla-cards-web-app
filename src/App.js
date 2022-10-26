@@ -1,5 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
+import logo from "./images/logo.jpg";
 import Home from "components/pages/Home";
 import Navbar from "components/navbar/Navbar";
 import Signup from "components/features/auth-user/signup/Signup";
@@ -13,6 +14,9 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div className="min-h-screen w-full ">
+      <div className="w-24 h-24 inline-block absolute mt-5 ml-5">
+        <img src={logo} alt="" />
+      </div>
       <Navbar />
       <ToastContainer />
       <Routes>
