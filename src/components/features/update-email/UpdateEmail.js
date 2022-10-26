@@ -52,15 +52,6 @@ function UpdateEmail() {
     } finally {
       setLoading(false);
     }
-
-    // const currentEmail = user.providerData.map(
-    //   (profile) => profile === profile.email
-    // );
-    // console.log(currentEmail);
-    // if (email === currentEmail.value) {
-    //   showToast("The email entered is already primary", "error");
-    //   return;
-    // }
   };
 
   return (
