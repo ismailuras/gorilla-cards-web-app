@@ -24,12 +24,12 @@ function UpdateEmail() {
   });
 
   const onSubmit = async ({ email, currentPassword }) => {
-    setLoading(true);
     const emails = user.providerData.map((profile) => profile.email);
     if (emails.includes(email)) {
       showToast("The email address you entered is already primary.", "error");
       return;
     }
+    setLoading(true);
     try {
       await reAuth(currentPassword);
       await updateEmail(user, email, currentPassword);
