@@ -7,13 +7,12 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBe777tCEme_o93lv1tzxxvbBFuHK0obNI",
-  authDomain: "anki-like.firebaseapp.com",
-  projectId: "anki-like",
-  storageBucket: "anki-like.appspot.com",
-  messagingSenderId: "928710057613",
-  appId: "1:928710057613:web:1f791a11b30ab05f2eccc4",
-  measurementId: "G-XPJLSE987Q",
+  apiKey: "AIzaSyAjeqkO0MtSgu9zsPB6VLe6ujcLPBy3bQA",
+  authDomain: "wisecards-afcab.firebaseapp.com",
+  projectId: "wisecards",
+  storageBucket: "wisecards.appspot.com",
+  messagingSenderId: "447247959639",
+  appId: "1:447247959639:web:f97f07f5a3d522fb4b8512",
 };
 
 export const reAuth = async (currentPassword) => {
