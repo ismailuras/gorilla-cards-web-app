@@ -1,5 +1,5 @@
 import { ToastContainer } from "react-toastify";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import logo from "./images/logo.jpg";
 import Home from "components/pages/Home";
 import Navbar from "components/navbar/Navbar";
