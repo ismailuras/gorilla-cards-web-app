@@ -24,8 +24,12 @@ function Signin() {
   const [isForgotModalOpen, setForgotModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openForgotModal = () => openForgotModal(!isForgotModalOpen);
-  const handleCloseForgotModal = () => setForgotModalOpen(isForgotModalOpen);
+  const openForgotModal = () => {
+    setForgotModalOpen(true);
+  };
+  const handleCloseForgotModal = () => {
+    setForgotModalOpen(false);
+  };
 
   const {
     register,

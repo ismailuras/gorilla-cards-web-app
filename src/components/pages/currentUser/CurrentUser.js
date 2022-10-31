@@ -6,16 +6,20 @@ import { useState } from "react";
 import MyModal from "components/features/modal/MyModal";
 import UpdateEmail from "components/features/update-email/UpdateEmail";
 import UpdatePassword from "components/features/update-password/UpdatePassword";
-import CreateDeck from "components/features/create-deck/CreateDeck";
-import DeckList from "components/features/deck-list/DeckList";
+import CreateDeck from "components/features/decks/create-deck/CreateDeck";
+import DeckList from "components/features/decks/deck-list/DeckList";
 
 function CurrentUser() {
   const [user, loading, error] = useAuthState(auth);
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
-  const [isCreateDeckModal, setCreateDeckModal] = useState(false);
+  const [isCreateDeckModalOpen, setCreateDeckModalOpen] = useState(false);
 
-  const openUpdateModal = () => setUpdateModalOpen(!isUpdateModalOpen);
-  const openCreateDeckModal = () => setCreateDeckModal(!isCreateDeckModal);
+  const openUpdateModal = () => {
+    setUpdateModalOpen(true);
+  };
+  const openCreateDeckModal = () => {
+    setCreateDeckModalOpen(true);
+  };
 
   const handleLogout = () => {
     signOut(auth).catch(() => {
@@ -35,8 +39,8 @@ function CurrentUser() {
           </button>
           <MyModal
             title="Create Deck"
-            isOpen={isCreateDeckModal}
-            setOpen={setCreateDeckModal}>
+            isOpen={isCreateDeckModalOpen}
+            setOpen={setCreateDeckModalOpen}>
             <CreateDeck />
           </MyModal>
         </div>

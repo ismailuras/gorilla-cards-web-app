@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { createDeck } from "stores/createDeckSlice";
+import { createDeck } from "stores/deckSlice";
 import { auth } from "firebaseConfig";
+import Button from "components/Button";
 
 function CreateDeck() {
   const status = useSelector((state) => state.decks.createStatus);
@@ -52,7 +53,7 @@ function CreateDeck() {
             {...register("description", { required: false })}
             className="outline outline-offset-1 resize-none"
             name="description"
-            id="explanataion"
+            id="description"
             form="deckForm"
             cols="50"
             rows="6"></textarea>
@@ -65,16 +66,14 @@ function CreateDeck() {
             })}
             name="deckVisibility"
             id="deckVisibility">
-            <option value="every-one">Every One</option>
+            <option value="everyone">Every One</option>
             <option value="only-friends">Only Friends</option>
             <option value="only-me">Only Me</option>
           </select>
         </div>
-        <button
-          disabled={status === "loading"}
-          className="bg-indigo-600 hover:bg-indigo-400 mb-6 text-white px-10 py-2 rounded mt-5">
-          {status === "loading" ? "Loading" : "Add"}
-        </button>
+        <Button disabled={status === "loading"}>
+          {status === "loading" ? "Loading" : "Add Deck"}
+        </Button>
       </form>
     </div>
   );

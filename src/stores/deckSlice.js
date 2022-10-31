@@ -44,7 +44,6 @@ export const fetchDecks = () => async (dispatch) => {
   dispatch(fetchStarted());
   const snapshot = await getDocs(collection(db, "decks"));
   const res = snapshot.docs.map((doc) => doc.data());
-  console.log(res);
   dispatch(fetchCompleted(res));
 };
 

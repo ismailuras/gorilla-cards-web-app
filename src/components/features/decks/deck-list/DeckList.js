@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDecks } from "stores/createDeckSlice";
+import { fetchDecks } from "stores/deckSlice";
 function DeckList() {
   const items = useSelector((state) => state.decks.items);
   const dispatch = useDispatch();
