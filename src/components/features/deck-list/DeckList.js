@@ -7,7 +7,7 @@ function DeckList() {
 
   useEffect(() => {
     dispatch(fetchDecks());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col items-start ml-10">

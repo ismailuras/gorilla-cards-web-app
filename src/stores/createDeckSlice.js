@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-import { auth, db } from "firebaseConfig";
+import { db } from "firebaseConfig";
 
 const initialState = {
   id: null,
