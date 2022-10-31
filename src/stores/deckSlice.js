@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "firebaseConfig";
+import { auth } from "firebaseConfig";
 
 const initialState = {
-  id: null,
   items: [],
   status: "loading",
   createStatus: "idle",
@@ -11,7 +11,7 @@ const initialState = {
   errorMessageOnCreate: null,
 };
 
-const createDeckSlice = createSlice({
+const deckSlice = createSlice({
   name: "decks",
   initialState,
   reducers: {
@@ -38,19 +38,33 @@ export const {
   fetchCompleted,
   createDeckStarted,
   createDeckCompleted,
-} = createDeckSlice.actions;
+} = deckSlice.actions;
 
 export const fetchDecks = () => async (dispatch) => {
   dispatch(fetchStarted());
-  const snapshot = await getDocs(collection(db, "decks"));
-  const res = snapshot.docs.map((doc) => doc.data());
-  dispatch(fetchCompleted(res));
+  try {
+    var user = auth.currentUser;
+    const q = query(collection(db, "decks"), where("author", "==", user.uid));
+    const snapshot = await getDocs(q);
+    const res = snapshot.docs.map((doc) => doc.data());
+    dispatch(fetchCompleted(res));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const createDeck = (data) => async (dispatch) => {
-  dispatch(createDeckStarted());
-  await addDoc(collection(db, "decks"), data);
-  dispatch(createDeckCompleted(data));
+  var user = auth.currentUser;
+  console.log(user);
+  data = { ...data, author: user.uid };
+  try {
+    dispatch(createDeckStarted());
+    await addDoc(collection(db, "decks"), data);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(createDeckCompleted(data));
+  }
 };
 
-export default createDeckSlice.reducer;
+export default deckSlice.reducer;

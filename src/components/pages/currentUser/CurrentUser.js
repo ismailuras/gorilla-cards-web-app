@@ -6,8 +6,8 @@ import { useState } from "react";
 import MyModal from "components/features/modal/MyModal";
 import UpdateEmail from "components/features/update-email/UpdateEmail";
 import UpdatePassword from "components/features/update-password/UpdatePassword";
-import CreateDeck from "components/features/decks/create-deck/CreateDeck";
-import DeckList from "components/features/decks/deck-list/DeckList";
+import CreateDeck from "components/features/decks/CreateDeck";
+import DeckList from "components/features/decks/DeckList";
 
 function CurrentUser() {
   const [user, loading, error] = useAuthState(auth);

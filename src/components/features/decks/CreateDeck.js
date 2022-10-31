@@ -13,13 +13,8 @@ function CreateDeck() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      defaultValues: {
-        deckName: "",
-      },
-    },
-  });
+  } = useForm();
+
   const onSubmit = async (data) => {
     dispatch(createDeck(data, auth.currentUser.uid));
   };
