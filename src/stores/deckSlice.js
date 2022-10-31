@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "firebaseConfig";
-import { auth } from "firebaseConfig";
+import { db, auth } from "firebaseConfig";
 
 const initialState = {
   items: [],
@@ -30,6 +29,12 @@ const deckSlice = createSlice({
       state.createStatus = "idle";
       state.items = [...state.items, action.payload];
     },
+    errorMessageOnCreateDeck: (state) => {
+      state.errorMessageOnCreate = "error";
+    },
+    errorMessageOnFetchDeck: (state) => {
+      state.errorMessage = "error";
+    },
   },
 });
 
@@ -38,6 +43,8 @@ export const {
   fetchCompleted,
   createDeckStarted,
   createDeckCompleted,
+  errorMessageOnCreateDeck,
+  errorMessageOnFetchDeck,
 } = deckSlice.actions;
 
 export const fetchDecks = () => async (dispatch) => {
@@ -49,19 +56,18 @@ export const fetchDecks = () => async (dispatch) => {
     const res = snapshot.docs.map((doc) => doc.data());
     dispatch(fetchCompleted(res));
   } catch (error) {
-    console.log(error);
+    errorMessageOnFetchDeck();
   }
 };
 
 export const createDeck = (data) => async (dispatch) => {
   var user = auth.currentUser;
-  console.log(user);
   data = { ...data, author: user.uid };
   try {
     dispatch(createDeckStarted());
     await addDoc(collection(db, "decks"), data);
   } catch (error) {
-    console.log(error);
+    dispatch(errorMessageOnCreateDeck());
   } finally {
     dispatch(createDeckCompleted(data));
   }

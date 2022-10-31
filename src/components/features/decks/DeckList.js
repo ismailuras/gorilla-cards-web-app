@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDecks } from "stores/deckSlice";
 function DeckList() {
   const items = useSelector((state) => state.decks.items);
+  const errorMessageOnFetched = useSelector((state) => state.decks.erroMessage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function DeckList() {
       )}
       <button className="underline text-blue-600 rounded font-medium text-xl p-1 cursor-pointer"></button>
       <button className="underline text-blue-600 rounded font-medium text-xl p-1 cursor-pointer"></button>
+      <div>{errorMessageOnFetched && <p>Unexpected error occured.</p>}</div>
     </div>
   );
 }

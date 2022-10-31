@@ -7,6 +7,9 @@ import Button from "components/Button";
 
 function CreateDeck() {
   const status = useSelector((state) => state.decks.createStatus);
+  const errorOnCreateDeck = useSelector(
+    (state) => state.decks.errorMessageOnCreate
+  );
   const dispatch = useDispatch();
 
   const {
@@ -69,6 +72,7 @@ function CreateDeck() {
         <Button disabled={status === "loading"}>
           {status === "loading" ? "Loading" : "Add Deck"}
         </Button>
+        {errorOnCreateDeck && <p>Unexpected error occured.</p>}
       </form>
     </div>
   );
