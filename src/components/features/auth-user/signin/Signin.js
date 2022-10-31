@@ -27,7 +27,6 @@ function Signin() {
   const openForgotModal = () => {
     setForgotModalOpen(true);
   };
-
   const handleCloseForgotModal = () => {
     setForgotModalOpen(false);
   };

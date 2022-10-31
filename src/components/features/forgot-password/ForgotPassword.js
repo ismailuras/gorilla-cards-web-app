@@ -5,6 +5,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { sendPasswordResetEmail } from "firebase/auth";
 import Spinner from "components/features/spinner/Spinner";
 import { useState } from "react";
+
 function ForgotPassword({ onClose }) {
   const [loading, setLoading] = useState(false);
 
