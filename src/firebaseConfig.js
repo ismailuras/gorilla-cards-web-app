@@ -5,6 +5,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAjeqkO0MtSgu9zsPB6VLe6ujcLPBy3bQA",
@@ -23,8 +24,8 @@ export const reAuth = async (currentPassword) => {
   );
   await reauthenticateWithCredential(user, credential);
 };
-
 const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
 export default app;
