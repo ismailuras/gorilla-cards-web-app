@@ -15,11 +15,13 @@ function CreateDeck() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     dispatch(createDeck(data, auth.currentUser.uid));
+    reset();
   };
 
   return (

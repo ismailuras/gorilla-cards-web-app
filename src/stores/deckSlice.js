@@ -56,7 +56,7 @@ export const fetchDecks = () => async (dispatch) => {
     const res = snapshot.docs.map((doc) => doc.data());
     dispatch(fetchCompleted(res));
   } catch (error) {
-    errorMessageOnFetchDeck();
+    dispatch(errorMessageOnFetchDeck());
   }
 };
 
