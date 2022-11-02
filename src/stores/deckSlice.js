@@ -1,13 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db, auth } from "firebaseConfig";
 
 const initialState = {
   items: [],
+  currentDeck: null,
   status: "loading",
   createStatus: "idle",
   errorMessage: null,
   errorMessageOnCreate: null,
+  errorMessageOnUpdate: null,
 };
 
 const deckSlice = createSlice({
@@ -21,19 +31,37 @@ const deckSlice = createSlice({
       state.items = action.payload;
       state.status = "idle";
     },
-    createDeckStarted: (state, action) => {
+    getSingleDeck: (state, action) => {
+      state.currentDeck = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+    },
+    updateDeckStarted: (state) => {
       state.createStatus = "loading";
-      state.id = action.payload;
+    },
+    updateDeckCompleted: (state, action) => {
+      const index = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.items[index] = action.payload;
+      state.createStatus = "idle";
+    },
+    createDeckStarted: (state) => {
+      state.createStatus = "loading";
     },
     createDeckCompleted: (state, action) => {
       state.createStatus = "idle";
       state.items = [...state.items, action.payload];
     },
     errorMessageOnCreateDeck: (state) => {
+      state.createStatus = "idle";
       state.errorMessageOnCreate = "error";
     },
     errorMessageOnFetchDeck: (state) => {
       state.errorMessage = "error";
+    },
+    errorMessageOnUpdateDeck: (state) => {
+      state.errorMessageOnUpdate = "error";
     },
   },
 });
@@ -43,8 +71,12 @@ export const {
   fetchCompleted,
   createDeckStarted,
   createDeckCompleted,
+  updateDeckStarted,
+  updateDeckCompleted,
   errorMessageOnCreateDeck,
   errorMessageOnFetchDeck,
+  getSingleDeck,
+  errorMessageOnUpdateDeck,
 } = deckSlice.actions;
 
 export const fetchDecks = () => async (dispatch) => {
@@ -53,7 +85,11 @@ export const fetchDecks = () => async (dispatch) => {
     var user = auth.currentUser;
     const q = query(collection(db, "decks"), where("author", "==", user.uid));
     const snapshot = await getDocs(q);
-    const res = snapshot.docs.map((doc) => doc.data());
+    const res = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      author: user.uid,
+      ...doc.data(),
+    }));
     dispatch(fetchCompleted(res));
   } catch (error) {
     dispatch(errorMessageOnFetchDeck());
@@ -61,15 +97,30 @@ export const fetchDecks = () => async (dispatch) => {
 };
 
 export const createDeck = (data) => async (dispatch) => {
-  var user = auth.currentUser;
-  data = { ...data, author: user.uid };
+  const user = auth.currentUser;
+  const requestData = { ...data, author: user.uid };
   try {
     dispatch(createDeckStarted());
-    await addDoc(collection(db, "decks"), data);
+    const result = await addDoc(collection(db, "decks"), requestData);
+    const { id } = result;
+    const newData = { ...data, id, author: user.uid };
+    dispatch(createDeckCompleted(newData));
   } catch (error) {
+    console.log("err", error);
     dispatch(errorMessageOnCreateDeck());
+  }
+};
+
+export const updateDeck = (id, data) => async (dispatch) => {
+  const user = auth.currentUser;
+  try {
+    dispatch(updateDeckStarted());
+    const deckRef = doc(db, "decks", id);
+    await updateDoc(deckRef, data);
+    dispatch(updateDeckCompleted({ ...data, id }));
+  } catch (error) {
+    dispatch(errorMessageOnUpdateDeck());
   } finally {
-    dispatch(createDeckCompleted(data));
   }
 };
 
