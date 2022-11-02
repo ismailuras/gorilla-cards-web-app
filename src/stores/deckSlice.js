@@ -112,7 +112,6 @@ export const createDeck = (data) => async (dispatch) => {
 };
 
 export const updateDeck = (id, data) => async (dispatch) => {
-  const user = auth.currentUser;
   try {
     dispatch(updateDeckStarted());
     const deckRef = doc(db, "decks", id);
