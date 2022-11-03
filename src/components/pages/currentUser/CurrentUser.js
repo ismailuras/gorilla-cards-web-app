@@ -21,6 +21,10 @@ function CurrentUser() {
     setCreateDeckModalOpen(true);
   };
 
+  const handleCloseCreateDeckModal = () => {
+    setCreateDeckModalOpen(false);
+  };
+
   const handleLogout = () => {
     signOut(auth).catch(() => {
       return showToast("Unexpected error occured", "error");
@@ -41,7 +45,7 @@ function CurrentUser() {
             title="Create Deck"
             isOpen={isCreateDeckModalOpen}
             setOpen={setCreateDeckModalOpen}>
-            <CreateDeck />
+            <CreateDeck closeCreateDeckModal={handleCloseCreateDeckModal} />
           </MyModal>
         </div>
       </div>

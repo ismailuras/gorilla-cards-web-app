@@ -4,8 +4,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import { createDeck } from "stores/deckSlice";
 import { auth } from "firebaseConfig";
 import Button from "components/Button";
+import { showToast } from "helpers";
 
-function CreateDeck() {
+function CreateDeck({ closeCreateDeckModal }) {
   const status = useSelector((state) => state.decks.createStatus);
   const errorOnCreateDeck = useSelector(
     (state) => state.decks.errorMessageOnCreate
@@ -22,6 +23,8 @@ function CreateDeck() {
   const onSubmit = async (data) => {
     dispatch(createDeck(data, auth.currentUser.uid));
     reset();
+    closeCreateDeckModal();
+    showToast("The deck has been successfully created.", "success");
   };
 
   return (
