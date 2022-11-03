@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   collection,
   addDoc,
@@ -10,14 +10,24 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "firebaseConfig";
 
+export const updateDeckById = createAsyncThunk(
+  "decks/updateByIdStatus",
+  async ({ data, id }) => {
+    const deckRef = doc(db, "decks", id);
+    await updateDoc(deckRef, data);
+    return { ...data, id };
+  }
+);
+
 const initialState = {
   items: [],
   currentDeck: null,
   status: "loading",
   createStatus: "idle",
+  updateStatus: null,
   errorMessage: null,
   errorMessageOnCreate: null,
-  errorMessageOnUpdate: null,
+  updateErrorMessage: null,
 };
 
 const deckSlice = createSlice({
@@ -31,20 +41,10 @@ const deckSlice = createSlice({
       state.items = action.payload;
       state.status = "idle";
     },
-    getSingleDeck: (state, action) => {
+    setCurrentDeck: (state, action) => {
       state.currentDeck = state.items.find(
         (item) => item.id === action.payload.id
       );
-    },
-    updateDeckStarted: (state) => {
-      state.createStatus = "loading";
-    },
-    updateDeckCompleted: (state, action) => {
-      const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      state.items[index] = action.payload;
-      state.createStatus = "idle";
     },
     createDeckStarted: (state) => {
       state.createStatus = "loading";
@@ -54,15 +54,28 @@ const deckSlice = createSlice({
       state.items = [...state.items, action.payload];
     },
     errorMessageOnCreateDeck: (state) => {
-      state.createStatus = "idle";
+      state.status = "idle";
       state.errorMessageOnCreate = "error";
     },
     errorMessageOnFetchDeck: (state) => {
       state.errorMessage = "error";
     },
-    errorMessageOnUpdateDeck: (state) => {
-      state.errorMessageOnUpdate = "error";
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateDeckById.fulfilled, (state, action) => {
+      const index = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.items[index] = action.payload;
+      state.updateStatus = "idle";
+    });
+    builder.addCase(updateDeckById.rejected, (state) => {
+      state.updateErrorMessage = true;
+      state.updateStatus = "idle";
+    });
+    builder.addCase(updateDeckById.pending, (state) => {
+      state.updateStatus = "loading";
+    });
   },
 });
 
@@ -71,12 +84,9 @@ export const {
   fetchCompleted,
   createDeckStarted,
   createDeckCompleted,
-  updateDeckStarted,
-  updateDeckCompleted,
   errorMessageOnCreateDeck,
   errorMessageOnFetchDeck,
-  getSingleDeck,
-  errorMessageOnUpdateDeck,
+  setCurrentDeck,
 } = deckSlice.actions;
 
 export const fetchDecks = () => async (dispatch) => {
@@ -106,20 +116,7 @@ export const createDeck = (data) => async (dispatch) => {
     const newData = { ...data, id, author: user.uid };
     dispatch(createDeckCompleted(newData));
   } catch (error) {
-    console.log("err", error);
     dispatch(errorMessageOnCreateDeck());
-  }
-};
-
-export const updateDeck = (id, data) => async (dispatch) => {
-  try {
-    dispatch(updateDeckStarted());
-    const deckRef = doc(db, "decks", id);
-    await updateDoc(deckRef, data);
-    dispatch(updateDeckCompleted({ ...data, id }));
-  } catch (error) {
-    dispatch(errorMessageOnUpdateDeck());
-  } finally {
   }
 };
 

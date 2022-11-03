@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useSelector, useDispatch } from "react-redux";
-import { updateDeck } from "stores/deckSlice";
+import { updateDeckById } from "stores/deckSlice";
 import Button from "components/Button";
 import { showToast } from "helpers";
 
-function EditDeck({ closeEditModal }) {
+function DeckEdit({ closeEditModal }) {
   const currentDeck = useSelector((state) => state.decks.currentDeck);
+  const { deckName, description, deckVisibility } = currentDeck;
   const status = useSelector((state) => state.decks.createStatus);
   const errorMessage = useSelector((state) => state.decks.errorMessageOnUpdate);
   const dispatch = useDispatch();
@@ -17,16 +18,20 @@ function EditDeck({ closeEditModal }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      deckName: currentDeck.deckName,
-      description: currentDeck.description,
-      deckVisibility: currentDeck.deckVisibility,
+      deckName,
+      description,
+      deckVisibility,
     },
   });
 
-  const onSubmit = (data) => {
-    dispatch(updateDeck(currentDeck.id, data));
-    closeEditModal();
-    showToast("Success", "success");
+  const onSubmit = async (data) => {
+    try {
+      await dispatch(updateDeckById({ id: currentDeck.id, data })).unwrap();
+      showToast("The deck has been successfully updated.", "success");
+      closeEditModal();
+    } catch (error) {
+      showToast("Unexpected error occured.", "error");
+    }
   };
 
   return (
@@ -79,4 +84,4 @@ function EditDeck({ closeEditModal }) {
   );
 }
 
-export default EditDeck;
+export default DeckEdit;

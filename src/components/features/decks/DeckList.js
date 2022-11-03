@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDecks, getSingleDeck } from "stores/deckSlice";
+import { fetchDecks, setCurrentDeck } from "stores/deckSlice";
 import { MdEditNote } from "react-icons/md";
 import MyModal from "../modal/MyModal";
-import EditDeck from "./EditDeck";
+import DeckEdit from "./DeckEdit";
 
 function DeckList() {
   const items = useSelector((state) => state.decks.items);
 
-  const errorMessageOnFetched = useSelector((state) => state.decks.erroMessage);
+  const errorMessageOnFetched = useSelector(
+    (state) => state.decks.errorMessage
+  );
   const dispatch = useDispatch();
 
   const [isEditDeckModalOpen, setEditDeckModal] = useState(false);
   const openUpdateDeckModal = (id) => {
-    dispatch(getSingleDeck({ id }));
+    dispatch(setCurrentDeck({ id }));
     setEditDeckModal(true);
   };
 
@@ -40,7 +42,6 @@ function DeckList() {
                 </button>
               </li>
             </ul>
-            <div></div>
             {errorMessageOnFetched && <p>Unexpected error occured.</p>}
           </div>
         ))
@@ -50,7 +51,7 @@ function DeckList() {
         isOpen={isEditDeckModalOpen}
         setOpen={setEditDeckModal}
         title={"Edit Deck"}>
-        <EditDeck closeEditModal={closeEditModal} />
+        <DeckEdit closeEditModal={closeEditModal} />
       </MyModal>
 
       <button className="underline text-blue-600 rounded font-medium text-xl p-1 cursor-pointer">
