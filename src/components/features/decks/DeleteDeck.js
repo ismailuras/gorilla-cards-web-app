@@ -5,17 +5,21 @@ import { showToast } from "helpers";
 
 function DeleteDeck({ closeDeleteModal }) {
   const status = useSelector((state) => state.decks.createStatus);
+  const deleteErrorMessage = useSelector(
+    (state) => state.decks.deleteErrorMessage
+  );
   const currentDeck = useSelector((state) => state.decks.currentDeck);
   const { deckName } = currentDeck;
   const dispatch = useDispatch();
 
   const handleDeleteDeck = async () => {
     try {
-      dispatch(deleteDeck());
-      showToast("Deleted", "success");
+      dispatch(deleteDeck(currentDeck.id));
       closeDeleteModal();
+      showToast("The deck has been successfully deleted.", "success");
     } catch (error) {
-      showToast("Error", "error");
+      showToast("An error occurred while deleting the deck.", "error");
+      closeDeleteModal();
     }
   };
   return (
@@ -25,6 +29,9 @@ function DeleteDeck({ closeDeleteModal }) {
           You are going to delete this <strong>{deckName}</strong>. Do you
           confirm ?
         </p>
+        {deleteErrorMessage && (
+          <span>An error occurred while deleting the deck</span>
+        )}
       </div>
       <Button>Cancel</Button>
       <Button onClick={handleDeleteDeck} disabled={status === "loading"}>

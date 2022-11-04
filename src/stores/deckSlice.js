@@ -33,8 +33,7 @@ export const createDeck = createAsyncThunk(
 );
 
 export const deleteDeck = createAsyncThunk("decks/deleteDeck", async (id) => {
-  const deckRef = doc(db, "decks", id);
-  await deleteDoc(deckRef);
+  await deleteDoc(doc(db, "decks", id));
   return id;
 });
 
@@ -96,7 +95,9 @@ const deckSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(deleteDeck.fulfilled, (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.items = state.items.filter(
+        (item) => item.id !== state.currentDeck.id
+      );
       state.deleteStatus = "idle";
     });
     builder.addCase(deleteDeck.rejected, (state) => {
