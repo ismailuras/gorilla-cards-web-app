@@ -9,8 +9,6 @@ import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
   const items = useSelector((state) => state.decks.items);
-  console.log(items);
-
   const errorMessageOnFetched = useSelector(
     (state) => state.decks.errorMessage
   );

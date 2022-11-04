@@ -20,7 +20,7 @@ function CreateDeck({ closeCreateDeckModal }) {
 
   const onSubmit = async (data) => {
     try {
-      dispatch(createDeck({ data })).unwrap();
+      await dispatch(createDeck({ data })).unwrap();
       closeCreateDeckModal();
       showToast("The deck has been successfully created.", "success");
     } catch (error) {
