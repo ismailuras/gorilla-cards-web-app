@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDecks, setCurrentDeck } from "stores/deckSlice";
 import { MdEditNote } from "react-icons/md";
+import { AiOutlineDelete } from "react-icons/ai";
 import MyModal from "../modal/MyModal";
 import DeckEdit from "./DeckEdit";
+import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
   const items = useSelector((state) => state.decks.items);
-
   const errorMessageOnFetched = useSelector(
     (state) => state.decks.errorMessage
   );
   const dispatch = useDispatch();
 
   const [isEditDeckModalOpen, setEditDeckModal] = useState(false);
+  const [isDeleteDeckModalOpen, setDeleteDeckModal] = useState(false);
+
   const openUpdateDeckModal = (id) => {
     dispatch(setCurrentDeck({ id }));
     setEditDeckModal(true);
@@ -21,6 +24,15 @@ function DeckList() {
 
   const closeEditModal = () => {
     setEditDeckModal(false);
+  };
+
+  const openDeleteDeckModal = (id) => {
+    dispatch(setCurrentDeck({ id }));
+    setDeleteDeckModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteDeckModal(false);
   };
 
   useEffect(() => {
@@ -35,10 +47,13 @@ function DeckList() {
         items.map((item) => (
           <div className="w-full" key={item.id}>
             <ul>
-              <li className="w-full underline text-blue-600 text-xl flex justify-between">
+              <li className="w-full underline text-blue-600 text-xl flex justify-between ">
                 {item.deckName}
                 <button onClick={() => openUpdateDeckModal(item.id)}>
-                  <MdEditNote />
+                  <MdEditNote className="text-2xl" />
+                </button>
+                <button onClick={() => openDeleteDeckModal(item.id)}>
+                  <AiOutlineDelete className="text-2xl" />
                 </button>
               </li>
             </ul>
@@ -53,10 +68,12 @@ function DeckList() {
         title={"Edit Deck"}>
         <DeckEdit closeEditModal={closeEditModal} />
       </MyModal>
-
-      <button className="underline text-blue-600 rounded font-medium text-xl p-1 cursor-pointer">
-        What am i?
-      </button>
+      <MyModal
+        isOpen={isDeleteDeckModalOpen}
+        setOpen={setDeleteDeckModal}
+        title="Delete Deck">
+        <DeleteDeck closeDeleteModal={closeDeleteModal} />
+      </MyModal>
       <div>{errorMessageOnFetched && <p>Unexpected error occured.</p>}</div>
     </div>
   );

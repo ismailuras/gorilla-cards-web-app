@@ -2,9 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { createDeck } from "stores/deckSlice";
-import { auth } from "firebaseConfig";
-import Button from "components/Button";
 import { showToast } from "helpers";
+import Button from "components/Button";
 
 function CreateDeck({ closeCreateDeckModal }) {
   const status = useSelector((state) => state.decks.createStatus);
@@ -16,15 +15,17 @@ function CreateDeck({ closeCreateDeckModal }) {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    dispatch(createDeck(data, auth.currentUser.uid));
-    reset();
-    closeCreateDeckModal();
-    showToast("The deck has been successfully created.", "success");
+    try {
+      await dispatch(createDeck({ data })).unwrap();
+      closeCreateDeckModal();
+      showToast("The deck has been successfully created.", "success");
+    } catch (error) {
+      showToast("Failed to create deck.", "error");
+    }
   };
 
   return (
