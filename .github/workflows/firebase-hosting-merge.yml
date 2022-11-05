@@ -21,4 +21,4 @@ jobs:
       - name: Build
         run: yarn build
       - name: Deploy
-        run: aws s3 sync ./build/ s3://gorilla-card-prod
+        run: aws s3 sync ./build/ s3://gorillacards.app
