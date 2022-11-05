@@ -1,4 +1,3 @@
-name: Deploy to AWS Hosting on PR
 on:
   push:
     branches:
