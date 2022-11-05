@@ -1,11 +1,11 @@
 {
   "hosting": {
-    "public": "build",
+    "public": "root",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/app/index.html"
       }
     ]
   }
