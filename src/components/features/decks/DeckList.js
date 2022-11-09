@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDecks, setCurrentDeck } from "stores/deckSlice";
 import { MdEditNote } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import MyModal from "../modal/MyModal";
+import MyModal from "../modals/MyModal";
 import DeckEdit from "./DeckEdit";
 import DeleteDeck from "./DeleteDeck";
 
