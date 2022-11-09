@@ -3,9 +3,9 @@ import { createCards } from "stores/cardSlice";
 import { FormProvider, useForm } from "react-hook-form";
 import { showToast } from "helpers";
 import { useState } from "react";
-import MyController from "./MyController";
+import MyController from "./EditorField";
 function AddCards() {
-  const items = useSelector((state) => state.decks.items);
+  const decks = useSelector((state) => state.decks.items);
   const errorMessage = useSelector(
     (state) => state.cards.errorMessageOnCreateCards
   );
@@ -31,25 +31,28 @@ function AddCards() {
   const { register, reset } = methods;
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider key={forceRenderState} {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="flex flex-col w-44">
-          {items.length === 0 ? (
-            <div>There is no support yet. Build a deck to add cards.</div>
+          {decks.length === 0 ? (
+            <div>
+              There is no deck yet. Please, create a deck and start to add
+              cards.
+            </div>
           ) : (
             <label htmlFor="currentDeck">Deck Names</label>
           )}
           <select {...register("deckId")}>
             <option value="">Select Deck</option>
-            {items.length > 0 &&
-              items.map((item) => (
-                <option value={item.id} key={item.id}>
-                  {item.deckName}
+            {decks &&
+              decks.map((deck) => (
+                <option value={deck.id} key={deck.id}>
+                  {deck.deckName}
                 </option>
               ))}
           </select>
         </div>
-        <MyController forceRenderState={forceRenderState} />
+        <MyController />
         <div>
           <button className="bg-indigo-600 p-1 mt-4 text-white text-xl rounded hover:bg-indigo-700">
             Add Card

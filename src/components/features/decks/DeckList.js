@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDecks, setCurrentDeck } from "stores/deckSlice";
 import { MdEditNote } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import MyModal from "../modals/MyModal";
+import MyModal from "../../MyModal";
 import DeckEdit from "./DeckEdit";
 import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
-  const items = useSelector((state) => state.decks.items);
+  const decks = useSelector((state) => state.decks.items);
   const errorMessageOnFetched = useSelector(
     (state) => state.decks.errorMessage
   );
@@ -41,18 +41,18 @@ function DeckList() {
 
   return (
     <div className="flex flex-col items-start ml-10">
-      {items.length === 0 ? (
+      {decks.length === 0 ? (
         <p>"There is no deck!"</p>
       ) : (
-        items.map((item) => (
-          <div className="w-full" key={item.id}>
+        decks.map((deck) => (
+          <div className="w-full" key={deck.id}>
             <ul>
               <li className="w-full underline text-blue-600 text-xl flex justify-between ">
-                {item.deckName}
-                <button onClick={() => openUpdateDeckModal(item.id)}>
+                {deck.deckName}
+                <button onClick={() => openUpdateDeckModal(deck.id)}>
                   <MdEditNote className="text-2xl" />
                 </button>
-                <button onClick={() => openDeleteDeckModal(item.id)}>
+                <button onClick={() => openDeleteDeckModal(deck.id)}>
                   <AiOutlineDelete className="text-2xl" />
                 </button>
               </li>

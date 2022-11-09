@@ -12,7 +12,7 @@ import { useState } from "react";
 import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
-import MyModal from "components/features/modals/MyModal";
+import MyModal from "components/MyModal";
 import ForgotPassword from "components/features/forgot-password/ForgotPassword";
 
 function Signin() {

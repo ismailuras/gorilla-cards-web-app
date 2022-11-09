@@ -3,12 +3,12 @@ import { signOut } from "firebase/auth";
 import { showToast } from "helpers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
-import MyModal from "components/features/modals/MyModal";
+import MyModal from "components/MyModal";
 import UpdateEmail from "components/features/update-email/UpdateEmail";
 import UpdatePassword from "components/features/update-password/UpdatePassword";
 import CreateDeck from "components/features/decks/CreateDeck";
 import DeckList from "components/features/decks/DeckList";
-import AddCardsModal from "components/features/modals/AddCardsModal";
+import AddCardsModal from "components/features/decks/AddCardsModal";
 import AddCards from "components/features/cards/AddCards";
 
 function CurrentUser() {

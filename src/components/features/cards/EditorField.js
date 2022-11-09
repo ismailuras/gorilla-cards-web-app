@@ -2,7 +2,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import { useRef } from "react";
 import "./toast-editor.css";
-function MyController({ forceRenderState }) {
+function EditorField() {
   const editorFrontRef = useRef();
   const editorBackRef = useRef();
 
@@ -14,7 +14,7 @@ function MyController({ forceRenderState }) {
   const { control } = useFormContext();
 
   return (
-    <div key={forceRenderState}>
+    <div>
       <div className="flex justify-center items-center">
         <div className="w-1/2 mt-10">
           <Controller
@@ -55,4 +55,4 @@ function MyController({ forceRenderState }) {
   );
 }
 
-export default MyController;
+export default EditorField;

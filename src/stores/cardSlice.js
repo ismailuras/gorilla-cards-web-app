@@ -9,7 +9,6 @@ export const createCards = createAsyncThunk(
     const requestData = { ...data, author: user.uid };
     const result = await addDoc(collection(db, "cards"), requestData);
     const { id } = result;
-    console.log(id);
     const newData = { ...data, id, author: user.uid };
     return { data, ...newData };
   }

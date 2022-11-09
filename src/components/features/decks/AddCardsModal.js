@@ -18,7 +18,7 @@ const customStyles = {
   },
 };
 
-function AddCardsModal({ isOpen, setOpen, title, children }) {
+function addCardsModal({ isOpen, setOpen, title, children }) {
   function closeModal() {
     setOpen(false);
   }
@@ -36,4 +36,4 @@ function AddCardsModal({ isOpen, setOpen, title, children }) {
   );
 }
 
-export default AddCardsModal;
+export default addCardsModal;
