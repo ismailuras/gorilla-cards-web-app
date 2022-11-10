@@ -4,12 +4,12 @@ import { showToast } from "helpers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import MyModal from "components/MyModal";
-import UpdateEmail from "components/features/update-email/UpdateEmail";
-import UpdatePassword from "components/features/update-password/UpdatePassword";
-import CreateDeck from "components/features/decks/CreateDeck";
-import DeckList from "components/features/decks/DeckList";
-import AddCardsModal from "components/features/decks/AddCardsModal";
-import AddCards from "components/features/cards/AddCards";
+import UpdateEmail from "features/update-email/UpdateEmail";
+import UpdatePassword from "features/update-password/UpdatePassword";
+import CreateDeck from "features/decks/CreateDeck";
+import DeckList from "features/decks/DeckList";
+import AddCardsModal from "features/decks/AddCardsModal";
+import AddCards from "features/cards/AddCards";
 
 function CurrentUser() {
   const [user, loading, error] = useAuthState(auth);

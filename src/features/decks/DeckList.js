@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDecks, setCurrentDeck } from "stores/deckSlice";
+import { fetchDecks, setCurrentDeck } from "features/decks/deckSlice";
 import { MdEditNote } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import MyModal from "../../MyModal";
+import MyModal from "../../components/MyModal";
 import DeckEdit from "./DeckEdit";
 import DeleteDeck from "./DeleteDeck";
 

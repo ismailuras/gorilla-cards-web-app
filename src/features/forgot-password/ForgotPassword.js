@@ -3,7 +3,7 @@ import { auth } from "firebaseConfig";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { sendPasswordResetEmail } from "firebase/auth";
-import Spinner from "components/features/spinner/Spinner";
+import Spinner from "components/spinner/Spinner";
 import { useState } from "react";
 
 function ForgotPassword({ onClose }) {

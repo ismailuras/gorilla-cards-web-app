@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { createCards } from "stores/cardSlice";
+import { createCards } from "features/cards/cardSlice";
 import { FormProvider, useForm } from "react-hook-form";
 import { showToast } from "helpers";
 import { useState } from "react";

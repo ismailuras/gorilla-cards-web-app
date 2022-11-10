@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { createDeck } from "stores/deckSlice";
+import { createDeck } from "features/decks/deckSlice";
 import { showToast } from "helpers";
 import Button from "components/Button";
 

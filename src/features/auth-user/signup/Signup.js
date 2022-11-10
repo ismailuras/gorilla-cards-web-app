@@ -1,84 +1,70 @@
+import { useState } from "react";
 import { auth } from "firebaseConfig";
-import {
-  signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "helpers";
-import { useState } from "react";
-import ShowPassword from "components/features/showpassword/ShowPassword";
 import Button from "components/Button";
+import ShowPassword from "features/showpassword/ShowPassword";
 import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
-import MyModal from "components/MyModal";
-import ForgotPassword from "components/features/forgot-password/ForgotPassword";
 
-function Signin() {
-  const common = [
-    "text-white text-xl p-2 rounded bg-indigo-600 hover:bg-indigo-500",
-  ];
-
+function Signup() {
   const [loading, isLoading] = useState(false);
-  const [isForgotModalOpen, setForgotModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  const openForgotModal = () => {
-    setForgotModalOpen(true);
-  };
-  const handleCloseForgotModal = () => {
-    setForgotModalOpen(false);
-  };
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       email: "",
       password: "",
+      rePassword: "",
     },
   });
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = ({ email, password }) => {
     isLoading(true);
-    await setPersistence(auth, browserLocalPersistence);
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((data) => {
         reset();
-        showToast("You have been sign in succesfully.", "success");
+        showToast("You have signed up successfully", "success");
+        navigate("/user-profile");
         isLoading(false);
         navigate("/user-profile");
       })
       .catch((error) => {
         isLoading(false);
-        if (error.code.includes("auth/wrong-password")) {
-          showToast("Password is incorrect. Try again.", "error");
-          return;
-        }
         if (error.code.includes("auth/email-already-in-use")) {
           showToast("Email already in use", "error");
           return;
         }
-        if (error.code.includes("auth/user-not-found")) {
-          showToast("User not found. First signup !", "error");
+        if (error.code.includes("auth/network-request-failed")) {
+          showToast("Network request failed. Pleas try again.", "error");
           return;
         }
-        return showToast("Unexpected error occured", "error");
+        if (error.code.includes("auth/invalid-user-token")) {
+          showToast("Your account has timed out. Please login again.", "error");
+          return;
+        }
+        return showToast("Unexpected error occured. Try again", "error");
       });
   };
+
+  const password = watch("password");
 
   return (
     <div className="max-w-[700px] mx-auto my-16 p-4">
       <div className="p-2 text-bold text-center text-3xl">
-        <h2>Welcome to Signin Page</h2>
+        <h2>Welcome to Signup Page</h2>
         <p>
-          Not a member yet? Click for{" "}
-          <Link className="underline" to="/signup">
-            Signup
+          Already have an account ? Click for{" "}
+          <Link className="underline" to="/signin">
+            Signin
           </Link>
         </p>
       </div>
@@ -90,6 +76,7 @@ function Signin() {
           <input
             id="email"
             type="email"
+            placeholder="example@mail.com"
             className="py-1 font-medium outline"
             {...register("email", {
               required: "This is required",
@@ -114,6 +101,7 @@ function Signin() {
               <input
                 id="password"
                 type={type}
+                placeholder="******"
                 className="py-1 font-medium outline w-full"
                 {...register("password", {
                   required: "This is required",
@@ -127,26 +115,37 @@ function Signin() {
             name="password"
             render={({ message }) => <p>{message}</p>}
           />
+          <label className="font-medium text-xl mt-5 mb-5" htmlFor="rePassword">
+            Password Again
+          </label>
+          <ShowPassword>
+            {(type) => (
+              <input
+                id="rePassword"
+                type={type}
+                placeholder="******"
+                className="py-1 font-medium outline w-full"
+                {...register("rePassword", {
+                  validate: (value) =>
+                    value === password || "This password does not match.",
+                  required: "This is required",
+                  minLength: { message: "Min length ", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
+          <ErrorMessage
+            errors={errors}
+            name="rePassword"
+            render={({ message }) => <p>{message}</p>}
+          />
         </div>
         <div>
-          <Button loading={loading}>Signin</Button>
+          <Button loading={loading}>SUBMIT</Button>
           <AutWithGoogle />
-          <button
-            onClick={openForgotModal}
-            className={common.join(" ")}
-            type="button">
-            Forgot Password
-          </button>
         </div>
       </form>
-      <MyModal
-        isOpen={isForgotModalOpen}
-        setOpen={setForgotModalOpen}
-        title="Forgot Password">
-        <ForgotPassword onClose={handleCloseForgotModal} />
-      </MyModal>
     </div>
   );
 }
-
-export default Signin;
+export default Signup;
