@@ -7,7 +7,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { reAuth } from "firebaseConfig";
 import { showToast } from "helpers";
 import ShowPassword from "../showpassword/ShowPassword";
-import Spinner from "../spinner/Spinner";
+import Spinner from "../../components/spinner/Spinner";
 
 function UpdateEmail() {
   const [user] = useAuthState(auth);

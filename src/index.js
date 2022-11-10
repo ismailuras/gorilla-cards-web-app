@@ -1,16 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import App from "App";
-import { store } from "./stores";
+import { store } from "./store";
 import { Provider } from "react-redux";
 import "index.css";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <App />
     </BrowserRouter>
-  </Provider>
+  </Provider>,
+  document.getElementById("root")
 );

@@ -7,7 +7,7 @@ import { auth } from "firebaseConfig";
 import { reAuth } from "firebaseConfig";
 import { showToast } from "helpers";
 import ShowPassword from "../showpassword/ShowPassword";
-import Spinner from "../spinner/Spinner";
+import Spinner from "../../components/spinner/Spinner";
 
 function UpdatePassword() {
   const [user] = useAuthState(auth);

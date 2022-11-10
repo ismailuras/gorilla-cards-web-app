@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { deleteDeck } from "stores/deckSlice";
+import { deleteDeck } from "features/decks/deckSlice";
 import Button from "components/Button";
 import { showToast } from "helpers";
 

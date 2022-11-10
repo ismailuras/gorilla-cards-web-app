@@ -1,4 +1,4 @@
-import Spinner from "./features/spinner/Spinner";
+import Spinner from "./spinner/Spinner";
 
 function Button({ children, loading, onClick }) {
   const common = ["text-white font-medium rounded p-2"];
