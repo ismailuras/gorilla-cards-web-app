@@ -26,7 +26,7 @@ function EditCard() {
           )}
           <select
             {...register("deckId", {
-              required: "This is required",
+              required: "This is required..",
             })}>
             <option value="">Select Deck</option>
             {decks &&
