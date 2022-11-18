@@ -11,7 +11,7 @@ import AuthPageLayout from "../AuthPageLayout";
 const messages = {
   "auth/not-valid-email": "Invalid e-mail address.",
   "auth/user-already-exist": "This mail already exist.",
-  "unexpected-error-occured": "Unexpected error occured.",
+  "unexpected-error-occured": "Unexpected error occured!",
 };
 
 function Signup() {

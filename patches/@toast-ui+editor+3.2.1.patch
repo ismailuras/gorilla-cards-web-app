@@ -1,0 +1,12 @@
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
+index a7071f8..b102c14 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
+@@ -1416,7 +1416,6 @@ return /******/ (function() { // webpackBootstrap
+   return purify;
+ 
+ }));
+-//# sourceMappingURL=purify.js.map
+ 
+ 
+ /***/ }),
