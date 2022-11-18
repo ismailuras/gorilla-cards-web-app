@@ -1,58 +1,18 @@
 import { useForm } from "react-hook-form";
-import { auth } from "firebaseConfig";
-import { updateEmail } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
-import { reAuth } from "firebaseConfig";
-import { showToast } from "helpers";
-import ShowPassword from "../showpassword/ShowPassword";
-import Spinner from "../../components/spinner/Spinner";
+import ShowPassword from "../show-password/ShowPassword";
 
 function UpdateEmail() {
-  const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     email: "",
     currentPassword: "",
   });
 
-  const onSubmit = async ({ email, currentPassword }) => {
-    const emails = user.providerData.map((profile) => profile.email);
-    if (emails.includes(email)) {
-      showToast("The email address you entered is already primary.", "error");
-      return;
-    }
-    setLoading(true);
-    try {
-      await reAuth(currentPassword);
-      await updateEmail(user, email, currentPassword);
-      reset();
-      showToast("Email address has been successfully changed.", "success");
-    } catch (error) {
-      if (error.code.includes("auth/wrong-password")) {
-        showToast("Wrong password. Try again.", "error");
-        return;
-      }
-      if (error.code.includes("auth/invalid-email")) {
-        showToast("Please enter a valid e-mail address.", "error");
-        return;
-      }
-      if (error.code.includes("auth/network-request-failed")) {
-        showToast("Network request failed. Pleas try again.", "error");
-        return;
-      }
-      return showToast("Unexpected error occured. Try again", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const onSubmit = async () => {};
 
   return (
     <form
@@ -60,7 +20,7 @@ function UpdateEmail() {
       onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label className="font-medium text-xl" htmlFor="email">
-          Email
+          New Email
         </label>
         <input
           className="w-full p-1 px-2 outline border-solid mb-1"
@@ -105,7 +65,7 @@ function UpdateEmail() {
         />
       </div>
       <button className="bg-indigo-600 p-1 mt-4 text-white text-xl rounded hover:bg-indigo-700">
-        {loading ? <Spinner /> : " Update"}
+        Update
       </button>
     </form>
   );

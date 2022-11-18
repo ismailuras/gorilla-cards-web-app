@@ -1,23 +1,12 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { updatePassword } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useState } from "react";
-import { auth } from "firebaseConfig";
-import { reAuth } from "firebaseConfig";
-import { showToast } from "helpers";
-import ShowPassword from "../showpassword/ShowPassword";
-import Spinner from "../../components/spinner/Spinner";
+import ShowPassword from "../show-password/ShowPassword";
 
 function UpdatePassword() {
-  const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -26,27 +15,7 @@ function UpdatePassword() {
     },
   });
 
-  const onSubmit = async ({ newPassword, currentPasswordForUpdate }) => {
-    setLoading(true);
-    try {
-      await reAuth(currentPasswordForUpdate);
-      await updatePassword(user, newPassword);
-      reset();
-      showToast("Password updated successfully.", "success");
-    } catch (error) {
-      if (error.code.includes("auth/wrong-password")) {
-        showToast("Wrong password. Try again.", "error");
-        return;
-      }
-      if (error.code.includes("auth/network-request-failed")) {
-        showToast("Network request failed. Pleas try again.", "error");
-        return;
-      }
-      return showToast("Unexpected error occured. Try again", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const onSubmit = async () => {};
 
   const newPassword = watch("newPassword");
 
@@ -126,7 +95,7 @@ function UpdatePassword() {
         />
       </div>
       <button className="bg-indigo-600 p-1 mt-4 text-white text-xl rounded hover:bg-indigo-700">
-        {loading ? <Spinner /> : "Update"}
+        Update
       </button>
     </form>
   );

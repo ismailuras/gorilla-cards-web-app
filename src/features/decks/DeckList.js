@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDecks, setCurrentDeck } from "features/decks/deckSlice";
-import { MdEditNote } from "react-icons/md";
-import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { Edit, Trash } from "react-feather";
 import MyModal from "../../components/MyModal";
 import DeckEdit from "./DeckEdit";
 import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
-  const decks = useSelector((state) => state.decks.items);
+  const decks = useSelector((state) => state.decks.decks);
   const errorMessageOnFetched = useSelector(
     (state) => state.decks.errorMessage
   );
@@ -41,27 +41,26 @@ function DeckList() {
 
   return (
     <div className="flex flex-col items-start ml-10">
-      {decks.length === 0 ? (
-        <p>"There is no deck!"</p>
-      ) : (
-        decks.map((deck) => (
-          <div className="w-full" key={deck.id}>
-            <ul>
-              <li className="w-full underline text-blue-600 text-xl flex justify-between ">
-                {deck.deckName}
+      <div>
+        {decks.length === 0 ? (
+          <p>"There is no deck!"</p>
+        ) : (
+          decks.map((deck) => (
+            <ul key={`${deck.id}`}>
+              <li>
+                <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
                 <button onClick={() => openUpdateDeckModal(deck.id)}>
-                  <MdEditNote className="text-2xl" />
+                  <Edit />
                 </button>
                 <button onClick={() => openDeleteDeckModal(deck.id)}>
-                  <AiOutlineDelete className="text-2xl" />
+                  <Trash />
                 </button>
               </li>
             </ul>
-            {errorMessageOnFetched && <p>Unexpected error occured.</p>}
-          </div>
-        ))
-      )}
-
+          ))
+        )}
+        {errorMessageOnFetched && <p>Unexpected error occured.</p>}
+      </div>
       <MyModal
         isOpen={isEditDeckModalOpen}
         setOpen={setEditDeckModal}

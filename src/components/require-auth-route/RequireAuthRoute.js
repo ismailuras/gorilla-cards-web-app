@@ -1,15 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "firebaseConfig";
+import { useSelector } from "react-redux";
 
 function RequireAuthRoute({ children }) {
-  const [user, loading] = useAuthState(auth);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  if (loading) {
-    return null;
-  }
-
-  return user ? children : <Navigate to={"/"} />;
+  return isLoggedIn ? children : <Navigate to={"/"} />;
 }
 
 export default RequireAuthRoute;

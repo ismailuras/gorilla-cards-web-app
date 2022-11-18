@@ -1,10 +1,9 @@
 import { showToast } from "helpers";
-import { auth } from "firebaseConfig";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { sendPasswordResetEmail } from "firebase/auth";
-import Spinner from "components/spinner/Spinner";
 import { useState } from "react";
+import Spinner from "components/spinner/Spinner";
+import axios from "axios";
 
 function ForgotPassword({ onClose }) {
   const [loading, setLoading] = useState(false);
@@ -21,13 +20,15 @@ function ForgotPassword({ onClose }) {
 
   const onSubmit = ({ email }) => {
     setLoading(true);
-    sendPasswordResetEmail(auth, email)
+    axios
+      .put("/auth/forgot", {
+        email,
+      })
       .then(() => {
         showToast(
           "Password reset email has been sent. Please check.(Also check spam.)",
           "success"
         );
-        setLoading(false);
         onClose();
         return;
       })
@@ -36,6 +37,7 @@ function ForgotPassword({ onClose }) {
           showToast("Invalid email. Pleas check.", "error");
           return;
         }
+        setLoading(false);
         return showToast("Unexpected error occured", "error");
       });
   };

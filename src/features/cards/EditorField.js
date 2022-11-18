@@ -16,15 +16,15 @@ function EditorField() {
   return (
     <div>
       <div className="flex justify-center items-center">
-        <div className="w-1/2 mt-10">
+        <div className="w-1/2 mt-10 mr-3">
+          <div>
+            <h5 className="text-xl font-medium mb-3">Front</h5>
+          </div>
           <Controller
             control={control}
             rules={{ required: true }}
-            name="cardFront"
-            render={({
-              field: { onChange, onBlur },
-              fieldState: { errors },
-            }) => (
+            name="front"
+            render={({ field: { onChange, onBlur } }) => (
               <Editor
                 initialEditType="wysiwyg"
                 initialValue="# "
@@ -36,9 +36,13 @@ function EditorField() {
           />
         </div>
         <div className="w-1/2 mt-10">
+          <div>
+            <h5 className="text-xl font-medium mb-3">Back</h5>
+          </div>
           <Controller
             control={control}
-            name="cardBack"
+            name="back"
+            defaultValue="# "
             render={({ field: { onChange, onBlur } }) => (
               <Editor
                 initialEditType="wysiwyg"

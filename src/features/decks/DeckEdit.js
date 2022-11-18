@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDeckById } from "features/decks/deckSlice";
-import Button from "components/Button";
 import { showToast } from "helpers";
+import Button from "components/Button";
 
 function DeckEdit({ closeEditModal }) {
   const currentDeck = useSelector((state) => state.decks.currentDeck);
-  const { deckName, description, deckVisibility } = currentDeck;
+  const { name, description } = currentDeck;
   const status = useSelector((state) => state.decks.createStatus);
   const errorMessage = useSelector((state) => state.decks.errorMessageOnUpdate);
   const dispatch = useDispatch();
@@ -18,15 +18,15 @@ function DeckEdit({ closeEditModal }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      deckName,
+      name,
       description,
-      deckVisibility,
     },
   });
 
   const onSubmit = async (data) => {
     try {
       await dispatch(updateDeckById({ id: currentDeck.id, data })).unwrap();
+      console.log("edit func", currentDeck.id);
       showToast("The deck has been successfully updated.", "success");
       closeEditModal();
     } catch (error) {
@@ -41,14 +41,14 @@ function DeckEdit({ closeEditModal }) {
       onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col">
         <input
-          id="deckName"
-          {...register("deckName", {
+          id="name"
+          {...register("name", {
             required: "This is required",
           })}
         />
         <ErrorMessage
           errors={errors}
-          name="deckName"
+          name="name"
           render={({ message }) => <p>{message}</p>}
         />
       </div>
@@ -62,19 +62,6 @@ function DeckEdit({ closeEditModal }) {
           form="newDeckNameForm"
           cols="50"
           rows="6"></textarea>
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="deckVisibility">Who can see the deck?</label>
-        <select
-          {...register("deckVisibility", {
-            required: "This is required",
-          })}
-          name="deckVisibility"
-          id="deckVisibility">
-          <option value="everyone">Every One</option>
-          <option value="only-friends">Only Friends</option>
-          <option value="only-me">Only Me</option>
-        </select>
       </div>
       {errorMessage && <span>Unexpected error occured.</span>}
       <Button disabled={status === "loading"}>

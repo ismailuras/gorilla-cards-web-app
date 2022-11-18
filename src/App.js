@@ -1,24 +1,18 @@
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "firebaseConfig";
-import Home from "components/pages/Home";
-import Navbar from "components/navbar/Navbar";
+import Home from "components/home";
 import Signup from "features/auth-user/signup/Signup";
 import Signin from "features/auth-user/signin/Signin";
-import CurrentUser from "components/pages/currentUser/CurrentUser";
 import RequireAuthRoute from "components/require-auth-route/RequireAuthRoute";
 import Redirector from "components/redirector/Redirector";
 import RequireNotLogin from "components/require-not-login/RequireNotLogin";
+import DeckLayout from "features/decks/DeckLayout";
 import "react-toastify/dist/ReactToastify.css";
+import CardList from "features/cards/CardList";
 
 function App() {
-  const [user] = useAuthState(auth);
-
   return (
     <div className="min-h-screen w-full ">
-      <div className="w-24 h-24 inline-block absolute mt-5 ml-5"></div>
-      {user && <Navbar />}
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Redirector />} />
@@ -40,13 +34,14 @@ function App() {
           }
         />
         <Route
-          path="/user-profile"
+          path="/decks"
           element={
             <RequireAuthRoute>
-              <CurrentUser />
+              <DeckLayout />
             </RequireAuthRoute>
-          }
-        />
+          }>
+          <Route path=":id" element={<CardList />} />
+        </Route>
       </Routes>
     </div>
   );

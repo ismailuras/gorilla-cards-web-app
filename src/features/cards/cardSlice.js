@@ -1,22 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "firebaseConfig";
+import axios from "axiosConfig";
 
 export const createCards = createAsyncThunk(
   "cards/createCards",
-  async (data) => {
-    const user = auth.currentUser;
-    const requestData = { ...data, author: user.uid };
-    const result = await addDoc(collection(db, "cards"), requestData);
-    const { id } = result;
-    const newData = { ...data, id, author: user.uid };
-    return { data, ...newData };
+  async (note) => {
+    const result = await axios.post("/cards", note);
+    console.log("create res", result);
+    return result.data;
   }
 );
 
+export const fetchCards = createAsyncThunk(
+  "cards/fetchCards",
+  async ({ id }) => {
+    const result = await axios.get("/cards", id);
+    return result.data;
+  }
+);
+
+export const updateCards = createAsyncThunk("cards/updateCards", async (id) => {
+  const result = await axios.put(`/cards/${id}`);
+  return console.log("update card", result);
+});
+
 const initialState = {
   cards: [],
-  status: null,
+  status: "loading",
+  errorMessage: null,
   errorMessageOnCreateCards: null,
 };
 
@@ -34,6 +44,29 @@ const cardSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(createCards.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(fetchCards.fulfilled, (state, action) => {
+      state.cards = [...state.cards, ...action.payload];
+      state.status = "idle";
+    });
+    builder.addCase(fetchCards.rejected, (state) => {
+      state.errorMessage = true;
+    });
+    builder.addCase(fetchCards.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(updateCards.fulfilled, (state, action) => {
+      const index = state.cards.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.cards[index] = action.payload;
+      state.updateStatus = "idle";
+    });
+    builder.addCase(updateCards.rejected, (state) => {
+      state.errorMessage = true;
+    });
+    builder.addCase(updateCards.pending, (state) => {
       state.status = "loading";
     });
   },

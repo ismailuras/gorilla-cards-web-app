@@ -1,28 +1,27 @@
-import { auth } from "firebaseConfig";
-import {
-  signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-} from "firebase/auth";
 import { useForm } from "react-hook-form";
+import { Mail, Lock } from "react-feather";
 import { ErrorMessage } from "@hookform/error-message";
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "helpers";
 import { useState } from "react";
-import ShowPassword from "features/showpassword/ShowPassword";
-import Button from "components/Button";
-import AutWithGoogle from "../auth-with-google/AuthWithGoogle";
+import { useDispatch, useSelector } from "react-redux";
+import { signin } from "../authSlice";
+import ShowPassword from "features/show-password/ShowPassword";
 import MyModal from "components/MyModal";
 import ForgotPassword from "features/forgot-password/ForgotPassword";
+import AuthPageLayout from "../AuthPageLayout";
+
+const messages = {
+  "auth/user-not-found": "Credentional is wrong. Please retry.",
+  "unexpected-error-occured": "Unexpected error occured.",
+};
 
 function Signin() {
-  const common = [
-    "text-white text-xl p-2 rounded bg-indigo-600 hover:bg-indigo-500",
-  ];
-
-  const [loading, isLoading] = useState(false);
   const [isForgotModalOpen, setForgotModalOpen] = useState(false);
+  const status = useSelector((state) => state.auth.status);
+  const errorMessage = useSelector((state) => state.auth.errorMessageOnSignin);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const openForgotModal = () => {
     setForgotModalOpen(true);
@@ -44,107 +43,128 @@ function Signin() {
   });
 
   const onSubmit = async ({ email, password }) => {
-    isLoading(true);
-    await setPersistence(auth, browserLocalPersistence);
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        reset();
-        showToast("You have been sign in succesfully.", "success");
-        isLoading(false);
-        navigate("/user-profile");
-      })
-      .catch((error) => {
-        isLoading(false);
-        if (error.code.includes("auth/wrong-password")) {
-          showToast("Password is incorrect. Try again.", "error");
-          return;
-        }
-        if (error.code.includes("auth/email-already-in-use")) {
-          showToast("Email already in use", "error");
-          return;
-        }
-        if (error.code.includes("auth/user-not-found")) {
-          showToast("User not found. First signup !", "error");
-          return;
-        }
-        return showToast("Unexpected error occured", "error");
-      });
+    try {
+      await dispatch(signin({ email, password })).unwrap();
+      showToast("You have been sign in succesfully.", "success");
+      reset();
+      navigate("/decks");
+    } catch (error) {}
   };
 
   return (
-    <div className="max-w-[700px] mx-auto my-16 p-4">
-      <div className="p-2 text-bold text-center text-3xl">
-        <h2>Welcome to Signin Page</h2>
-        <p>
-          Not a member yet? Click for{" "}
-          <Link className="underline" to="/signup">
-            Signup
-          </Link>
-        </p>
+    <div className="flex h-screen items-center justify-center">
+      <div className="container bg-white px-16">
+        <div className="flex">
+          <AuthPageLayout />
+          <div className="w-1/3">
+            <h3 className="text-2xl font-semibold mb-10">
+              Welcome back Gorilla 🦍
+            </h3>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="relative mb-5">
+                <Mail className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
+                <input
+                  type="email"
+                  className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
+                  placeholder="Email"
+                  {...register("email", {
+                    required: "This is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "invalid email address",
+                    },
+                  })}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="email"
+                  render={({ message }) => (
+                    <div className="pl-1 pt-2 text-red-400 text-sm">
+                      {message}
+                    </div>
+                  )}
+                />
+              </div>
+              <div className="relative mb-5">
+                <Lock className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
+                <ShowPassword>
+                  {(type) => (
+                    <input
+                      className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg"
+                      id="password"
+                      type={type}
+                      placeholder="Password"
+                      {...register("password", {
+                        required: "This is required",
+                        minLength: { message: "Min length 6", value: 6 },
+                      })}
+                    />
+                  )}
+                </ShowPassword>
+                <ErrorMessage
+                  errors={errors}
+                  name="password"
+                  render={({ message }) => (
+                    <div className="pl-1 pt-2 text-red-400 text-sm">
+                      {message}
+                    </div>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end mb-5">
+                <button
+                  onClick={openForgotModal}
+                  type="button"
+                  className="font-semibold text-sm text-blue-500 hover:underline">
+                  Forgot password?
+                </button>
+              </div>
+              {errorMessage.map((error, i) => (
+                <div key={i}>{messages[error]}</div>
+              ))}
+              <div className="relative mb-5">
+                <button
+                  disabled={status === "loading"}
+                  type="submit"
+                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+                  <span>{status === "loading" ? "Loading..." : "Sign in"}</span>
+                </button>
+              </div>
+              <div className="flex items-center mb-5">
+                <hr className="grow" />
+                <span className="flex-none px-5 text-gray-400"> or </span>
+                <hr className="grow" />
+              </div>
+              <div className="mb-6">
+                <button className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
+                  <img
+                    className="h-6 inline mr-3"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
+                    alt="Google"
+                  />
+                  <span>Sign in with Google</span>
+                </button>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">
+                  Don't have an account ?
+                  <Link
+                    className="text-blue-500 hover:underline font-semibold ml-3"
+                    to="/signup">
+                    Sign Up
+                  </Link>
+                </p>
+              </div>
+            </form>
+            <MyModal
+              isOpen={isForgotModalOpen}
+              setOpen={setForgotModalOpen}
+              title="Forgot Password">
+              <ForgotPassword onClose={handleCloseForgotModal} />
+            </MyModal>
+          </div>
+        </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-col">
-        <div className="flex flex-col py-2">
-          <label htmlFor="email" className="font-medium text-xl mb-5">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            className="py-1 font-medium outline"
-            {...register("email", {
-              required: "This is required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "invalid email address",
-              },
-            })}
-          />
-          <ErrorMessage
-            errors={errors}
-            name="email"
-            render={({ message }) => <p>{message}</p>}
-          />
-        </div>
-        <div className="flex flex-col py-2">
-          <label htmlFor="password" className="font-medium text-xl mb-5">
-            Password
-          </label>
-          <ShowPassword>
-            {(type) => (
-              <input
-                id="password"
-                type={type}
-                className="py-1 font-medium outline w-full"
-                {...register("password", {
-                  required: "This is required",
-                  minLength: { message: "Min length 6", value: 6 },
-                })}
-              />
-            )}
-          </ShowPassword>
-          <ErrorMessage
-            errors={errors}
-            name="password"
-            render={({ message }) => <p>{message}</p>}
-          />
-        </div>
-        <div>
-          <Button loading={loading}>Signin</Button>
-          <AutWithGoogle />
-          <button
-            onClick={openForgotModal}
-            className={common.join(" ")}
-            type="button">
-            Forgot Password
-          </button>
-        </div>
-      </form>
-      <MyModal
-        isOpen={isForgotModalOpen}
-        setOpen={setForgotModalOpen}
-        title="Forgot Password">
-        <ForgotPassword onClose={handleCloseForgotModal} />
-      </MyModal>
     </div>
   );
 }

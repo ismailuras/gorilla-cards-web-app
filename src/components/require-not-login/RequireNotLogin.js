@@ -1,13 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "firebaseConfig";
-function RequireNotLogin({ children }) {
-  const [user, loading] = useAuthState(auth);
+import { useSelector } from "react-redux";
 
-  if (loading) {
-    return null;
-  }
-  return !user ? children : <Navigate to={"/"} />;
+function RequireNotLogin({ children }) {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  return !isLoggedIn ? children : <Navigate to={"/decks"} />;
 }
 
 export default RequireNotLogin;

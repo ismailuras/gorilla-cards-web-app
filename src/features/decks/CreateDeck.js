@@ -35,19 +35,19 @@ function CreateDeck({ closeCreateDeckModal }) {
         id="deckForm"
         onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col">
-          <label htmlFor="deckName" className="font-medium text-xl mb-5">
+          <label htmlFor="name" className="font-medium text-xl mb-5">
             Deck Name
           </label>
           <input
             className="py-1 font-medium outline"
-            {...register("deckName", {
+            {...register("name", {
               required: "This is required",
             })}
             placeholder="Entire your deck name."
           />
           <ErrorMessage
             errors={errors}
-            name="deckName"
+            name="name"
             render={({ message }) => <p>{message}</p>}
           />
         </div>
@@ -61,19 +61,6 @@ function CreateDeck({ closeCreateDeckModal }) {
             form="deckForm"
             cols="50"
             rows="6"></textarea>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="deckVisibility">Who can see the deck?</label>
-          <select
-            {...register("deckVisibility", {
-              required: "This is required",
-            })}
-            name="deckVisibility"
-            id="deckVisibility">
-            <option value="everyone">Every One</option>
-            <option value="only-friends">Only Friends</option>
-            <option value="only-me">Only Me</option>
-          </select>
         </div>
         <Button disabled={status === "loading"}>
           {status === "loading" ? "Loading" : "Add Deck"}

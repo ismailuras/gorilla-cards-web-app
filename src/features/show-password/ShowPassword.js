@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { AiFillEye, AiOutlineEyeInvisible } from "react-icons/ai";
-
+import { Eye, EyeOff } from "react-feather";
 function ShowPassword({ children }) {
   const [inputType, setInputType] = useState("password");
   const isVisible = inputType === "text";
@@ -12,15 +11,19 @@ function ShowPassword({ children }) {
   };
 
   return (
-    <div className="relative w-full">
+    <>
       {children(inputType)}
       <button
-        className="absolute text-2xl top-1 right-3"
+        className="right-4 top-4 absolute"
         type="button"
         onClick={handleVisible}>
-        {isVisible ? <AiOutlineEyeInvisible /> : <AiFillEye />}
+        {isVisible ? (
+          <EyeOff className="flex-none text-gray-400 h-6 w-6" />
+        ) : (
+          <Eye className="flex-none text-gray-400 h-6 w-6" />
+        )}
       </button>
-    </div>
+    </>
   );
 }
 
