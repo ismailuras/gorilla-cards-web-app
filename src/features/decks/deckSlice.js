@@ -1,59 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import { db, auth } from "firebaseConfig";
+import axios from "axiosConfig";
 
 export const updateDeckById = createAsyncThunk(
   "decks/updateByIdStatus",
   async ({ data, id }) => {
-    const deckRef = doc(db, "decks", id);
-    await updateDoc(deckRef, data);
-    return { ...data, id };
+    await axios.put(`/decks/${id}`, data);
+    return { id, ...data };
   }
 );
 
 export const createDeck = createAsyncThunk(
   "decks/createDeck",
   async ({ data }) => {
-    const user = auth.currentUser;
-    const requestData = { ...data, author: user.uid };
-    const result = await addDoc(collection(db, "decks"), requestData);
-    const { id } = result;
-    const newData = { ...data, id, author: user.uid };
-    return { data, ...newData };
+    const result = await axios.post("/decks", data);
+    return result.data.data;
   }
 );
 
 export const deleteDeck = createAsyncThunk("decks/deleteDeck", async (id) => {
-  await deleteDoc(doc(db, "decks", id));
-  return id;
+  const result = await axios.delete(`/decks/${id}`);
+  return result.data;
 });
 
 export const fetchDecks = createAsyncThunk("decks/fetchDecks", async () => {
-  const user = auth.currentUser;
-  const q = query(collection(db, "decks"), where("author", "==", user.uid));
-  const snapshot = await getDocs(q);
-  const res = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    author: user.uid,
-    ...doc.data(),
-  }));
-  return res;
+  const result = await axios.get("/decks");
+  return result.data;
 });
 
 const initialState = {
-  items: [],
+  decks: [],
   currentDeck: null,
   status: "loading",
-  createStatus: "idle",
+  createStatus: null,
   updateStatus: null,
   deleteStatus: null,
   errorMessage: null,
@@ -67,14 +45,14 @@ const deckSlice = createSlice({
   initialState,
   reducers: {
     setCurrentDeck: (state, action) => {
-      state.currentDeck = state.items.find(
+      state.currentDeck = state.decks.find(
         (item) => item.id === action.payload.id
       );
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchDecks.fulfilled, (state, action) => {
-      state.items = action.payload;
+      state.decks = action.payload;
       state.status = "idle";
     });
     builder.addCase(fetchDecks.rejected, (state) => {
@@ -85,17 +63,17 @@ const deckSlice = createSlice({
     });
     builder.addCase(createDeck.fulfilled, (state, action) => {
       state.createStatus = "idle";
-      state.items = [...state.items, action.payload];
+      state.decks = [...state.decks, action.payload];
     });
     builder.addCase(createDeck.rejected, (state) => {
       state.errorMessageOnCreate = true;
-      state.status = "idle";
+      state.createStatus = "idle";
     });
     builder.addCase(createDeck.pending, (state) => {
-      state.status = "loading";
+      state.createStatus = "loading";
     });
-    builder.addCase(deleteDeck.fulfilled, (state, action) => {
-      state.items = state.items.filter(
+    builder.addCase(deleteDeck.fulfilled, (state) => {
+      state.decks = state.decks.filter(
         (item) => item.id !== state.currentDeck.id
       );
       state.deleteStatus = "idle";
@@ -108,10 +86,10 @@ const deckSlice = createSlice({
       state.deleteStatus = "loading";
     });
     builder.addCase(updateDeckById.fulfilled, (state, action) => {
-      const index = state.items.findIndex(
+      const index = state.decks.findIndex(
         (item) => item.id === action.payload.id
       );
-      state.items[index] = action.payload;
+      state.decks[index] = action.payload;
       state.updateStatus = "idle";
     });
     builder.addCase(updateDeckById.rejected, (state) => {

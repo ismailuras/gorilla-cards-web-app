@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "firebaseConfig";
-import { useAuthState } from "react-firebase-hooks/auth";
+import useAuth from "hooks/useAuth";
 function Redirector() {
-  const [user, loading] = useAuthState(auth);
+  const { isUserLoggedIn } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (!loading) {
-      if (user) {
-        navigate("/user-profile");
-      } else {
-        navigate("/home");
-      }
+    if (isUserLoggedIn) {
+      navigate("/decks");
+    } else {
+      navigate("/home");
     }
-  }, [user, loading, navigate]);
+  }, [isUserLoggedIn, navigate]);
   return null;
 }
 

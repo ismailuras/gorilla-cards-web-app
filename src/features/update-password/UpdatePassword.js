@@ -1,23 +1,12 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { updatePassword } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useState } from "react";
-import { auth } from "firebaseConfig";
-import { reAuth } from "firebaseConfig";
-import { showToast } from "helpers";
-import ShowPassword from "../showpassword/ShowPassword";
-import Spinner from "../../components/spinner/Spinner";
+import ShowPassword from "../../components/show-password/ShowPassword";
 
 function UpdatePassword() {
-  const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -26,108 +15,94 @@ function UpdatePassword() {
     },
   });
 
-  const onSubmit = async ({ newPassword, currentPasswordForUpdate }) => {
-    setLoading(true);
-    try {
-      await reAuth(currentPasswordForUpdate);
-      await updatePassword(user, newPassword);
-      reset();
-      showToast("Password updated successfully.", "success");
-    } catch (error) {
-      if (error.code.includes("auth/wrong-password")) {
-        showToast("Wrong password. Try again.", "error");
-        return;
-      }
-      if (error.code.includes("auth/network-request-failed")) {
-        showToast("Network request failed. Pleas try again.", "error");
-        return;
-      }
-      return showToast("Unexpected error occured. Try again", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const onSubmit = async () => {};
 
   const newPassword = watch("newPassword");
 
   return (
-    <form
-      className="w-96 h-72 flex flex-col justify-center"
-      onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label className="font-medium text-xl mb-10" htmlFor="newPassword">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-4">
+        <label className="font-semibold mb-3 block" htmlFor="newPassword">
           New Password
         </label>
-        <ShowPassword>
-          {(type) => (
-            <input
-              id="newPassword"
-              type={type}
-              placeholder="******"
-              className="py-1 font-medium outline w-full"
-              {...register("newPassword", {
-                required: "This is required",
-                minLength: { message: "Min length 6", value: 6 },
-              })}
-            />
-          )}
-        </ShowPassword>
-      </div>
-      <div>
-        <label className="font-medium text-xl mb-10" htmlFor="rePassword">
+        <div className="relative">
+          <ShowPassword>
+            {(type) => (
+              <input
+                className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
+                id="newPassword"
+                type={type}
+                placeholder="New Password"
+                {...register("newPassword", {
+                  required: "This is a required field.",
+                  minLength: { message: "Min length 6", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
+        </div>
+        <label className="font-semibold mb-3 block" htmlFor="rePassword">
           New Password (Again)
         </label>
-        <ShowPassword>
-          {(type) => (
-            <input
-              id="rePassword"
-              type={type}
-              placeholder="******"
-              className="py-1 font-medium outline w-full"
-              {...register("rePassword", {
-                validate: (value) =>
-                  value === newPassword || "This password does not match.",
-                required: "This is required",
-                minLength: { message: "Min length 6", value: 6 },
-              })}
-            />
+        <div className="relative">
+          <ShowPassword>
+            {(type) => (
+              <input
+                className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
+                id="rePassword"
+                type={type}
+                placeholder="Re-Password"
+                {...register("rePassword", {
+                  validate: (value) =>
+                    value === newPassword || "This password does not match.",
+                  required: "This is a required field.",
+                  minLength: { message: "Min length 6", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
+        </div>
+        <ErrorMessage
+          errors={errors}
+          name="rePassword"
+          render={({ message }) => (
+            <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
           )}
-        </ShowPassword>
-      </div>
-      <ErrorMessage
-        errors={errors}
-        name="rePassword"
-        render={({ message }) => <p>{message}</p>}
-      />
-      <div>
+        />
         <label
-          className="font-medium text-xl mb-10"
+          className="font-semibold mb-3 block"
           htmlFor="currentPasswordForUpdate">
           Current Password
         </label>
-        <ShowPassword>
-          {(type) => (
-            <input
-              id="currentPasswordForUpdate"
-              type={type}
-              placeholder="******"
-              className="py-1 font-medium outline w-full"
-              {...register("currentPasswordForUpdate", {
-                required: "This is required",
-                minLength: { message: "Min length 6 ", value: 6 },
-              })}
-            />
-          )}
-        </ShowPassword>
-        <ErrorMessage
-          errors={errors}
-          name="currentPasswordForUpdate"
-          render={({ message }) => <p>{message}</p>}
-        />
+        <div className="relative">
+          <ShowPassword>
+            {(type) => (
+              <input
+                className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
+                id="currentPasswordForUpdate"
+                type={type}
+                placeholder="Current Password"
+                {...register("currentPasswordForUpdate", {
+                  required: "This is a required field.",
+                  minLength: { message: "Min length 6 ", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
+        </div>
       </div>
-      <button className="bg-indigo-600 p-1 mt-4 text-white text-xl rounded hover:bg-indigo-700">
-        {loading ? <Spinner /> : "Update"}
-      </button>
+      <ErrorMessage
+        errors={errors}
+        name="currentPasswordForUpdate"
+        render={({ message }) => (
+          <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+        )}
+      />
+      <div className="flex justify-end">
+        <button className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+          Update Password
+        </button>
+      </div>
     </form>
   );
 }
