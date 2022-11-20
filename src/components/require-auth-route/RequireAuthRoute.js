@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import useAuth from "useAuth";
 
 function RequireAuthRoute({ children }) {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-  return isLoggedIn ? children : <Navigate to={"/"} />;
+  const isUserLoggedIn = useAuth();
+  return isUserLoggedIn ? children : <Navigate to={"/"} />;
 }
 
 export default RequireAuthRoute;

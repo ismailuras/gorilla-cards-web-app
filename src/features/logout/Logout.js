@@ -1,4 +1,3 @@
-import Button from "components/Button";
 import { userLogout } from "features/auth-user/authSlice";
 import { useDispatch } from "react-redux";
 function Logout() {
@@ -9,7 +8,11 @@ function Logout() {
 
   return (
     <div>
-      <Button onClick={handleLogout}>Logout</Button>
+      <button
+        className="bg-red-500 p-1 rounded text-white font-medium mr-5 "
+        onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 }

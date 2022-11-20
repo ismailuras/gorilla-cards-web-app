@@ -119,8 +119,10 @@ function Signin() {
                   Forgot password?
                 </button>
               </div>
-              {errorMessage.map((error, i) => (
-                <div key={i}>{messages[error]}</div>
+              {errorMessage.map((error) => (
+                <div key={error} className="pl-1 pt-2 text-red-400 text-sm">
+                  {messages[error]}
+                </div>
               ))}
               <div className="relative mb-5">
                 <button

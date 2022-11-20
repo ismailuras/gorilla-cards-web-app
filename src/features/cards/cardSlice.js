@@ -5,7 +5,6 @@ export const createCards = createAsyncThunk(
   "cards/createCards",
   async (note) => {
     const result = await axios.post("/cards", note);
-    console.log("create res", result);
     return result.data;
   }
 );
@@ -20,13 +19,16 @@ export const fetchCards = createAsyncThunk(
 
 export const updateCards = createAsyncThunk("cards/updateCards", async (id) => {
   const result = await axios.put(`/cards/${id}`);
-  return console.log("update card", result);
+  return result;
 });
 
 const initialState = {
   cards: [],
   status: "loading",
-  errorMessage: null,
+  createStatus: null,
+  updateStatus: null,
+  deleteStatus: null,
+  errorMessageOnFetch: null,
   errorMessageOnCreateCards: null,
 };
 
@@ -37,21 +39,21 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(createCards.fulfilled, (state, action) => {
       state.cards = [...state.cards, action.payload];
-      state.status = "idle";
+      state.createStatus = "idle";
     });
     builder.addCase(createCards.rejected, (state) => {
       state.errorMessageOnCreateCards = true;
-      state.status = "idle";
+      state.createStatus = "idle";
     });
     builder.addCase(createCards.pending, (state) => {
-      state.status = "loading";
+      state.createStatus = "loading";
     });
     builder.addCase(fetchCards.fulfilled, (state, action) => {
-      state.cards = [...state.cards, ...action.payload];
+      state.cards = [...action.payload];
       state.status = "idle";
     });
     builder.addCase(fetchCards.rejected, (state) => {
-      state.errorMessage = true;
+      state.errorMessageOnFetch = ["unexpected-error"];
     });
     builder.addCase(fetchCards.pending, (state) => {
       state.status = "loading";
@@ -65,9 +67,10 @@ const cardSlice = createSlice({
     });
     builder.addCase(updateCards.rejected, (state) => {
       state.errorMessage = true;
+      state.updateStatus = "idle";
     });
     builder.addCase(updateCards.pending, (state) => {
-      state.status = "loading";
+      state.updateStatus = "loading";
     });
   },
 });

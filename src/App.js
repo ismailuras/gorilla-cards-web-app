@@ -7,8 +7,8 @@ import RequireAuthRoute from "components/require-auth-route/RequireAuthRoute";
 import Redirector from "components/redirector/Redirector";
 import RequireNotLogin from "components/require-not-login/RequireNotLogin";
 import DeckLayout from "features/decks/DeckLayout";
-import "react-toastify/dist/ReactToastify.css";
 import CardList from "features/cards/CardList";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

@@ -1,16 +1,17 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useAuth from "useAuth";
 function Redirector() {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isUserLoggedIn = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isUserLoggedIn) {
       navigate("/decks");
     } else {
       navigate("/home");
     }
-  }, [isLoggedIn, navigate]);
+  }, [isUserLoggedIn, navigate]);
   return null;
 }
 

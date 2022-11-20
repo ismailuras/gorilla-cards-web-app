@@ -15,10 +15,10 @@ function EditorField() {
 
   return (
     <div>
-      <div className="flex justify-center items-center">
-        <div className="w-1/2 mt-10 mr-3">
+      <div className="flex gap-4 items-center">
+        <div className="w-1/2">
           <div>
-            <h5 className="text-xl font-medium mb-3">Front</h5>
+            <h5 className="font-semibold mb-3 block">Front</h5>
           </div>
           <Controller
             control={control}
@@ -35,9 +35,9 @@ function EditorField() {
             )}
           />
         </div>
-        <div className="w-1/2 mt-10">
+        <div className="w-1/2">
           <div>
-            <h5 className="text-xl font-medium mb-3">Back</h5>
+            <h5 className="font-semibold mb-3 block">Back</h5>
           </div>
           <Controller
             control={control}

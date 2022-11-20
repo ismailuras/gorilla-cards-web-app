@@ -7,7 +7,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import EditorField from "./EditorField";
 function AddCards() {
   const decks = useSelector((state) => state.decks.decks);
-  const status = useSelector((state) => state.cards.status);
+  const createStatus = useSelector((state) => state.cards.createStatus);
   const errorMessage = useSelector(
     (state) => state.cards.errorMessageOnCreateCards
   );
@@ -37,19 +37,23 @@ function AddCards() {
   const methods = useForm();
   const { register, reset, errors } = methods;
 
+  if (decks.length === 0) {
+    return (
+      <div>
+        There is no deck yet. Please, create a deck and start to add cards.
+      </div>
+    );
+  }
+
   return (
     <FormProvider key={forceRenderState} {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <div className="flex flex-col w-44">
-          {decks.length === 0 ? (
-            <div>
-              There is no deck yet. Please, create a deck and start to add
-              cards.
-            </div>
-          ) : (
-            <label htmlFor="currentDeck">Deck Names</label>
-          )}
+        <div className="mb-5">
+          <label htmlFor="currentDeck" className="font-semibold mb-3 block">
+            Deck Names
+          </label>
           <select
+            className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
             {...register("deckId", {
               required: "This is required",
             })}>
@@ -64,12 +68,20 @@ function AddCards() {
           <ErrorMessage
             errors={errors}
             name="deckId"
-            render={({ message }) => <p>{message}</p>}
+            render={({ message }) => (
+              <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+            )}
           />
         </div>
-        <div>
+        <div className="mb-5">
           <EditorField />
-          <button disabled={status === "loading"}>Add Card</button>
+        </div>
+        <div className="flex justify-end">
+          <button
+            disabled={createStatus === "loading"}
+            className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+            {createStatus === "loading" ? "Loading..." : "Add Card"}
+          </button>
         </div>
         <div>{errorMessage && <p>Unexpected error occured.</p>}</div>
       </form>

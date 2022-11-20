@@ -3,12 +3,11 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDeckById } from "features/decks/deckSlice";
 import { showToast } from "helpers";
-import Button from "components/Button";
 
 function DeckEdit({ closeEditModal }) {
   const currentDeck = useSelector((state) => state.decks.currentDeck);
   const { name, description } = currentDeck;
-  const status = useSelector((state) => state.decks.createStatus);
+  const updateStatus = useSelector((state) => state.decks.updateStatus);
   const errorMessage = useSelector((state) => state.decks.errorMessageOnUpdate);
   const dispatch = useDispatch();
 
@@ -26,7 +25,6 @@ function DeckEdit({ closeEditModal }) {
   const onSubmit = async (data) => {
     try {
       await dispatch(updateDeckById({ id: currentDeck.id, data })).unwrap();
-      console.log("edit func", currentDeck.id);
       showToast("The deck has been successfully updated.", "success");
       closeEditModal();
     } catch (error) {
@@ -35,12 +33,13 @@ function DeckEdit({ closeEditModal }) {
   };
 
   return (
-    <form
-      id="deckForm"
-      className="max-h-96 flex flex-col justify-between"
-      onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col">
+    <form id="deckForm" onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-5">
+        <label htmlFor="name" className="font-semibold mb-3 block">
+          Deck Name
+        </label>
         <input
+          className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
           id="name"
           {...register("name", {
             required: "This is required",
@@ -49,14 +48,18 @@ function DeckEdit({ closeEditModal }) {
         <ErrorMessage
           errors={errors}
           name="name"
-          render={({ message }) => <p>{message}</p>}
+          render={({ message }) => (
+            <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+          )}
         />
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="description">Description</label>
+      <div className="mb-5">
+        <label htmlFor="description" className="font-semibold mb-3 block">
+          Description
+        </label>
         <textarea
           {...register("description", { required: false })}
-          className="outline outline-offset-1 resize-none"
+          className="w-full p-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50 resize-none"
           name="description"
           id="description"
           form="newDeckNameForm"
@@ -64,9 +67,13 @@ function DeckEdit({ closeEditModal }) {
           rows="6"></textarea>
       </div>
       {errorMessage && <span>Unexpected error occured.</span>}
-      <Button disabled={status === "loading"}>
-        {status === "loading" ? "Loading" : "Update Deck"}
-      </Button>
+      <div className="flex justify-end">
+        <button
+          disabled={updateStatus === "loading"}
+          className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+          {updateStatus === "loading" ? "Loading..." : "Edit Deck"}
+        </button>
+      </div>
     </form>
   );
 }

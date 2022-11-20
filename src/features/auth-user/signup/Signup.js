@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "helpers";
 import { signup } from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ShowPassword from "features/show-password/ShowPassword";
 import { Mail, Lock } from "react-feather";
+import ShowPassword from "features/show-password/ShowPassword";
 import AuthPageLayout from "../AuthPageLayout";
 
 const messages = {
@@ -133,8 +133,10 @@ function Signup() {
                 />
               </div>
               <div className="relative mb-5">
-                {errorMessage.map((error, i) => (
-                  <div key={i}>{messages[error]}</div>
+                {errorMessage.map((error) => (
+                  <div key={error} className="pl-1 pt-2 text-red-400 text-sm">
+                    {messages[error]}
+                  </div>
                 ))}
                 <button
                   disabled={status === "loading"}

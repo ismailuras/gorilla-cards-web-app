@@ -1,38 +1,42 @@
 import Modal from "react-modal";
+import { X } from "react-feather";
 
 Modal.setAppElement("#root");
 
-const customStyles = {
-  content: {
-    top: "40px",
-    left: "40px",
-    right: "40px",
-    bottom: "40px",
-    border: "1px solid #ccc",
-    background: "#fff",
-    overflow: "auto",
-    WebkitOverflowScrolling: "touch",
-    borderRadius: "4px",
-    width: "600px",
-    margin: "0 auto",
-  },
-};
-
-function MyModal({ title, children, isOpen, setOpen }) {
+function MyModal({ title, children, isOpen, setOpen, size = "md" }) {
   function closeModal() {
     setOpen(false);
   }
 
+  const modalSize = () => {
+    switch (size) {
+      case "md":
+        return "w-[720px]";
+      case "lg":
+        return "w-[1200px]";
+      default:
+        return "w-[720px]";
+    }
+  };
+
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
-        <button
-          className="bg-red-400 text-white text-xl rounded p-1"
-          onClick={closeModal}>
-          Close
-        </button>
-        <div>{title}</div>
-        {children}
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        className="container mx-auto h-full flex items-center justify-center">
+        <div className={`shadow-lg rounded-lg bg-white ${modalSize()}`}>
+          <div className="flex justify-between items-center p-5 border-b-2">
+            <div className="font-semibold text-xl">{title}</div>
+            <button
+              type="button"
+              className="w-10 h-10 -my-5 flex items-center justify-center rounded-full text-gray-500 font-bold text-xl bg-gray-100 hover:bg-gray-200"
+              onClick={closeModal}>
+              <X size={20} />
+            </button>
+          </div>
+          <div className="px-5 py-8">{children}</div>
+        </div>
       </Modal>
     </div>
   );

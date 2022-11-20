@@ -1,22 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
 import { deleteDeck } from "./deckSlice";
-import Button from "components/Button";
 import { showToast } from "helpers";
 
 function DeleteDeck({ closeDeleteModal }) {
-  const status = useSelector((state) => state.decks.createStatus);
+  const deleteStatus = useSelector((state) => state.decks.deleteStatus);
   const deleteErrorMessage = useSelector(
     (state) => state.decks.deleteErrorMessage
   );
   const currentDeck = useSelector((state) => state.decks.currentDeck);
-  console.log(currentDeck.id);
   const { name } = currentDeck;
   const dispatch = useDispatch();
 
   const handleDeleteDeck = async () => {
     try {
       await dispatch(deleteDeck(currentDeck.id)).unwrap();
-      console.log("id", deleteDeck);
       closeDeleteModal();
       showToast("The deck has been successfully deleted.", "success");
     } catch (error) {
@@ -34,9 +31,14 @@ function DeleteDeck({ closeDeleteModal }) {
           <span>An error occurred while deleting the deck</span>
         )}
       </div>
-      <Button onClick={handleDeleteDeck} disabled={status === "loading"}>
-        {status === "loading" ? "Loading" : "Delete Deck"}
-      </Button>
+      <div className="flex justify-end">
+        <button
+          onClick={handleDeleteDeck}
+          disabled={deleteStatus === "loading"}
+          className="px-5 rounded-lg h-14 bg-red-500 hover:bg-red-600 transition text-white font-semibold">
+          {deleteStatus === "loading" ? "Loading..." : "Delete Deck"}
+        </button>
+      </div>
     </div>
   );
 }

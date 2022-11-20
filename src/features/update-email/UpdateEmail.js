@@ -15,15 +15,13 @@ function UpdateEmail() {
   const onSubmit = async () => {};
 
   return (
-    <form
-      className="w-96 h-60 flex flex-col justify-center"
-      onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label className="font-medium text-xl" htmlFor="email">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-4">
+        <label className="font-semibold mb-3 block" htmlFor="email">
           New Email
         </label>
         <input
-          className="w-full p-1 px-2 outline border-solid mb-1"
+          className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
           id="email"
           placeholder="example@mail.com"
           {...register("email", {
@@ -37,36 +35,42 @@ function UpdateEmail() {
         <ErrorMessage
           errors={errors}
           name="email"
-          render={({ message }) => <p>{message}</p>}
+          render={({ message }) => (
+            <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+          )}
         />
-      </div>
-      <div>
-        <label className="font-medium text-xl" htmlFor="currentPassword">
+        <label className="font-semibold mb-3 block" htmlFor="currentPassword">
           Current Password
         </label>
-        <ShowPassword>
-          {(type) => (
-            <input
-              id="currentPassword"
-              type={type}
-              placeholder="******"
-              className="py-1 font-medium outline w-full"
-              {...register("currentPassword", {
-                required: "This is required",
-                minLength: { message: "Min length 6", value: 6 },
-              })}
-            />
-          )}
-        </ShowPassword>
-        <ErrorMessage
-          errors={errors}
-          name="currentPassword"
-          render={({ message }) => <p>{message}</p>}
-        />
+        <div className="relative">
+          <ShowPassword>
+            {(type) => (
+              <input
+                className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
+                id="currentPassword"
+                type={type}
+                placeholder="New Password"
+                {...register("currentPassword", {
+                  required: "This is required",
+                  minLength: { message: "Min length 6", value: 6 },
+                })}
+              />
+            )}
+          </ShowPassword>
+        </div>
       </div>
-      <button className="bg-indigo-600 p-1 mt-4 text-white text-xl rounded hover:bg-indigo-700">
-        Update
-      </button>
+      <ErrorMessage
+        errors={errors}
+        name="currentPassword"
+        render={({ message }) => (
+          <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+        )}
+      />
+      <div className="flex justify-end">
+        <button className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+          Update Email
+        </button>
+      </div>
     </form>
   );
 }

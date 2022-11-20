@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { Settings } from "react-feather";
+import Logout from "features/logout/Logout";
 import MyModal from "components/MyModal";
 import UpdateEmail from "features/update-email/UpdateEmail";
 import UpdatePassword from "features/update-password/UpdatePassword";
 import Tippy from "@tippyjs/react";
-import Logout from "features/logout/Logout";
-import { Settings } from "react-feather";
 import "tippy.js/dist/tippy.css";
 
 function UpdatesModal() {
@@ -15,9 +15,9 @@ function UpdatesModal() {
   };
 
   return (
-    <div className="flex justify-end items-center mr-24">
-      <Logout />
-      <header>
+    <div>
+      <header className="flex justify-center items-center mr-4">
+        <Logout />
         <Tippy
           placement="auto-end"
           interactive={true}
