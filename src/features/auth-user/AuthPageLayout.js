@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { CheckCircle } from "react-feather";
+
+import gorilla from "assets/images/gorilla-logo.png";
+
 function AuthPageLayout() {
   return (
     <div className="w-2/3">
       <div className="pr-16">
         <Link to="/signin" className="inline-block">
-          <img
-            src="images/logo.png"
-            alt="Gorilla Cards"
-            className="h-20 mb-16"
-          />
+          <img src={gorilla} alt="Gorilla Cards" className="h-20 mb-16" />
         </Link>
         <div className="flex mb-8">
           <div className="pr-4 pt-1">

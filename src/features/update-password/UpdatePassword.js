@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import ShowPassword from "../show-password/ShowPassword";
+import ShowPassword from "../../components/show-password/ShowPassword";
 
 function UpdatePassword() {
   const {
@@ -34,7 +34,7 @@ function UpdatePassword() {
                 type={type}
                 placeholder="New Password"
                 {...register("newPassword", {
-                  required: "This is required",
+                  required: "This is a required field.",
                   minLength: { message: "Min length 6", value: 6 },
                 })}
               />
@@ -55,7 +55,7 @@ function UpdatePassword() {
                 {...register("rePassword", {
                   validate: (value) =>
                     value === newPassword || "This password does not match.",
-                  required: "This is required",
+                  required: "This is a required field.",
                   minLength: { message: "Min length 6", value: 6 },
                 })}
               />
@@ -83,7 +83,7 @@ function UpdatePassword() {
                 type={type}
                 placeholder="Current Password"
                 {...register("currentPasswordForUpdate", {
-                  required: "This is required",
+                  required: "This is a required field.",
                   minLength: { message: "Min length 6 ", value: 6 },
                 })}
               />

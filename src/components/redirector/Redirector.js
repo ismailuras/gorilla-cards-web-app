@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "useAuth";
+import useAuth from "hooks/useAuth";
 function Redirector() {
-  const isUserLoggedIn = useAuth();
+  const { isUserLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

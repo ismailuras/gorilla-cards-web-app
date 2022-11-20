@@ -52,7 +52,7 @@ function ForgotPassword({ onClose }) {
           className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
           placeholder="example@mail.com"
           {...register("email", {
-            required: "This is required",
+            required: "This is a required field.",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: "invalid email address",

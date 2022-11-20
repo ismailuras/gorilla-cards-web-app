@@ -8,8 +8,8 @@ import EditCard from "./EditCard";
 
 function CardList() {
   const [isOpenEditCardModal, setOpenEditCardModal] = useState(false);
-  const errorMessageOnFetch = useSelector(
-    (state) => state.cards.errorMessageOnFetch
+  const errorMessagesOnFetch = useSelector(
+    (state) => state.cards.errorMessagesOnFetch
   );
   const cards = useSelector((state) => state.cards.cards);
   const dispatch = useDispatch();
@@ -34,7 +34,9 @@ function CardList() {
   return (
     <div className="w-1/3 h-screen p-5 border-4 ml-5 mt-2">
       <div className="flex justify-end items-center text-lg font-normal">
-        {errorMessageOnFetch && <div>Unexptected error occured.</div>}
+        {errorMessagesOnFetch.map((error) => (
+          <div key={error}>Unexptected error occured.</div>
+        ))}
         <button className="py-2 px-5 bg-indigo-600 text-sm mr-3 text-white rounded">
           Add Card
         </button>

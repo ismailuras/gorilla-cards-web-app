@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import useAuth from "useAuth";
+import useAuth from "hooks/useAuth";
 
 function Home() {
   const linkStyles = ["font-bold ml-5 underline"];
-  const isUserLoggedIn = useAuth();
+  const { isUserLoggedIn } = useAuth();
 
   return (
     <div className="flex flex-col items-center mt-20">

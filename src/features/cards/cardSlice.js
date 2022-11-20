@@ -25,11 +25,11 @@ export const updateCards = createAsyncThunk("cards/updateCards", async (id) => {
 const initialState = {
   cards: [],
   status: "loading",
-  createStatus: null,
-  updateStatus: null,
-  deleteStatus: null,
-  errorMessageOnFetch: null,
-  errorMessageOnCreateCards: null,
+  createStatus: [],
+  updateStatus: [],
+  deleteStatus: [],
+  errorMessagesOnFetch: [],
+  errorMessagesOnCreateCards: [],
 };
 
 const cardSlice = createSlice({
@@ -53,7 +53,7 @@ const cardSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchCards.rejected, (state) => {
-      state.errorMessageOnFetch = ["unexpected-error"];
+      state.errorMessagesOnFetch = ["unexpected-error"];
     });
     builder.addCase(fetchCards.pending, (state) => {
       state.status = "loading";

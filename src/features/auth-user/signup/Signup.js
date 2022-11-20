@@ -5,8 +5,10 @@ import { showToast } from "helpers";
 import { signup } from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Mail, Lock } from "react-feather";
-import ShowPassword from "features/show-password/ShowPassword";
+import ShowPassword from "components/show-password/ShowPassword";
 import AuthPageLayout from "../AuthPageLayout";
+
+import googleLogo from "assets/images/google-logo.webp";
 
 const messages = {
   "auth/not-valid-email": "Invalid e-mail address.",
@@ -15,7 +17,9 @@ const messages = {
 };
 
 function Signup() {
-  const errorMessage = useSelector((state) => state.auth.errorMessageOnSignup);
+  const errorMessagesOnSignup = useSelector(
+    (state) => state.auth.errorMessagesOnSignup
+  );
   const status = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,7 +64,7 @@ function Signup() {
                   className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
                   placeholder="Email"
                   {...register("email", {
-                    required: "This is required",
+                    required: "This is a required field.",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: "invalid email address",
@@ -87,7 +91,7 @@ function Signup() {
                       type={type}
                       placeholder="Password"
                       {...register("password", {
-                        required: "This is required",
+                        required: "This is a required field.",
                         minLength: { message: "Min length 6", value: 6 },
                       })}
                     />
@@ -116,7 +120,7 @@ function Signup() {
                         validate: (value) =>
                           value === passwordWatch ||
                           "This password does not match.",
-                        required: "This is required",
+                        required: "This is a required field.",
                         minLength: { message: "Min length ", value: 6 },
                       })}
                     />
@@ -133,7 +137,7 @@ function Signup() {
                 />
               </div>
               <div className="relative mb-5">
-                {errorMessage.map((error) => (
+                {errorMessagesOnSignup.map((error) => (
                   <div key={error} className="pl-1 pt-2 text-red-400 text-sm">
                     {messages[error]}
                   </div>
@@ -154,7 +158,7 @@ function Signup() {
                 <button className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
                   <img
                     className="h-6 inline mr-3"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
+                    src={googleLogo}
                     alt="Google"
                   />
                   <span>Sign in with Google</span>

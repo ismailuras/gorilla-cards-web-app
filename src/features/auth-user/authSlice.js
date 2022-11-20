@@ -37,8 +37,8 @@ export const signup = createAsyncThunk(
 const initialState = {
   isLoggedIn: localStorage.getItem("token") ? true : false,
   status: "idle",
-  errorMessageOnSignin: [],
-  errorMessageOnSignup: [],
+  errorMessagesOnSignin: [],
+  errorMessagesOnSignup: [],
 };
 
 const authSlice = createSlice({
@@ -55,7 +55,7 @@ const authSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(signin.rejected, (state, action) => {
-      state.errorMessageOnSignin = action.payload;
+      state.errorMessagesOnSignin = action.payload;
       state.status = "idle";
     });
     builder.addCase(signin.pending, (state) => {
@@ -66,7 +66,7 @@ const authSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(signup.rejected, (state, action) => {
-      state.errorMessageOnSignup = action.payload;
+      state.errorMessagesOnSignup = action.payload;
       state.status = "idle";
     });
     builder.addCase(signup.pending, (state) => {

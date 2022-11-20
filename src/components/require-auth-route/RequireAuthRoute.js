@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import useAuth from "useAuth";
+import useAuth from "hooks/useAuth";
 
 function RequireAuthRoute({ children }) {
-  const isUserLoggedIn = useAuth();
+  const { isUserLoggedIn } = useAuth();
   return isUserLoggedIn ? children : <Navigate to={"/"} />;
 }
 

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import ShowPassword from "../show-password/ShowPassword";
+import ShowPassword from "../../components/show-password/ShowPassword";
 
 function UpdateEmail() {
   const {
@@ -25,7 +25,7 @@ function UpdateEmail() {
           id="email"
           placeholder="example@mail.com"
           {...register("email", {
-            required: "This is required",
+            required: "This is a required field.",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: "Invalid email address",
@@ -51,7 +51,7 @@ function UpdateEmail() {
                 type={type}
                 placeholder="New Password"
                 {...register("currentPassword", {
-                  required: "This is required",
+                  required: "This is a required field.",
                   minLength: { message: "Min length 6", value: 6 },
                 })}
               />

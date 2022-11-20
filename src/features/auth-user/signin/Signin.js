@@ -6,10 +6,12 @@ import { showToast } from "helpers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from "../authSlice";
-import ShowPassword from "features/show-password/ShowPassword";
+import ShowPassword from "components/show-password/ShowPassword";
 import MyModal from "components/MyModal";
 import ForgotPassword from "features/forgot-password/ForgotPassword";
 import AuthPageLayout from "../AuthPageLayout";
+
+import googleLogo from "assets/images/google-logo.webp";
 
 const messages = {
   "auth/user-not-found": "Credentional is wrong. Please retry.",
@@ -19,7 +21,9 @@ const messages = {
 function Signin() {
   const [isForgotModalOpen, setForgotModalOpen] = useState(false);
   const status = useSelector((state) => state.auth.status);
-  const errorMessage = useSelector((state) => state.auth.errorMessageOnSignin);
+  const errorMessagesOnSignin = useSelector(
+    (state) => state.auth.errorMessagesOnSignin
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,7 +49,7 @@ function Signin() {
   const onSubmit = async ({ email, password }) => {
     try {
       await dispatch(signin({ email, password })).unwrap();
-      showToast("You have been sign in succesfully.", "success");
+      showToast("You have been successfully signed in.", "success");
       reset();
       navigate("/decks");
     } catch (error) {}
@@ -68,7 +72,7 @@ function Signin() {
                   className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
                   placeholder="Email"
                   {...register("email", {
-                    required: "This is required",
+                    required: "This is a required field.",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: "invalid email address",
@@ -95,7 +99,7 @@ function Signin() {
                       type={type}
                       placeholder="Password"
                       {...register("password", {
-                        required: "This is required",
+                        required: "This is a required field.",
                         minLength: { message: "Min length 6", value: 6 },
                       })}
                     />
@@ -119,7 +123,7 @@ function Signin() {
                   Forgot password?
                 </button>
               </div>
-              {errorMessage.map((error) => (
+              {errorMessagesOnSignin.map((error) => (
                 <div key={error} className="pl-1 pt-2 text-red-400 text-sm">
                   {messages[error]}
                 </div>
@@ -141,7 +145,7 @@ function Signin() {
                 <button className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
                   <img
                     className="h-6 inline mr-3"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
+                    src={googleLogo}
                     alt="Google"
                   />
                   <span>Sign in with Google</span>

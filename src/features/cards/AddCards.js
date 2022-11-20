@@ -8,7 +8,7 @@ import EditorField from "./EditorField";
 function AddCards() {
   const decks = useSelector((state) => state.decks.decks);
   const createStatus = useSelector((state) => state.cards.createStatus);
-  const errorMessage = useSelector(
+  const errorMessagesOnCreateCards = useSelector(
     (state) => state.cards.errorMessageOnCreateCards
   );
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function AddCards() {
     try {
       await dispatch(createCards({ deckId, note })).unwrap();
       handleReset();
-      showToast("Added card.", "success");
+      showToast("Card has been added succesfully.", "success");
     } catch (error) {
       showToast("An error occurred while adding the card.", "error");
     }
@@ -50,20 +50,19 @@ function AddCards() {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="mb-5">
           <label htmlFor="currentDeck" className="font-semibold mb-3 block">
-            Deck Names
+            Decks Names
           </label>
           <select
             className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
             {...register("deckId", {
-              required: "This is required",
+              required: "This is a required field.",
             })}>
             <option value="">Select Deck</option>
-            {decks &&
-              decks.map((deck) => (
-                <option value={deck.id} key={deck.id}>
-                  {deck.name}
-                </option>
-              ))}
+            {decks.map((deck) => (
+              <option value={deck.id} key={deck.id}>
+                {deck.name}
+              </option>
+            ))}
           </select>
           <ErrorMessage
             errors={errors}
@@ -83,7 +82,11 @@ function AddCards() {
             {createStatus === "loading" ? "Loading..." : "Add Card"}
           </button>
         </div>
-        <div>{errorMessage && <p>Unexpected error occured.</p>}</div>
+        <div>
+          {errorMessagesOnCreateCards.map((error) => (
+            <p key={error}>Unexpected error occured.</p>
+          ))}
+        </div>
       </form>
     </FormProvider>
   );
