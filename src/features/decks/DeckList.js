@@ -6,14 +6,14 @@ import { Edit, Trash } from "react-feather";
 import CreateDeck from "features/decks/CreateDeck";
 import AddCards from "features/cards/AddCards";
 import MyModal from "../../components/MyModal";
-import DeckEdit from "./DeckEdit";
+import EditDeck from "./EditDeck";
 import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
   const decks = useSelector((state) => state.decks.decks);
   const status = useSelector((state) => state.decks.status);
-  const errorMessageOnFetched = useSelector(
-    (state) => state.decks.errorMessage
+  const errorMessagesOnFetch = useSelector(
+    (state) => state.decks.errorMessagesOnFetch
   );
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ function DeckList() {
     setEditDeckModal(true);
   };
 
-  const closeEditModal = () => {
+  const closeEditDeckModal = () => {
     setEditDeckModal(false);
   };
 
@@ -36,7 +36,7 @@ function DeckList() {
     setDeleteDeckModal(true);
   };
 
-  const closeDeleteModal = () => {
+  const closeDeleteDeckModal = () => {
     setDeleteDeckModal(false);
   };
 
@@ -88,11 +88,11 @@ function DeckList() {
             </ul>
           ))
         )}
-        {errorMessageOnFetched && (
-          <span className="pl-1 pt-2 text-red-400 text-sm">
+        {errorMessagesOnFetch.map((error) => (
+          <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
             Unexpected error occured.
           </span>
-        )}
+        ))}
       </div>
       <div className="flex justify-between items-center mt-4">
         <button
@@ -108,13 +108,13 @@ function DeckList() {
         isOpen={isEditDeckModalOpen}
         setOpen={setEditDeckModal}
         title={"Edit Deck"}>
-        <DeckEdit closeEditModal={closeEditModal} />
+        <EditDeck closeEditDeckModal={closeEditDeckModal} />
       </MyModal>
       <MyModal
         isOpen={isDeleteDeckModalOpen}
         setOpen={setDeleteDeckModal}
         title="Delete Deck">
-        <DeleteDeck closeDeleteModal={closeDeleteModal} />
+        <DeleteDeck closeDeleteDeckModal={closeDeleteDeckModal} />
       </MyModal>
       <MyModal
         isOpen={isAddCardModalOpen}
@@ -129,13 +129,6 @@ function DeckList() {
         setOpen={setCreateDeckModalOpen}>
         <CreateDeck closeCreateDeckModal={handleCloseCreateDeckModal} />
       </MyModal>
-      <div>
-        {errorMessageOnFetched && (
-          <span className="pl-1 pt-2 text-red-400 text-sm">
-            Unexpected error occured.
-          </span>
-        )}
-      </div>
     </div>
   );
 }

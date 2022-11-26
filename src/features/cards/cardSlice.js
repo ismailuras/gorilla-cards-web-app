@@ -5,7 +5,7 @@ export const createCards = createAsyncThunk(
   "cards/createCards",
   async (note) => {
     const result = await axios.post("/cards", note);
-    return result.data;
+    return result.data.data;
   }
 );
 
@@ -22,27 +22,41 @@ export const updateCards = createAsyncThunk("cards/updateCards", async (id) => {
   return result;
 });
 
+export const deleteCard = createAsyncThunk("cards/deleteCard", async (id) => {
+  const result = await axios.delete(`/cards/${id}`);
+  return result.data;
+});
+
 const initialState = {
   cards: [],
   status: "loading",
+  currentCard: [],
   createStatus: [],
   updateStatus: [],
   deleteStatus: [],
   errorMessagesOnFetch: [],
   errorMessagesOnCreateCards: [],
+  errorMessagesOnDelete: [],
+  errorMessagesOnUpdate: [],
 };
 
 const cardSlice = createSlice({
   name: "cards",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentCard: (state, action) => {
+      state.currentCard = state.cards.find(
+        (card) => card.id === action.payload.id
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createCards.fulfilled, (state, action) => {
       state.cards = [...state.cards, action.payload];
       state.createStatus = "idle";
     });
     builder.addCase(createCards.rejected, (state) => {
-      state.errorMessageOnCreateCards = true;
+      state.errorMessagesOnCreateCards = true;
       state.createStatus = "idle";
     });
     builder.addCase(createCards.pending, (state) => {
@@ -60,19 +74,34 @@ const cardSlice = createSlice({
     });
     builder.addCase(updateCards.fulfilled, (state, action) => {
       const index = state.cards.findIndex(
-        (item) => item.id === action.payload.id
+        (card) => card.id === action.payload.id
       );
       state.cards[index] = action.payload;
       state.updateStatus = "idle";
     });
     builder.addCase(updateCards.rejected, (state) => {
-      state.errorMessage = true;
+      state.errorMessagesOnUpdate = ["unexpected error"];
       state.updateStatus = "idle";
     });
     builder.addCase(updateCards.pending, (state) => {
       state.updateStatus = "loading";
     });
+    builder.addCase(deleteCard.fulfilled, (state) => {
+      state.cards = state.cards.filter(
+        (card) => card.id !== state.currentCard.id
+      );
+      state.deleteStatus = "idle";
+    });
+    builder.addCase(deleteCard.rejected, (state) => {
+      state.errorMessagesOnDelete = ["unexpected-error"];
+      state.deleteStatus = "idle";
+    });
+    builder.addCase(deleteCard.pending, (state) => {
+      state.deleteStatus = "loading";
+    });
   },
 });
+
+export const { setCurrentCard } = cardSlice.actions;
 
 export default cardSlice.reducer;

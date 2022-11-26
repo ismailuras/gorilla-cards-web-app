@@ -2,34 +2,37 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteDeck } from "./deckSlice";
 import { showToast } from "helpers";
 
-function DeleteDeck({ closeDeleteModal }) {
+function DeleteDeck({ closeDeleteDeckModal }) {
   const deleteStatus = useSelector((state) => state.decks.deleteStatus);
-  const deleteErrorMessage = useSelector(
-    (state) => state.decks.deleteErrorMessage
+  const errorMessagesOnDelete = useSelector(
+    (state) => state.decks.errorMessagesOnDelete
   );
   const currentDeck = useSelector((state) => state.decks.currentDeck);
-  const { name } = currentDeck;
+  const { currentDeckName } = currentDeck;
   const dispatch = useDispatch();
 
   const handleDeleteDeck = async () => {
     try {
       await dispatch(deleteDeck(currentDeck.id)).unwrap();
-      closeDeleteModal();
+      closeDeleteDeckModal();
       showToast("The deck has been successfully deleted.", "success");
     } catch (error) {
       showToast("An error occurred while deleting the deck.", "error");
-      closeDeleteModal();
+      closeDeleteDeckModal();
     }
   };
   return (
     <div className="flex flex-col">
       <div>
         <p className="text-xl mb-10">
-          You are going to delete this <strong>{name}</strong>. Do you confirm ?
+          You are going to delete this <strong>{currentDeckName}</strong>. Do
+          you confirm ?
         </p>
-        {deleteErrorMessage && (
-          <span>An error occurred while deleting the deck</span>
-        )}
+        {errorMessagesOnDelete.map((error) => (
+          <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
+            An error occurred while deleting the deck
+          </span>
+        ))}
       </div>
       <div className="flex justify-end">
         <button

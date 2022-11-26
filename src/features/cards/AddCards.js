@@ -9,7 +9,7 @@ function AddCards() {
   const decks = useSelector((state) => state.decks.decks);
   const createStatus = useSelector((state) => state.cards.createStatus);
   const errorMessagesOnCreateCards = useSelector(
-    (state) => state.cards.errorMessageOnCreateCards
+    (state) => state.cards.errorMessagesOnCreateCards
   );
   const dispatch = useDispatch();
   const [forceRenderState, setForceRenderState] = useState(false);
@@ -84,7 +84,9 @@ function AddCards() {
         </div>
         <div>
           {errorMessagesOnCreateCards.map((error) => (
-            <p key={error}>Unexpected error occured.</p>
+            <p key={error} className="pl-1 pt-2 text-red-400 text-sm">
+              Unexpected error occured.
+            </p>
           ))}
         </div>
       </form>

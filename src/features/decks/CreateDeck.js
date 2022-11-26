@@ -6,8 +6,8 @@ import { showToast } from "helpers";
 
 function CreateDeck({ closeCreateDeckModal }) {
   const createStatus = useSelector((state) => state.decks.createStatus);
-  const errorOnCreateDeck = useSelector(
-    (state) => state.decks.errorMessageOnCreate
+  const errorMessagesOnCreateDeck = useSelector(
+    (state) => state.decks.errorMessagesOnCreate
   );
   const dispatch = useDispatch();
 
@@ -68,7 +68,11 @@ function CreateDeck({ closeCreateDeckModal }) {
           {createStatus === "loading" ? "Loading..." : "Create Deck"}
         </button>
       </div>
-      {errorOnCreateDeck && <p>Unexpected error occured.</p>}
+      {errorMessagesOnCreateDeck.map((error) => (
+        <p key={error} className="pl-1 pt-2 text-red-400 text-sm">
+          Unexpected error occured.
+        </p>
+      ))}
     </form>
   );
 }

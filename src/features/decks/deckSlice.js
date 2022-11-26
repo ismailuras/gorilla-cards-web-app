@@ -29,15 +29,15 @@ export const fetchDecks = createAsyncThunk("decks/fetchDecks", async () => {
 
 const initialState = {
   decks: [],
-  currentDeck: null,
+  currentDeck: [],
   status: "loading",
-  createStatus: null,
-  updateStatus: null,
-  deleteStatus: null,
-  errorMessage: null,
-  errorMessageOnCreate: null,
-  updateErrorMessage: null,
-  deleteErrorMessage: null,
+  createStatus: [],
+  updateStatus: [],
+  deleteStatus: [],
+  errorMessagesOnFetch: [],
+  errorMessagesOnCreate: [],
+  errorMessagesOnUpdate: [],
+  errorMessagesOnDelete: [],
 };
 
 const deckSlice = createSlice({
@@ -46,7 +46,7 @@ const deckSlice = createSlice({
   reducers: {
     setCurrentDeck: (state, action) => {
       state.currentDeck = state.decks.find(
-        (item) => item.id === action.payload.id
+        (deck) => deck.id === action.payload.id
       );
     },
   },
@@ -56,7 +56,7 @@ const deckSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchDecks.rejected, (state) => {
-      state.errorMessage = true;
+      state.errorMessagesOnFetch = ["unexpected-error"];
     });
     builder.addCase(fetchDecks.pending, (state) => {
       state.status = "loading";
@@ -66,7 +66,7 @@ const deckSlice = createSlice({
       state.decks = [...state.decks, action.payload];
     });
     builder.addCase(createDeck.rejected, (state) => {
-      state.errorMessageOnCreate = true;
+      state.errorMessagesOnCreate = ["unexpected-error"];
       state.createStatus = "idle";
     });
     builder.addCase(createDeck.pending, (state) => {
@@ -74,12 +74,12 @@ const deckSlice = createSlice({
     });
     builder.addCase(deleteDeck.fulfilled, (state) => {
       state.decks = state.decks.filter(
-        (item) => item.id !== state.currentDeck.id
+        (deck) => deck.id !== state.currentDeck.id
       );
       state.deleteStatus = "idle";
     });
     builder.addCase(deleteDeck.rejected, (state) => {
-      state.deleteErrorMessage = true;
+      state.errorMessagesOnDelete = ["unexpected-error"];
       state.deleteStatus = "idle";
     });
     builder.addCase(deleteDeck.pending, (state) => {
@@ -87,13 +87,13 @@ const deckSlice = createSlice({
     });
     builder.addCase(updateDeckById.fulfilled, (state, action) => {
       const index = state.decks.findIndex(
-        (item) => item.id === action.payload.id
+        (deck) => deck.id === action.payload.id
       );
       state.decks[index] = action.payload;
       state.updateStatus = "idle";
     });
     builder.addCase(updateDeckById.rejected, (state) => {
-      state.updateErrorMessage = true;
+      state.errorMessagesOnUpdate = ["unexpected-error"];
       state.updateStatus = "idle";
     });
     builder.addCase(updateDeckById.pending, (state) => {
@@ -102,10 +102,6 @@ const deckSlice = createSlice({
   },
 });
 
-export const {
-  errorMessageOnCreateDeck,
-  errorMessageOnFetchDeck,
-  setCurrentDeck,
-} = deckSlice.actions;
+export const { setCurrentDeck } = deckSlice.actions;
 
 export default deckSlice.reducer;
