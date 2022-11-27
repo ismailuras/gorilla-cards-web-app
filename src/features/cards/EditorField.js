@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./toast-editor.css";
 function EditorField() {
   const editorFrontRef = useRef();
@@ -11,7 +11,18 @@ function EditorField() {
     return onChange(cardData);
   };
 
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { defaultValues },
+  } = useFormContext();
+
+  useEffect(() => {
+    if (defaultValues) {
+      const { front, back } = defaultValues;
+      if (front) editorFrontRef.current.getInstance().insertText(front);
+      if (back) editorBackRef.current.getInstance().insertText(back);
+    }
+  }, [defaultValues]);
 
   return (
     <div>

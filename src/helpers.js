@@ -11,7 +11,7 @@ export const showToast = (text, status) => {
   });
 };
 
-export const mdToStr = (str) => {
+export const mdToStr = (str = "") => {
   let newStr = str.replace(/ `!@#$%^&*()_+-=\[\]{};':"\\|,.<>\/?~]/, "");
   if (newStr.length > 10) {
     newStr = `${newStr.slice(0, 50)}`;

@@ -17,10 +17,13 @@ export const fetchCards = createAsyncThunk(
   }
 );
 
-export const updateCards = createAsyncThunk("cards/updateCards", async (id) => {
-  const result = await axios.put(`/cards/${id}`);
-  return result;
-});
+export const updateCards = createAsyncThunk(
+  "cards/updateCards",
+  async ({ id, data }) => {
+    const result = await axios.put(`/cards/${id}`, data);
+    return result.data.data;
+  }
+);
 
 export const deleteCard = createAsyncThunk("cards/deleteCard", async (id) => {
   const result = await axios.delete(`/cards/${id}`);
@@ -30,7 +33,7 @@ export const deleteCard = createAsyncThunk("cards/deleteCard", async (id) => {
 const initialState = {
   cards: [],
   status: "loading",
-  currentCard: [],
+  currentCard: null,
   createStatus: [],
   updateStatus: [],
   deleteStatus: [],
@@ -45,9 +48,9 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     setCurrentCard: (state, action) => {
-      state.currentCard = state.cards.find(
-        (card) => card.id === action.payload.id
-      );
+      const cards = [...state.cards.map((card) => ({ ...card }))];
+      const currentId = parseInt(action.payload.id);
+      state.currentCard = cards.find((card) => card.id === currentId);
     },
   },
   extraReducers: (builder) => {

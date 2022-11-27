@@ -39,7 +39,6 @@ function CardList() {
                     {`${mdToStr(card?.note?.front)}
                 `}
                   </ReactMarkdown>
-
                   <ReactMarkdown className="ml-5text-lg">{` ${mdToStr(
                     card?.note?.back
                   )}`}</ReactMarkdown>

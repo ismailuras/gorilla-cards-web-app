@@ -1,5 +1,6 @@
 import { showToast } from "helpers";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { deleteCard } from "./cardSlice";
 
 const messages = {
@@ -14,11 +15,13 @@ function DeleteCard({ closeDeleteCardModal }) {
   );
   const currentCard = useSelector((state) => state.cards.currentCard);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDeleteCard = async () => {
     try {
       await dispatch(deleteCard(currentCard.id)).unwrap();
       showToast("The card has been successfully deleted.", "success");
+      navigate("/decks/cards");
       closeDeleteCardModal();
     } catch (error) {
       showToast("Unexpected error occured.", "error");
