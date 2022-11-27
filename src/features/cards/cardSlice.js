@@ -56,11 +56,12 @@ const cardSlice = createSlice({
       state.createStatus = "idle";
     });
     builder.addCase(createCards.rejected, (state) => {
-      state.errorMessagesOnCreateCards = true;
+      state.errorMessagesOnCreateCards = ["unexpected-error"];
       state.createStatus = "idle";
     });
     builder.addCase(createCards.pending, (state) => {
       state.createStatus = "loading";
+      state.errorMessagesOnCreateCards = [];
     });
     builder.addCase(fetchCards.fulfilled, (state, action) => {
       state.cards = [...action.payload];
@@ -71,6 +72,7 @@ const cardSlice = createSlice({
     });
     builder.addCase(fetchCards.pending, (state) => {
       state.status = "loading";
+      state.errorMessagesOnFetch = [];
     });
     builder.addCase(updateCards.fulfilled, (state, action) => {
       const index = state.cards.findIndex(
@@ -85,6 +87,7 @@ const cardSlice = createSlice({
     });
     builder.addCase(updateCards.pending, (state) => {
       state.updateStatus = "loading";
+      state.errorMessagesOnUpdate = [];
     });
     builder.addCase(deleteCard.fulfilled, (state) => {
       state.cards = state.cards.filter(
@@ -92,12 +95,13 @@ const cardSlice = createSlice({
       );
       state.deleteStatus = "idle";
     });
-    builder.addCase(deleteCard.rejected, (state) => {
-      state.errorMessagesOnDelete = ["unexpected-error"];
+    builder.addCase(deleteCard.rejected, (state, action) => {
+      state.errorMessagesOnDelete = action.payload;
       state.deleteStatus = "idle";
     });
     builder.addCase(deleteCard.pending, (state) => {
       state.deleteStatus = "loading";
+      state.errorMessagesOnDelete = [];
     });
   },
 });

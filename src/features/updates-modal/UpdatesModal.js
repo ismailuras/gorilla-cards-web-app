@@ -26,11 +26,13 @@ function UpdatesModal() {
             <div>
               <button
                 onClick={openUpdateModal}
-                className="bg-indigo-600 hover:bg-indigo-400 mb-6 text-white p-2 rounded ml-5">
+                className="bg-indigo-600 hover:bg-indigo-400 mb-6 text-white p-2 rounded ml-5"
+              >
                 Update Email And Password
               </button>
             </div>
-          }>
+          }
+        >
           <button type="button" className="text-xl">
             <Settings />
           </button>
@@ -40,7 +42,8 @@ function UpdatesModal() {
         <MyModal
           isOpen={isUpdateModalOpen}
           setOpen={setUpdateModalOpen}
-          title="Update User Profile">
+          title="Update User Profile"
+        >
           <UpdateEmail />
           <UpdatePassword />
         </MyModal>

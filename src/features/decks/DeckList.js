@@ -70,29 +70,31 @@ function DeckList() {
         {decks.length === 0 ? (
           <p>"There is no deck!"</p>
         ) : (
-          decks.map((deck) => (
-            <ul key={`${deck.id}`}>
-              <li className="flex justify-between items-center text-lg underline py-1">
-                <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
-                <div>
-                  <button onClick={() => openUpdateDeckModal(deck.id)}>
-                    <Edit />
-                  </button>
-                  <button
-                    className="ml-1  text-sm"
-                    onClick={() => openDeleteDeckModal(deck.id)}>
-                    <Trash />
-                  </button>
-                </div>
-              </li>
-            </ul>
-          ))
+          decks.map((deck) => {
+            return (
+              <ul key={`${deck.id}`}>
+                <li className="flex justify-between items-center text-lg underline py-1">
+                  <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
+                  <div>
+                    <button onClick={() => openUpdateDeckModal(deck.id)}>
+                      <Edit />
+                    </button>
+                    <button
+                      className="ml-1  text-sm"
+                      onClick={() => openDeleteDeckModal(deck.id)}>
+                      <Trash />
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
         )}
-        {errorMessagesOnFetch.map((error) => (
-          <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
+        {errorMessagesOnFetch === "unexpected-error" ? (
+          <span className="pl-1 pt-2 text-red-400 text-sm">
             Unexpected error occured.
           </span>
-        ))}
+        ) : null}
       </div>
       <div className="flex justify-between items-center mt-4">
         <button

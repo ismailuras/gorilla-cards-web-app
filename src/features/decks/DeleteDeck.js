@@ -28,11 +28,9 @@ function DeleteDeck({ closeDeleteDeckModal }) {
           You are going to delete this <strong>{currentDeckName}</strong>. Do
           you confirm ?
         </p>
-        {errorMessagesOnDelete.map((error) => (
-          <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
-            An error occurred while deleting the deck
-          </span>
-        ))}
+        {errorMessagesOnDelete === "unexpected-error" ? (
+          <span className="pl-1 pt-2 text-red-400 text-sm"></span>
+        ) : null}
       </div>
       <div className="flex justify-end">
         <button

@@ -57,20 +57,23 @@ const deckSlice = createSlice({
     });
     builder.addCase(fetchDecks.rejected, (state) => {
       state.errorMessagesOnFetch = ["unexpected-error"];
+      state.status = "idle";
     });
     builder.addCase(fetchDecks.pending, (state) => {
       state.status = "loading";
+      state.errorMessagesOnFetch = [];
     });
     builder.addCase(createDeck.fulfilled, (state, action) => {
       state.createStatus = "idle";
       state.decks = [...state.decks, action.payload];
     });
-    builder.addCase(createDeck.rejected, (state) => {
+    builder.addCase(createDeck.rejected, (state, action) => {
       state.errorMessagesOnCreate = ["unexpected-error"];
       state.createStatus = "idle";
     });
     builder.addCase(createDeck.pending, (state) => {
       state.createStatus = "loading";
+      state.errorMessagesOnCreate = [];
     });
     builder.addCase(deleteDeck.fulfilled, (state) => {
       state.decks = state.decks.filter(
@@ -84,6 +87,7 @@ const deckSlice = createSlice({
     });
     builder.addCase(deleteDeck.pending, (state) => {
       state.deleteStatus = "loading";
+      state.errorMessagesOnDelete = [];
     });
     builder.addCase(updateDeckById.fulfilled, (state, action) => {
       const index = state.decks.findIndex(
@@ -98,6 +102,7 @@ const deckSlice = createSlice({
     });
     builder.addCase(updateDeckById.pending, (state) => {
       state.updateStatus = "loading";
+      state.errorMessagesOnUpdate = [];
     });
   },
 });

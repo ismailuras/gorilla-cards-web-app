@@ -2,6 +2,11 @@ import { showToast } from "helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteCard } from "./cardSlice";
 
+const messages = {
+  "unexpected-error-occured": "Unexpected error occured.",
+  "access/denied": "Access denied. Please login.",
+};
+
 function DeleteCard({ closeDeleteCardModal }) {
   const deleteStatus = useSelector((state) => state.cards.deleteStatus);
   const errorMessagesOnDelete = useSelector(
@@ -17,7 +22,6 @@ function DeleteCard({ closeDeleteCardModal }) {
       closeDeleteCardModal();
     } catch (error) {
       showToast("Unexpected error occured.", "error");
-      closeDeleteCardModal();
     }
   };
 
@@ -29,7 +33,7 @@ function DeleteCard({ closeDeleteCardModal }) {
       <div className="flex justify-end">
         {errorMessagesOnDelete.map((error) => (
           <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
-            Unexpected error occured.
+            {messages[error]}
           </span>
         ))}
         <button

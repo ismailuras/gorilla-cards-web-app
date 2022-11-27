@@ -71,7 +71,8 @@ function UpdatePassword() {
         />
         <label
           className="font-semibold mb-3 block"
-          htmlFor="currentPasswordForUpdate">
+          htmlFor="currentPasswordForUpdate"
+        >
           Current Password
         </label>
         <div className="relative">

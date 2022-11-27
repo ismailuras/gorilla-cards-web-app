@@ -10,3 +10,11 @@ export const showToast = (text, status) => {
     pauseOnHover: false,
   });
 };
+
+export const mdToStr = (str) => {
+  let newStr = str.replace(/ `!@#$%^&*()_+-=\[\]{};':"\\|,.<>\/?~]/, "");
+  if (newStr.length > 10) {
+    newStr = `${newStr.slice(0, 50)}`;
+  }
+  return newStr;
+};

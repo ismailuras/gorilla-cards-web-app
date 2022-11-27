@@ -10,26 +10,18 @@ function Home() {
       <h1 className="text-4xl p-4">Welcome to English Guru</h1>
       <p className="text-2xl mt-5">
         If not, click to create a user account.
-        {!isUserLoggedIn ? (
+        {!isUserLoggedIn && (
           <Link className={linkStyles.join(" ")} to={"/signup"}>
             Signup
           </Link>
-        ) : (
-          <span className="pl-1 pt-2 text-red-400 text-sm">
-            Unexpected error occured.
-          </span>
         )}
       </p>
       <p className="text-2xl mt-5">
         Already a member? Click to login.{" "}
-        {!isUserLoggedIn ? (
+        {!isUserLoggedIn && (
           <Link className={linkStyles.join(" ")} to={"/signin"}>
             Signin
           </Link>
-        ) : (
-          <span className="pl-1 pt-2 text-red-400 text-sm">
-            Unexpected error occured.
-          </span>
         )}
       </p>
     </div>

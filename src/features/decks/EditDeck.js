@@ -69,11 +69,9 @@ function EditDeck({ closeEditDeckModal }) {
           cols="50"
           rows="6"></textarea>
       </div>
-      {errorMessagesOnUpdate.map((error) => (
-        <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
-          Unexpected error occured.
-        </span>
-      ))}
+      {errorMessagesOnUpdate === "unexpected-error" ? (
+        <span className="pl-1 pt-2 text-red-400 text-sm"></span>
+      ) : null}
       <div className="flex justify-end">
         <button
           disabled={updateStatus === "loading"}

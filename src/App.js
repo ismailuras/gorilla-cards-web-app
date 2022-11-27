@@ -40,7 +40,8 @@ function App() {
             <RequireAuthRoute>
               <DeckLayout />
             </RequireAuthRoute>
-          }>
+          }
+        >
           <Route path=":id" element={<CardList />}>
             <Route path="cards/:id" element={<CardDetails />} />
           </Route>

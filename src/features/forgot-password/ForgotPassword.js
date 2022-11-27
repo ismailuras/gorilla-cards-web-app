@@ -1,11 +1,21 @@
 import { showToast } from "helpers";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useState } from "react";
-import axios from "axios";
+import { sendResetPasswordMail } from "features/auth-user/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+const messages = {
+  "auth/user-not-found": "Credentional is wrong. Please retry.",
+  "unexpected-error-occured": "Unexpected error occured.",
+};
 
 function ForgotPassword({ onClose }) {
-  const [loading, setLoading] = useState(false);
+  const status = useSelector((state) => state.auth.status);
+  const errorMessagesOnResetPassword = useSelector(
+    (state) => state.auth.errorMessagesOnResetPassword
+  );
+  console.log(errorMessagesOnResetPassword);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -17,28 +27,9 @@ function ForgotPassword({ onClose }) {
     },
   });
 
-  const onSubmit = ({ email }) => {
-    setLoading(true);
-    axios
-      .put("/auth/forgot", {
-        email,
-      })
-      .then(() => {
-        showToast(
-          "Password reset email has been sent. Please check.(Also check spam.)",
-          "success"
-        );
-        onClose();
-        return;
-      })
-      .catch((error) => {
-        if (error.code.includes("auth/invalid-email")) {
-          showToast("Invalid email. Pleas check.", "error");
-          return;
-        }
-        setLoading(false);
-        return showToast("Unexpected error occured", "error");
-      });
+  const onSubmit = async ({ email }) => {
+    await dispatch(sendResetPasswordMail({ email })).unwrap();
+    showToast("Password reset mail sent successfully.", "success");
   };
 
   return (
@@ -68,10 +59,15 @@ function ForgotPassword({ onClose }) {
         />
       </div>
       <div className="flex justify-end">
+        {errorMessagesOnResetPassword.map((error) => (
+          <span key={error} className="pl-1 pt-2 text-red-400 text-sm">
+            {messages[error]}
+          </span>
+        ))}
         <button
-          disabled={loading}
+          disabled={status === "loading"}
           className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
-          {loading ? "Loading..." : "Send reset email"}
+          {status === "loading" ? "Loading..." : "Send Reset Mail"}
         </button>
       </div>
     </form>

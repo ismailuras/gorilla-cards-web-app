@@ -68,11 +68,11 @@ function CreateDeck({ closeCreateDeckModal }) {
           {createStatus === "loading" ? "Loading..." : "Create Deck"}
         </button>
       </div>
-      {errorMessagesOnCreateDeck.map((error) => (
-        <p key={error} className="pl-1 pt-2 text-red-400 text-sm">
+      {errorMessagesOnCreateDeck === "unexpected-error" ? (
+        <p className="pl-1 pt-2 text-red-400 text-sm">
           Unexpected error occured.
         </p>
-      ))}
+      ) : null}
     </form>
   );
 }
