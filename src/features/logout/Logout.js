@@ -10,7 +10,8 @@ function Logout() {
     <div>
       <button
         className="bg-red-500 p-1 rounded text-white font-medium mr-5 "
-        onClick={handleLogout}>
+        onClick={handleLogout}
+      >
         Logout
       </button>
     </div>

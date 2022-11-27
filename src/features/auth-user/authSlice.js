@@ -34,11 +34,26 @@ export const signup = createAsyncThunk(
   }
 );
 
+export const sendResetPasswordMail = createAsyncThunk(
+  "auth/sendResetPasswordMail",
+  async ({ email }, { rejectWithValue }) => {
+    try {
+      const result = await axios.put("/auth/forgot", {
+        email,
+      });
+      return result.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.errors);
+    }
+  }
+);
+
 const initialState = {
   isLoggedIn: localStorage.getItem("token") ? true : false,
   status: "idle",
   errorMessagesOnSignin: [],
   errorMessagesOnSignup: [],
+  errorMessagesOnResetPassword: [],
 };
 
 const authSlice = createSlice({
@@ -60,6 +75,7 @@ const authSlice = createSlice({
     });
     builder.addCase(signin.pending, (state) => {
       state.status = "loading";
+      state.errorMessagesOnSignin = [];
     });
     builder.addCase(signup.fulfilled, (state) => {
       state.isLoggedIn = true;
@@ -71,9 +87,20 @@ const authSlice = createSlice({
     });
     builder.addCase(signup.pending, (state) => {
       state.status = "loading";
+      state.errorMessagesOnSignup = [];
+    });
+    builder.addCase(sendResetPasswordMail.fulfilled, (state) => {
+      state.status = "idle";
+    });
+    builder.addCase(sendResetPasswordMail.rejected, (state, action) => {
+      state.errorMessagesOnResetPassword = [action.payload];
+      state.status = "idle";
+    });
+    builder.addCase(sendResetPasswordMail.pending, (state) => {
+      state.status = "loading";
     });
   },
 });
 
-export const { isLoggedIn, userLogout } = authSlice.actions;
+export const { userLogout } = authSlice.actions;
 export default authSlice.reducer;

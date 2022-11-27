@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateDeckById } from "features/decks/deckSlice";
 import { showToast } from "helpers";
 
-function DeckEdit({ closeEditModal }) {
+function EditDeck({ closeEditDeckModal }) {
   const currentDeck = useSelector((state) => state.decks.currentDeck);
   const { name, description } = currentDeck;
   const updateStatus = useSelector((state) => state.decks.updateStatus);
-  const errorMessage = useSelector((state) => state.decks.errorMessageOnUpdate);
+  const errorMessagesOnUpdate = useSelector(
+    (state) => state.decks.errorMessagesOnUpdate
+  );
   const dispatch = useDispatch();
 
   const {
@@ -26,9 +28,10 @@ function DeckEdit({ closeEditModal }) {
     try {
       await dispatch(updateDeckById({ id: currentDeck.id, data })).unwrap();
       showToast("The deck has been successfully updated.", "success");
-      closeEditModal();
+      closeEditDeckModal();
     } catch (error) {
       showToast("Unexpected error occured.", "error");
+      closeEditDeckModal();
     }
   };
 
@@ -66,7 +69,9 @@ function DeckEdit({ closeEditModal }) {
           cols="50"
           rows="6"></textarea>
       </div>
-      {errorMessage && <span>Unexpected error occured.</span>}
+      {errorMessagesOnUpdate === "unexpected-error" ? (
+        <span className="pl-1 pt-2 text-red-400 text-sm"></span>
+      ) : null}
       <div className="flex justify-end">
         <button
           disabled={updateStatus === "loading"}
@@ -78,4 +83,4 @@ function DeckEdit({ closeEditModal }) {
   );
 }
 
-export default DeckEdit;
+export default EditDeck;

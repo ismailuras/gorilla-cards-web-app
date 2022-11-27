@@ -47,12 +47,10 @@ function Signin() {
   });
 
   const onSubmit = async ({ email, password }) => {
-    try {
-      await dispatch(signin({ email, password })).unwrap();
-      showToast("You have been successfully signed in.", "success");
-      reset();
-      navigate("/decks");
-    } catch (error) {}
+    await dispatch(signin({ email, password })).unwrap();
+    showToast("You have been successfully signed in.", "success");
+    reset();
+    navigate("/decks");
   };
 
   return (
@@ -119,7 +117,8 @@ function Signin() {
                 <button
                   onClick={openForgotModal}
                   type="button"
-                  className="font-semibold text-sm text-blue-500 hover:underline">
+                  className="font-semibold text-sm text-blue-500 hover:underline"
+                >
                   Forgot password?
                 </button>
               </div>
@@ -132,7 +131,8 @@ function Signin() {
                 <button
                   disabled={status === "loading"}
                   type="submit"
-                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold"
+                >
                   <span>{status === "loading" ? "Loading..." : "Sign in"}</span>
                 </button>
               </div>
@@ -156,7 +156,8 @@ function Signin() {
                   Don't have an account ?
                   <Link
                     className="text-blue-500 hover:underline font-semibold ml-3"
-                    to="/signup">
+                    to="/signup"
+                  >
                     Sign Up
                   </Link>
                 </p>
@@ -165,7 +166,8 @@ function Signin() {
             <MyModal
               isOpen={isForgotModalOpen}
               setOpen={setForgotModalOpen}
-              title="Forgot Password">
+              title="Forgot Password"
+            >
               <ForgotPassword onClose={handleCloseForgotModal} />
             </MyModal>
           </div>

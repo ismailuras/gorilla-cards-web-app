@@ -39,12 +39,10 @@ function Signup() {
   });
 
   const onSubmit = async ({ email, password, repassword }) => {
-    try {
-      await dispatch(signup({ email, password, repassword })).unwrap();
-      showToast("You have been sign in succesfully.", "success");
-      reset();
-      navigate("/signin");
-    } catch (error) {}
+    await dispatch(signup({ email, password, repassword })).unwrap();
+    showToast("You have been sign in succesfully.", "success");
+    reset();
+    navigate("/signin");
   };
 
   const passwordWatch = watch("password");
@@ -145,7 +143,8 @@ function Signup() {
                 <button
                   disabled={status === "loading"}
                   type="submit"
-                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
+                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold"
+                >
                   <span>{status === "loading" ? "Loading" : "Sign up"}</span>
                 </button>
               </div>
@@ -169,7 +168,8 @@ function Signup() {
                   You already have an account ?
                   <Link
                     className="text-blue-500 hover:underline font-semibold ml-3"
-                    to="/signin">
+                    to="/signin"
+                  >
                     Signin
                   </Link>
                 </p>

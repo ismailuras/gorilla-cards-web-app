@@ -9,6 +9,7 @@ import RequireNotLogin from "components/require-not-login/RequireNotLogin";
 import DeckLayout from "features/decks/DeckLayout";
 import CardList from "features/cards/CardList";
 import "react-toastify/dist/ReactToastify.css";
+import CardDetails from "features/cards/CardDetails";
 
 function App() {
   return (
@@ -39,8 +40,11 @@ function App() {
             <RequireAuthRoute>
               <DeckLayout />
             </RequireAuthRoute>
-          }>
-          <Route path=":id" element={<CardList />} />
+          }
+        >
+          <Route path=":id" element={<CardList />}>
+            <Route path="cards/:id" element={<CardDetails />} />
+          </Route>
         </Route>
       </Routes>
     </div>

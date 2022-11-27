@@ -5,11 +5,12 @@ import { showToast } from "helpers";
 import { useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import EditorField from "./EditorField";
+
 function AddCards() {
   const decks = useSelector((state) => state.decks.decks);
   const createStatus = useSelector((state) => state.cards.createStatus);
   const errorMessagesOnCreateCards = useSelector(
-    (state) => state.cards.errorMessageOnCreateCards
+    (state) => state.cards.errorMessagesOnCreateCards
   );
   const dispatch = useDispatch();
   const [forceRenderState, setForceRenderState] = useState(false);
@@ -20,13 +21,9 @@ function AddCards() {
       front: data.front,
       back: data.back,
     };
-    try {
-      await dispatch(createCards({ deckId, note })).unwrap();
-      handleReset();
-      showToast("Card has been added succesfully.", "success");
-    } catch (error) {
-      showToast("An error occurred while adding the card.", "error");
-    }
+    await dispatch(createCards({ deckId, note })).unwrap();
+    handleReset();
+    showToast("Card has been added succesfully.", "success");
   };
 
   const handleReset = () => {
@@ -83,9 +80,11 @@ function AddCards() {
           </button>
         </div>
         <div>
-          {errorMessagesOnCreateCards.map((error) => (
-            <p key={error}>Unexpected error occured.</p>
-          ))}
+          {errorMessagesOnCreateCards === "unexpected-error" ? (
+            <p className="pl-1 pt-2 text-red-400 text-sm">
+              Unexpected error occured.
+            </p>
+          ) : null}
         </div>
       </form>
     </FormProvider>

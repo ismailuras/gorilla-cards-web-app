@@ -24,14 +24,16 @@ function MyModal({ title, children, isOpen, setOpen, size = "md" }) {
       <Modal
         isOpen={isOpen}
         onRequestClose={closeModal}
-        className="container mx-auto h-full flex items-center justify-center">
+        className="container mx-auto h-full flex items-center justify-center"
+      >
         <div className={`shadow-lg rounded-lg bg-white ${modalSize()}`}>
           <div className="flex justify-between items-center p-5 border-b-2">
             <div className="font-semibold text-xl">{title}</div>
             <button
               type="button"
               className="w-10 h-10 -my-5 flex items-center justify-center rounded-full text-gray-500 font-bold text-xl bg-gray-100 hover:bg-gray-200"
-              onClick={closeModal}>
+              onClick={closeModal}
+            >
               <X size={20} />
             </button>
           </div>
