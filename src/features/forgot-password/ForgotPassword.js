@@ -14,7 +14,6 @@ function ForgotPassword({ onClose }) {
   const errorMessagesOnResetPassword = useSelector(
     (state) => state.auth.errorMessagesOnResetPassword
   );
-  console.log(errorMessagesOnResetPassword);
   const dispatch = useDispatch();
 
   const {

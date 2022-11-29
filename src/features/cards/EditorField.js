@@ -49,6 +49,7 @@ function EditorField() {
                 onChange={handleChange(onChange, editorBackRef)}
                 onBlur={onBlur}
                 ref={editorBackRef}
+                autofocus={false}
               />
             )}
           />

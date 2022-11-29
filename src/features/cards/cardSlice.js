@@ -40,11 +40,13 @@ export const getSingleCard = createAsyncThunk(
 
 const initialState = {
   cards: [],
-  status: "loading",
-  currentCard: [],
-  createStatus: [],
-  updateStatus: [],
-  deleteStatus: [],
+  currentCard: null,
+  createStatus: "idle",
+  updateStatus: "idle",
+  deleteStatus: "idle",
+  fetchCardstaus: "idle",
+  // Eger getSingleCardStatus default olarak idle ise cardDetails'ta currentCard undefined dönüyor. Bu durum loading state'inin ekranda takılı kalmasına neden olur mu ?
+  getSingleCardStatus: "loading",
   errorMessagesOnFetch: [],
   errorMessagesOnCreateCards: [],
   errorMessagesOnDelete: [],
@@ -71,31 +73,33 @@ const cardSlice = createSlice({
     });
     builder.addCase(fetchCards.fulfilled, (state, action) => {
       state.cards = [...action.payload];
-      state.status = "idle";
+      state.fetchCardstaus = "idle";
     });
     builder.addCase(fetchCards.rejected, (state) => {
       state.errorMessagesOnFetch = ["unexpected-error"];
+      state.fetchCardstaus = "idle";
     });
     builder.addCase(fetchCards.pending, (state) => {
-      state.status = "loading";
+      state.fetchCardstaus = "loading";
       state.errorMessagesOnFetch = [];
     });
     builder.addCase(getSingleCard.fulfilled, (state, action) => {
       state.currentCard = action.payload;
-      state.status = "idle";
+      state.getSingleCardStatus = "idle";
     });
     builder.addCase(getSingleCard.rejected, (state) => {
       state.errorMessagesGetSingleCard = ["unexpected-error"];
-      state.status = "idle";
+      state.getSingleCardStatus = "idle";
     });
     builder.addCase(getSingleCard.pending, (state) => {
-      state.status = "loading";
+      state.getSingleCardStatus = "loading";
       state.errorMessagesGetSingleCard = [];
     });
     builder.addCase(updateCards.fulfilled, (state, action) => {
       const index = state.cards.findIndex(
         (card) => card.id === action.payload.id
       );
+      state.currentCard = action.payload;
       state.cards[index] = action.payload;
       state.updateStatus = "idle";
     });

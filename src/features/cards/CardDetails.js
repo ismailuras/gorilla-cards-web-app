@@ -10,6 +10,9 @@ import MyModal from "components/MyModal";
 
 function CardDetails() {
   const currentCard = useSelector((state) => state.cards.currentCard);
+  const getSingleCardStatus = useSelector(
+    (state) => state.cards.getSingleCardStatus
+  );
   const [isOpenDeleteCardModal, setOpenDeleteCardModal] = useState(false);
   const [isOpenEditCardModal, setOpenEditCardModal] = useState(false);
   const dispatch = useDispatch();
@@ -26,11 +29,17 @@ function CardDetails() {
     setOpenEditCardModal(true);
   };
 
+  const closeEditCardModal = () => {
+    setOpenEditCardModal(false);
+  };
+
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getSingleCard({ id }));
   }, [dispatch, id]);
+
+  if (getSingleCardStatus === "loading") return "Loading";
 
   return (
     <>
@@ -43,10 +52,10 @@ function CardDetails() {
         </button>
         <div>
           <ReactMarkdown className="ml-5text-lg">
-            {`${currentCard?.note?.front}
+            {`${currentCard.note.front}
                 `}
           </ReactMarkdown>
-          <ReactMarkdown className="ml-5text-lg">{` ${currentCard?.note?.back}`}</ReactMarkdown>
+          <ReactMarkdown className="ml-5text-lg">{` ${currentCard.note.back}`}</ReactMarkdown>
         </div>
       </div>
       <MyModal
@@ -60,7 +69,7 @@ function CardDetails() {
         setOpen={setOpenEditCardModal}
         title="Edit Card"
         size="lg">
-        <EditCard />
+        <EditCard closeEditCardModal={closeEditCardModal} />
       </MyModal>
     </>
   );

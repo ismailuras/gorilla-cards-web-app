@@ -3,15 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { ErrorMessage } from "@hookform/error-message";
 import { updateCards } from "./cardSlice";
 import { showToast } from "helpers";
+import { useState } from "react";
 import EditorField from "./EditorField";
 
-function EditCard() {
+function EditCard({ closeEditCardModal }) {
   const decks = useSelector((state) => state.decks.decks);
   const status = useSelector((state) => state.cards.status);
   const errorMessagesOnUpdate = useSelector(
     (state) => state.cards.ErrorMessagesOnUpdate
   );
   const currentCard = useSelector((state) => state.cards.currentCard);
+  const [forceRenderState, setForceRenderState] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -31,10 +33,17 @@ function EditCard() {
     };
     try {
       await dispatch(updateCards({ id: cardId, data: updateData })).unwrap();
+      handleReset();
+      closeEditCardModal();
       showToast("The card has been successfully updated.", "success");
     } catch (error) {
       showToast("Unexpected error occured.", "error");
     }
+  };
+
+  const handleReset = () => {
+    reset({ front: "", back: "" });
+    setForceRenderState(!forceRenderState);
   };
 
   const methods = useForm({
@@ -45,10 +54,10 @@ function EditCard() {
     },
   });
 
-  const { register, errors } = methods;
+  const { register, errors, reset } = methods;
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider key={forceRenderState} {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="mb-5">
           <label htmlFor="currentDeck" className="font-semibold mb-3 block">

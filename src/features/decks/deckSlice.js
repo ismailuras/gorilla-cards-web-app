@@ -30,10 +30,10 @@ export const fetchDecks = createAsyncThunk("decks/fetchDecks", async () => {
 const initialState = {
   decks: [],
   currentDeck: [],
-  status: "loading",
-  createStatus: [],
-  updateStatus: [],
-  deleteStatus: [],
+  fetchDeckStatus: "idle",
+  createStatus: "idle",
+  updateStatus: "idle",
+  deleteStatus: "idle",
   errorMessagesOnFetch: [],
   errorMessagesOnCreate: [],
   errorMessagesOnUpdate: [],
@@ -53,14 +53,14 @@ const deckSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchDecks.fulfilled, (state, action) => {
       state.decks = action.payload;
-      state.status = "idle";
+      state.fetchDeckStatus = "idle";
     });
     builder.addCase(fetchDecks.rejected, (state) => {
       state.errorMessagesOnFetch = ["unexpected-error"];
-      state.status = "idle";
+      state.fetchDeckStatus = "idle";
     });
     builder.addCase(fetchDecks.pending, (state) => {
-      state.status = "loading";
+      state.fetchDeckStatus = "loading";
       state.errorMessagesOnFetch = [];
     });
     builder.addCase(createDeck.fulfilled, (state, action) => {

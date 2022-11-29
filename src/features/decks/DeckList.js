@@ -11,7 +11,7 @@ import DeleteDeck from "./DeleteDeck";
 
 function DeckList() {
   const decks = useSelector((state) => state.decks.decks);
-  const status = useSelector((state) => state.decks.status);
+  const fetchDeckStatus = useSelector((state) => state.decks.fetchDeckStatus);
   const errorMessagesOnFetch = useSelector(
     (state) => state.decks.errorMessagesOnFetch
   );
@@ -66,7 +66,7 @@ function DeckList() {
         </button>
       </div>
       <div>
-        {status === "loading" ? <span>Loading...</span> : null}
+        {fetchDeckStatus === "loading" ? <span>Loading...</span> : null}
         {decks.length === 0 ? (
           <p>"There is no deck!"</p>
         ) : (
