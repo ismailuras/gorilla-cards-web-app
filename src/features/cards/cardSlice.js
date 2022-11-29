@@ -30,10 +30,18 @@ export const deleteCard = createAsyncThunk("cards/deleteCard", async (id) => {
   return result.data;
 });
 
+export const getSingleCard = createAsyncThunk(
+  "cards/getSingleCard",
+  async ({ id }) => {
+    const result = await axios.get(`/cards/${id}`);
+    return result.data;
+  }
+);
+
 const initialState = {
   cards: [],
   status: "loading",
-  currentCard: null,
+  currentCard: [],
   createStatus: [],
   updateStatus: [],
   deleteStatus: [],
@@ -41,18 +49,13 @@ const initialState = {
   errorMessagesOnCreateCards: [],
   errorMessagesOnDelete: [],
   errorMessagesOnUpdate: [],
+  errorMessagesGetSingleCard: [],
 };
 
 const cardSlice = createSlice({
   name: "cards",
   initialState,
-  reducers: {
-    setCurrentCard: (state, action) => {
-      const cards = [...state.cards.map((card) => ({ ...card }))];
-      const currentId = parseInt(action.payload.id);
-      state.currentCard = cards.find((card) => card.id === currentId);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createCards.fulfilled, (state, action) => {
       state.cards = [...state.cards, action.payload];
@@ -76,6 +79,18 @@ const cardSlice = createSlice({
     builder.addCase(fetchCards.pending, (state) => {
       state.status = "loading";
       state.errorMessagesOnFetch = [];
+    });
+    builder.addCase(getSingleCard.fulfilled, (state, action) => {
+      state.currentCard = action.payload;
+      state.status = "idle";
+    });
+    builder.addCase(getSingleCard.rejected, (state) => {
+      state.errorMessagesGetSingleCard = ["unexpected-error"];
+      state.status = "idle";
+    });
+    builder.addCase(getSingleCard.pending, (state) => {
+      state.status = "loading";
+      state.errorMessagesGetSingleCard = [];
     });
     builder.addCase(updateCards.fulfilled, (state, action) => {
       const index = state.cards.findIndex(

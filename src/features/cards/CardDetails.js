@@ -1,29 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Edit, Trash } from "react-feather";
-import { mdToStr } from "helpers";
 import { useParams } from "react-router-dom";
+import { getSingleCard } from "./cardSlice";
 import DeleteCard from "./DeleteCard";
 import EditCard from "./EditCard";
 import ReactMarkdown from "react-markdown";
 import MyModal from "components/MyModal";
-import { setCurrentCard } from "./cardSlice";
 
 function CardDetails() {
   const currentCard = useSelector((state) => state.cards.currentCard);
-  const cards = useSelector((state) => state.cards.cards);
   const [isOpenDeleteCardModal, setOpenDeleteCardModal] = useState(false);
   const [isOpenEditCardModal, setOpenEditCardModal] = useState(false);
   const dispatch = useDispatch();
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    // this cards will be removed after using card-detail endpoint.
-    if (cards && cards.length > 0) {
-      dispatch(setCurrentCard({ id }));
-    }
-  }, [dispatch, cards, id]);
 
   const openDeleteCardModal = () => {
     setOpenDeleteCardModal(true);
@@ -37,9 +26,11 @@ function CardDetails() {
     setOpenEditCardModal(true);
   };
 
-  const closeEditCardModal = () => {
-    setOpenEditCardModal(false);
-  };
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(getSingleCard({ id }));
+  }, [dispatch, id]);
 
   return (
     <>
@@ -52,12 +43,10 @@ function CardDetails() {
         </button>
         <div>
           <ReactMarkdown className="ml-5text-lg">
-            {`${mdToStr(currentCard?.note?.front)}
+            {`${currentCard?.note?.front}
                 `}
           </ReactMarkdown>
-          <ReactMarkdown className="ml-5text-lg">{` ${mdToStr(
-            currentCard?.note?.back
-          )}`}</ReactMarkdown>
+          <ReactMarkdown className="ml-5text-lg">{` ${currentCard?.note?.back}`}</ReactMarkdown>
         </div>
       </div>
       <MyModal
@@ -71,7 +60,7 @@ function CardDetails() {
         setOpen={setOpenEditCardModal}
         title="Edit Card"
         size="lg">
-        <EditCard closeDeleteCardModal={closeEditCardModal} />
+        <EditCard />
       </MyModal>
     </>
   );

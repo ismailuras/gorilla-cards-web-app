@@ -5,10 +5,10 @@ import { updateCards } from "./cardSlice";
 import { showToast } from "helpers";
 import EditorField from "./EditorField";
 
-function EditCard({ closeEditCardModal }) {
+function EditCard() {
   const decks = useSelector((state) => state.decks.decks);
   const status = useSelector((state) => state.cards.status);
-  const ErrorMessagesOnUpdate = useSelector(
+  const errorMessagesOnUpdate = useSelector(
     (state) => state.cards.ErrorMessagesOnUpdate
   );
   const currentCard = useSelector((state) => state.cards.currentCard);
@@ -32,7 +32,6 @@ function EditCard({ closeEditCardModal }) {
     try {
       await dispatch(updateCards({ id: cardId, data: updateData })).unwrap();
       showToast("The card has been successfully updated.", "success");
-      closeEditCardModal();
     } catch (error) {
       showToast("Unexpected error occured.", "error");
     }
@@ -45,6 +44,7 @@ function EditCard({ closeEditCardModal }) {
       deckId,
     },
   });
+
   const { register, errors } = methods;
 
   return (
@@ -59,7 +59,7 @@ function EditCard({ closeEditCardModal }) {
             {...register("deckId", {
               required: "This is a required field.",
             })}>
-            <option value="">Select Deck</option>
+            <option value="">Select a deck</option>
             {decks.map((deck) => (
               <option value={deck.id} key={deck.id}>
                 {deck.name}
@@ -78,7 +78,7 @@ function EditCard({ closeEditCardModal }) {
           <EditorField />
         </div>
         <div className="flex justify-end">
-          {ErrorMessagesOnUpdate === "unexpected-error" && (
+          {errorMessagesOnUpdate === "unexpected-error" && (
             <span className="pl-1 pt-2 text-red-400 text-sm">
               Unexpected error occured.
             </span>

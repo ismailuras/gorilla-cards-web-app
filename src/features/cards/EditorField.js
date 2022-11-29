@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import "./toast-editor.css";
 function EditorField() {
   const editorFrontRef = useRef();
@@ -11,18 +11,7 @@ function EditorField() {
     return onChange(cardData);
   };
 
-  const {
-    control,
-    formState: { defaultValues },
-  } = useFormContext();
-
-  useEffect(() => {
-    if (defaultValues) {
-      const { front, back } = defaultValues;
-      if (front) editorFrontRef.current.getInstance().insertText(front);
-      if (back) editorBackRef.current.getInstance().insertText(back);
-    }
-  }, [defaultValues]);
+  const { control } = useFormContext();
 
   return (
     <div>
@@ -35,10 +24,10 @@ function EditorField() {
             control={control}
             rules={{ required: true }}
             name="front"
-            render={({ field: { onChange, onBlur } }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Editor
                 initialEditType="wysiwyg"
-                initialValue="# "
+                initialValue={value || "# "}
                 onChange={handleChange(onChange, editorFrontRef)}
                 onBlur={onBlur}
                 ref={editorFrontRef}
@@ -53,11 +42,10 @@ function EditorField() {
           <Controller
             control={control}
             name="back"
-            defaultValue="# "
-            render={({ field: { onChange, onBlur } }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Editor
                 initialEditType="wysiwyg"
-                initialValue="# "
+                initialValue={value || "# "}
                 onChange={handleChange(onChange, editorBackRef)}
                 onBlur={onBlur}
                 ref={editorBackRef}
