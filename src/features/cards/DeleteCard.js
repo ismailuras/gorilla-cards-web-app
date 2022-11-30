@@ -21,7 +21,11 @@ function DeleteCard({ closeDeleteCardModal }) {
     try {
       await dispatch(deleteCard(currentCard.id)).unwrap();
       showToast("The card has been successfully deleted.", "success");
-      navigate("/decks/cards");
+      if (currentCard.length === 0) {
+        navigate("/decks");
+      } else {
+        navigate("/decks/cards");
+      }
       closeDeleteCardModal();
     } catch (error) {
       showToast("Unexpected error occured.", "error");

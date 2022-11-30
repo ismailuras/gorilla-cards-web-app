@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Edit, Trash } from "react-feather";
+import { Edit, Trash2 } from "react-feather";
 import { useParams } from "react-router-dom";
 import { getSingleCard } from "./cardSlice";
 import DeleteCard from "./DeleteCard";
@@ -43,19 +43,42 @@ function CardDetails() {
 
   return (
     <>
-      <div className="w-[550px] border-4 border-rose-800 p-5 mb-3 mt-3 cursor-pointer flex">
-        <button onClick={openDeleteCardModal}>
-          <Trash />
-        </button>
-        <button onClick={openEditCardModal}>
-          <Edit />
-        </button>
-        <div>
-          <ReactMarkdown className="ml-5text-lg">
-            {`${currentCard.note.front}
+      <div className="relative w-2/5">
+        <div className="flex h-full flex-col p-5">
+          <div className="grow overflow-auto">
+            <div className="mb-10">
+              <div className="text-2xl font-semibold mb-5">Front</div>
+              <div>
+                <ReactMarkdown className="ml-5text-lg">
+                  {`${currentCard.note.front}
                 `}
-          </ReactMarkdown>
-          <ReactMarkdown className="ml-5text-lg">{` ${currentCard.note.back}`}</ReactMarkdown>
+                </ReactMarkdown>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="text-2xl font-semibold mb-5">Back</div>
+              <div>
+                <ReactMarkdown className="ml-5text-lg">
+                  {`${currentCard.note.front}
+                `}
+                </ReactMarkdown>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-none justify-end gap-3">
+            <button
+              onClick={openDeleteCardModal}
+              className="flex h-12 items-center rounded-lg bg-red-500 px-4 text-white transition hover:bg-red-400">
+              <Trash2 class="mr-2 h-5 w-5" />
+              <span class="text-sm font-medium">Delete</span>
+            </button>
+            <button
+              onClick={openEditCardModal}
+              className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
+              <Edit class="mr-2 h-5 w-5" />
+              <span class="text-sm font-medium">Edit</span>
+            </button>
+          </div>
         </div>
       </div>
       <MyModal
