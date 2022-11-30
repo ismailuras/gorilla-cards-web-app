@@ -20,13 +20,9 @@ function DeleteCard({ closeDeleteCardModal }) {
   const handleDeleteCard = async () => {
     try {
       await dispatch(deleteCard(currentCard.id)).unwrap();
-      showToast("The card has been successfully deleted.", "success");
-      if (currentCard.length === 0) {
-        navigate("/decks");
-      } else {
-        navigate("/decks/cards");
-      }
       closeDeleteCardModal();
+      showToast("The card has been successfully deleted.", "success");
+      navigate("/decks/cards");
     } catch (error) {
       showToast("Unexpected error occured.", "error");
     }

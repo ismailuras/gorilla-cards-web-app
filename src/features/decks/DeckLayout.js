@@ -45,7 +45,7 @@ function DeckLayout() {
       <div style={{ height: "calc(100vh - 62px)" }}>
         <div className="flex h-full">
           <DeckList />
-          {cards.length !== 0 && <Outlet />}
+          <Outlet />
         </div>
       </div>
     </>
