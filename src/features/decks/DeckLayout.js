@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Moon, Sun } from "react-feather";
 import DeckList from "features/decks/DeckList";
 import DeckLayoutHeader from "./DeckLayoutHeader";
@@ -10,8 +9,6 @@ import profileLogo from "assets/images/user-profile.jpg";
 import gorilla from "assets/images/gorilla-logo.png";
 
 function DeckLayout() {
-  const cards = useSelector((state) => state.cards.cards);
-
   return (
     <>
       <header className="flex items-center border-b-2 bg-white">
