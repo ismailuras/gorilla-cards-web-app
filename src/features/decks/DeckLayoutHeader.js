@@ -16,7 +16,7 @@ function DeckLayoutHeader() {
   };
 
   const handleLogOut = () => {
-    dispatch(userLogout);
+    dispatch(userLogout());
   };
 
   return (
@@ -43,7 +43,7 @@ function DeckLayoutHeader() {
         <li>
           <span className="flex items-center rounded-lg p-2 text-gray-600 hover:bg-gray-100">
             <LogOut className="h-5" />
-            <button onClick={handleLogOut}>
+            <button type="button" onClick={handleLogOut}>
               <span className="ml-2 text-sm font-medium">Log out</span>
             </button>
           </span>

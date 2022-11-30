@@ -69,14 +69,14 @@ function CardDetails() {
             <button
               onClick={openDeleteCardModal}
               className="flex h-12 items-center rounded-lg bg-red-500 px-4 text-white transition hover:bg-red-400">
-              <Trash2 class="mr-2 h-5 w-5" />
-              <span class="text-sm font-medium">Delete</span>
+              <Trash2 className="mr-2 h-5 w-5" />
+              <span className="text-sm font-medium">Delete</span>
             </button>
             <button
               onClick={openEditCardModal}
               className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
-              <Edit class="mr-2 h-5 w-5" />
-              <span class="text-sm font-medium">Edit</span>
+              <Edit className="mr-2 h-5 w-5" />
+              <span className="text-sm font-medium">Edit</span>
             </button>
           </div>
         </div>
