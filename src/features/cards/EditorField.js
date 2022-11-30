@@ -24,10 +24,10 @@ function EditorField() {
             control={control}
             rules={{ required: true }}
             name="front"
-            render={({ field: { onChange, onBlur } }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Editor
                 initialEditType="wysiwyg"
-                initialValue="# "
+                initialValue={value || "# "}
                 onChange={handleChange(onChange, editorFrontRef)}
                 onBlur={onBlur}
                 ref={editorFrontRef}
@@ -42,14 +42,14 @@ function EditorField() {
           <Controller
             control={control}
             name="back"
-            defaultValue="# "
-            render={({ field: { onChange, onBlur } }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Editor
                 initialEditType="wysiwyg"
-                initialValue="# "
+                initialValue={value || "# "}
                 onChange={handleChange(onChange, editorBackRef)}
                 onBlur={onBlur}
                 ref={editorBackRef}
+                autofocus={false}
               />
             )}
           />

@@ -1,19 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Edit, Trash } from "react-feather";
-import { setCurrentCard } from "./cardSlice";
-import { mdToStr } from "helpers";
+import { useParams } from "react-router-dom";
+import { getSingleCard } from "./cardSlice";
+import DeleteCard from "./DeleteCard";
+import EditCard from "./EditCard";
 import ReactMarkdown from "react-markdown";
 import MyModal from "components/MyModal";
-import DeleteCard from "./DeleteCard";
 
 function CardDetails() {
-  const cards = useSelector((state) => state.cards.cards);
+  const currentCard = useSelector((state) => state.cards.currentCard);
+  const getSingleCardStatus = useSelector(
+    (state) => state.cards.getSingleCardStatus
+  );
   const [isOpenDeleteCardModal, setOpenDeleteCardModal] = useState(false);
+  const [isOpenEditCardModal, setOpenEditCardModal] = useState(false);
   const dispatch = useDispatch();
 
-  const openDeleteCardModal = (id) => {
-    dispatch(setCurrentCard({ id }));
+  const openDeleteCardModal = () => {
     setOpenDeleteCardModal(true);
   };
 
@@ -21,36 +25,51 @@ function CardDetails() {
     setOpenDeleteCardModal(false);
   };
 
+  const openEditCardModal = () => {
+    setOpenEditCardModal(true);
+  };
+
+  const closeEditCardModal = () => {
+    setOpenEditCardModal(false);
+  };
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(getSingleCard({ id }));
+  }, [dispatch, id]);
+
+  if (getSingleCardStatus === "loading") return "Loading";
+
   return (
     <>
-      {cards.map((card) => {
-        return (
-          <div
-            className="w-[550px] border-4 border-rose-800 p-5 mb-3 mt-3 cursor-pointer flex"
-            key={card.id}>
-            <button onClick={() => openDeleteCardModal(card.id)}>
-              <Trash />
-            </button>
-            <button>
-              <Edit />
-            </button>
-            <div>
-              <ReactMarkdown className="ml-5text-lg">
-                {`${mdToStr(card?.note?.front)}
+      <div className="w-[550px] border-4 border-rose-800 p-5 mb-3 mt-3 cursor-pointer flex">
+        <button onClick={openDeleteCardModal}>
+          <Trash />
+        </button>
+        <button onClick={openEditCardModal}>
+          <Edit />
+        </button>
+        <div>
+          <ReactMarkdown className="ml-5text-lg">
+            {`${currentCard.note.front}
                 `}
-              </ReactMarkdown>
-              <ReactMarkdown className="ml-5text-lg">{` ${mdToStr(
-                card?.note?.back
-              )}`}</ReactMarkdown>
-            </div>
-          </div>
-        );
-      })}
+          </ReactMarkdown>
+          <ReactMarkdown className="ml-5text-lg">{` ${currentCard.note.back}`}</ReactMarkdown>
+        </div>
+      </div>
       <MyModal
         isOpen={isOpenDeleteCardModal}
         setOpen={setOpenDeleteCardModal}
         title="Delete Card">
         <DeleteCard closeDeleteCardModal={closeDeleteCardModal} />
+      </MyModal>
+      <MyModal
+        isOpen={isOpenEditCardModal}
+        setOpen={setOpenEditCardModal}
+        title="Edit Card"
+        size="lg">
+        <EditCard closeEditCardModal={closeEditCardModal} />
       </MyModal>
     </>
   );
