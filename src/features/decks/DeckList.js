@@ -4,9 +4,10 @@ import { fetchDecks, setCurrentDeck } from "features/decks/deckSlice";
 import { Link } from "react-router-dom";
 import { Edit, Trash } from "react-feather";
 import { Plus, Search } from "react-feather";
+import BrowserCard from "../browser-card/BrowserCard";
 import CreateDeck from "features/decks/CreateDeck";
 import AddCards from "features/cards/AddCards";
-import MyModal from "../../components/MyModal";
+import MyModal from "components/MyModal";
 import EditDeck from "./EditDeck";
 import DeleteDeck from "./DeleteDeck";
 import SearchField from "components/SearchField";
@@ -24,6 +25,7 @@ function DeckList() {
   const [isDeleteDeckModalOpen, setDeleteDeckModal] = useState(false);
   const [isAddCardModalOpen, setAddCardModalOpen] = useState(false);
   const [isShowDecksSearchField, setShowDecksSearchField] = useState(false);
+  const [isOpenBrowserCardModal, setOpenBrowserCardModal] = useState(false);
 
   const openUpdateDeckModal = (id) => {
     dispatch(setCurrentDeck({ id }));
@@ -57,6 +59,10 @@ function DeckList() {
 
   const showHideDecksSearchField = () => {
     setShowDecksSearchField(!isShowDecksSearchField);
+  };
+
+  const openBrowserCardModal = () => {
+    setOpenBrowserCardModal(true);
   };
 
   useEffect(() => {
@@ -120,7 +126,9 @@ function DeckList() {
           )}
         </div>
         <div className="mt-1 flex flex-none justify-end gap-3">
-          <button className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
+          <button
+            onClick={openBrowserCardModal}
+            className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
             <Search className="mr-2 h-5 w-5" />
             <span className="text-sm font-medium">Browse</span>
           </button>
@@ -156,6 +164,12 @@ function DeckList() {
         setOpen={setEditDeckModal}
         title={"Edit Deck"}>
         <EditDeck closeEditDeckModal={closeEditDeckModal} />
+      </MyModal>
+      <MyModal
+        isOpen={isOpenBrowserCardModal}
+        setOpen={setOpenBrowserCardModal}
+        title="Cards">
+        <BrowserCard />
       </MyModal>
     </div>
   );

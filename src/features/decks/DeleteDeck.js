@@ -8,7 +8,7 @@ function DeleteDeck({ closeDeleteDeckModal }) {
     (state) => state.decks.errorMessagesOnDelete
   );
   const currentDeck = useSelector((state) => state.decks.currentDeck);
-  const { currentDeckName } = currentDeck;
+  const { name } = currentDeck;
   const dispatch = useDispatch();
 
   const handleDeleteDeck = async () => {
@@ -25,11 +25,12 @@ function DeleteDeck({ closeDeleteDeckModal }) {
     <div className="flex flex-col">
       <div>
         <p className="text-xl mb-10">
-          You are going to delete this <strong>{currentDeckName}</strong>. Do
-          you confirm ?
+          You are going to delete this <strong>{name}</strong>. Do you confirm ?
         </p>
         {errorMessagesOnDelete === "unexpected-error" ? (
-          <span className="pl-1 pt-2 text-red-400 text-sm"></span>
+          <span className="pl-1 pt-2 text-red-400 text-sm">
+            Unexpected error occured.
+          </span>
         ) : null}
       </div>
       <div className="flex justify-end">

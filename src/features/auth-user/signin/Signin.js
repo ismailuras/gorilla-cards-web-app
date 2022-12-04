@@ -64,19 +64,27 @@ function Signin() {
             </h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative mb-5">
+                <label htmlFor="email"></label>
                 <Mail className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
                 <input
                   type="email"
                   className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
-                  placeholder="Email"
+                  aria-invalid={errors.email ? "true" : "false"}
+                  placeholder="*  Email"
                   {...register("email", {
                     required: "This is a required field.",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "invalid email address",
+                      message: "Invalid email address.",
                     },
                   })}
                 />
+                {errors.email && errors.email.type === "required" && (
+                  <span role="alert">This is a required field.</span>
+                )}
+                {errors.email && errors.email.type === "pattern" && (
+                  <span role="alert">"Invalid email address."</span>
+                )}
                 <ErrorMessage
                   errors={errors}
                   name="email"
@@ -89,20 +97,34 @@ function Signin() {
               </div>
               <div className="relative mb-5">
                 <Lock className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
+                <label htmlFor="password"></label>
                 <ShowPassword>
                   {(type) => (
                     <input
                       className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg"
                       id="password"
                       type={type}
-                      placeholder="Password"
+                      placeholder="*  Password"
+                      aria-invalid={errors.password ? "true" : "false"}
                       {...register("password", {
                         required: "This is a required field.",
-                        minLength: { message: "Min length 6", value: 6 },
+                        minLength: {
+                          message:
+                            " Your password must be at least six characters.",
+                          value: 6,
+                        },
                       })}
                     />
                   )}
                 </ShowPassword>
+                {errors.password && errors.password.type === "required" && (
+                  <span role="alert">This is a required field.</span>
+                )}
+                {errors.password && errors.password.type === "minLength" && (
+                  <span role="alert">
+                    Your password must be at least six characters.
+                  </span>
+                )}
                 <ErrorMessage
                   errors={errors}
                   name="password"
@@ -117,8 +139,7 @@ function Signin() {
                 <button
                   onClick={openForgotModal}
                   type="button"
-                  className="font-semibold text-sm text-blue-500 hover:underline"
-                >
+                  className="font-semibold text-sm text-blue-500 hover:underline">
                   Forgot password?
                 </button>
               </div>
@@ -131,8 +152,7 @@ function Signin() {
                 <button
                   disabled={status === "loading"}
                   type="submit"
-                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold"
-                >
+                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
                   <span>{status === "loading" ? "Loading..." : "Sign in"}</span>
                 </button>
               </div>
@@ -156,8 +176,7 @@ function Signin() {
                   Don't have an account ?
                   <Link
                     className="text-blue-500 hover:underline font-semibold ml-3"
-                    to="/signup"
-                  >
+                    to="/signup">
                     Sign Up
                   </Link>
                 </p>
@@ -166,8 +185,7 @@ function Signin() {
             <MyModal
               isOpen={isForgotModalOpen}
               setOpen={setForgotModalOpen}
-              title="Forgot Password"
-            >
+              title="Forgot Password">
               <ForgotPassword onClose={handleCloseForgotModal} />
             </MyModal>
           </div>

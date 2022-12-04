@@ -24,12 +24,12 @@ export const deleteDeck = createAsyncThunk("decks/deleteDeck", async (id) => {
 
 export const fetchDecks = createAsyncThunk("decks/fetchDecks", async () => {
   const result = await axios.get("/decks");
-  return result.data;
+  return result.data.data;
 });
 
 const initialState = {
   decks: [],
-  currentDeck: [],
+  currentDeck: null,
   fetchDeckStatus: "idle",
   createStatus: "idle",
   updateStatus: "idle",
