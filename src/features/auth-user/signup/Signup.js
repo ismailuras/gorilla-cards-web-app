@@ -9,6 +9,7 @@ import ShowPassword from "components/show-password/ShowPassword";
 import AuthPageLayout from "../AuthPageLayout";
 
 import googleLogo from "assets/images/google-logo.webp";
+import { useState } from "react";
 
 const messages = {
   "auth/not-valid-email": "Invalid e-mail address.",
@@ -21,9 +22,9 @@ function Signup() {
     (state) => state.auth.errorMessagesOnSignup
   );
   const status = useSelector((state) => state.auth.status);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -55,20 +56,29 @@ function Signup() {
           <div className="w-1/3">
             <h3 className="text-2xl font-semibold mb-10">Be a Gorilla 🦍</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <label htmlFor="email"></label>
               <div className="relative mb-5">
                 <Mail className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
                 <input
+                  name="email"
                   type="email"
                   className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
-                  placeholder="Email"
+                  placeholder="*  Email"
+                  aria-invalid={errors.email ? "true" : "false"}
                   {...register("email", {
                     required: "This is a required field.",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "invalid email address",
+                      message: "Invalid email address",
                     },
                   })}
                 />
+                {errors.email && errors.email.type === "required" && (
+                  <span role="alert">This is a required field.</span>
+                )}
+                {errors.email && errors.email.type === "pattern" && (
+                  <span role="alert">"Invalid email address."</span>
+                )}
                 <ErrorMessage
                   errors={errors}
                   name="email"
@@ -80,6 +90,7 @@ function Signup() {
                 />
               </div>
               <div className="relative mb-5">
+                <label htmlFor="password"></label>
                 <Lock className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
                 <ShowPassword>
                   {(type) => (
@@ -87,14 +98,27 @@ function Signup() {
                       className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg"
                       id="password"
                       type={type}
-                      placeholder="Password"
+                      placeholder="*  Password"
+                      aria-invalid={errors.password ? "true" : "false"}
                       {...register("password", {
                         required: "This is a required field.",
-                        minLength: { message: "Min length 6", value: 6 },
+                        minLength: {
+                          message:
+                            "Your password must be at least six characters.",
+                          value: 6,
+                        },
                       })}
                     />
                   )}
                 </ShowPassword>
+                {errors.password && errors.password.type === "required" && (
+                  <span role="alert">This is a required field.</span>
+                )}
+                {errors.password && errors.password.type === "minLength" && (
+                  <span role="alert">
+                    Your password must be at least six characters.
+                  </span>
+                )}
                 <ErrorMessage
                   errors={errors}
                   name="password"
@@ -106,24 +130,42 @@ function Signup() {
                 />
               </div>
               <div className="relative mb-5">
+                <label htmlFor="repassword"></label>
                 <Lock className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
                 <ShowPassword>
                   {(type) => (
                     <input
                       id="repassword"
                       type={type}
-                      placeholder="Password again"
+                      placeholder="*  Password again"
                       className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
+                      aria-invalid={errors.repassword ? "true" : "false"}
                       {...register("repassword", {
                         validate: (value) =>
                           value === passwordWatch ||
                           "This password does not match.",
                         required: "This is a required field.",
-                        minLength: { message: "Min length ", value: 6 },
+                        minLength: {
+                          message:
+                            "Your password must be at least six characters.",
+                          value: 6,
+                        },
                       })}
                     />
                   )}
                 </ShowPassword>
+                {errors.repassword && errors.repassword.type === "required" && (
+                  <span role="alert">This is a required field.</span>
+                )}
+                {errors.repassword &&
+                  errors.repassword.type === "minLength" && (
+                    <span role="alert">
+                      Your password must be at least six characters.
+                    </span>
+                  )}
+                {errors.repassword && errors.repassword.type === "validate" && (
+                  <span role="alert">This password does not match.</span>
+                )}
                 <ErrorMessage
                   errors={errors}
                   name="repassword"
@@ -143,8 +185,7 @@ function Signup() {
                 <button
                   disabled={status === "loading"}
                   type="submit"
-                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold"
-                >
+                  className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
                   <span>{status === "loading" ? "Loading" : "Sign up"}</span>
                 </button>
               </div>
@@ -168,8 +209,7 @@ function Signup() {
                   You already have an account ?
                   <Link
                     className="text-blue-500 hover:underline font-semibold ml-3"
-                    to="/signin"
-                  >
+                    to="/signin">
                     Signin
                   </Link>
                 </p>

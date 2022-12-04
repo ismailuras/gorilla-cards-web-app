@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 function ShowPassword({ children }) {
   const [inputType, setInputType] = useState("password");
+
   const isVisible = inputType === "text";
   const handleVisible = () => {
     setInputType((val) => {
@@ -16,8 +17,7 @@ function ShowPassword({ children }) {
       <button
         className="right-4 top-4 absolute"
         type="button"
-        onClick={handleVisible}
-      >
+        onClick={handleVisible}>
         {isVisible ? (
           <EyeOff className="flex-none text-gray-400 h-6 w-6" />
         ) : (

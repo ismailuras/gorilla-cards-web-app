@@ -20,7 +20,8 @@ function CardList() {
     dispatch(fetchCards({ id }));
   }, [id, dispatch]);
 
-  if (cards.length === 0) return <span className="p-6">There is no deck.</span>;
+  if (cards.length === 0)
+    return <span className="p-6">There is no deck yet.</span>;
 
   return (
     <div className="flex w-full">
