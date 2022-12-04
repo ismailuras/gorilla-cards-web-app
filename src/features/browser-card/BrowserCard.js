@@ -7,7 +7,6 @@ import image from "assets/images/marketing.png";
 
 function BrowserCard() {
   const seed = useSelector((state) => state.seed.seed);
-  console.log(seed);
 
   const dispatch = useDispatch();
   useEffect(() => {
