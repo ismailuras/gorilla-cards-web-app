@@ -11,9 +11,9 @@ export const createCards = createAsyncThunk(
 
 export const fetchCards = createAsyncThunk(
   "cards/fetchCards",
-  async ({ id }) => {
-    const result = await axios.get("/cards", id);
-    return result.data;
+  async ({ deckId }) => {
+    const result = await axios.get(`/decks/${deckId}/cards?limit=100&offset=0`);
+    return result.data.data;
   }
 );
 
@@ -32,8 +32,8 @@ export const deleteCard = createAsyncThunk("cards/deleteCard", async (id) => {
 
 export const getSingleCard = createAsyncThunk(
   "cards/getSingleCard",
-  async ({ id }) => {
-    const result = await axios.get(`/cards/${id}`);
+  async ({ cardId }) => {
+    const result = await axios.get(`/cards/${cardId}`);
     return result.data;
   }
 );
@@ -45,7 +45,6 @@ const initialState = {
   updateStatus: "idle",
   deleteStatus: "idle",
   fetchCardstaus: "idle",
-  // Eger getSingleCardStatus default olarak idle ise cardDetails'ta currentCard undefined dönüyor. Bu durum loading state'inin ekranda takılı kalmasına neden olur mu ?
   getSingleCardStatus: "loading",
   errorMessagesOnFetch: [],
   errorMessagesOnCreateCards: [],

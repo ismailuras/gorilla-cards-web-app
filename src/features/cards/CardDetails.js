@@ -33,18 +33,32 @@ function CardDetails() {
     setOpenEditCardModal(false);
   };
 
-  const { id } = useParams();
+  const { cardId } = useParams();
 
   useEffect(() => {
-    dispatch(getSingleCard({ id }));
-  }, [dispatch, id]);
+    dispatch(getSingleCard({ cardId }));
+  }, [dispatch, cardId]);
 
   if (getSingleCardStatus === "loading") return "Loading";
 
   return (
     <>
-      <div className="relative w-2/5">
-        <div className="flex h-full flex-col p-5">
+      <div className="relative w-2/5 flex-1">
+        <div className="mt-4 flex flex-none justify-end gap-3 mr-3">
+          <button
+            onClick={openDeleteCardModal}
+            className="flex h-12 items-center rounded-lg bg-red-500 px-4 text-white transition hover:bg-red-400">
+            <Trash2 className="mr-2 h-5 w-5" />
+            <span className="text-sm font-medium">Delete</span>
+          </button>
+          <button
+            onClick={openEditCardModal}
+            className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
+            <Edit className="mr-2 h-5 w-5" />
+            <span className="text-sm font-medium">Edit</span>
+          </button>
+        </div>
+        <div className="flex flex-col p-5">
           <div className="grow overflow-auto">
             <div className="mb-10">
               <div className="text-2xl font-semibold mb-5">Front</div>
@@ -59,25 +73,11 @@ function CardDetails() {
               <div className="text-2xl font-semibold mb-5">Back</div>
               <div>
                 <ReactMarkdown className="ml-5text-lg">
-                  {`${currentCard.note.front}
+                  {`${currentCard.note.back}
                 `}
                 </ReactMarkdown>
               </div>
             </div>
-          </div>
-          <div className="mt-4 flex flex-none justify-end gap-3">
-            <button
-              onClick={openDeleteCardModal}
-              className="flex h-12 items-center rounded-lg bg-red-500 px-4 text-white transition hover:bg-red-400">
-              <Trash2 className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Delete</span>
-            </button>
-            <button
-              onClick={openEditCardModal}
-              className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
-              <Edit className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Edit</span>
-            </button>
           </div>
         </div>
       </div>

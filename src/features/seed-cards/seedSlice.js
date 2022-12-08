@@ -8,8 +8,7 @@ export const getSeedList = createAsyncThunk("decks/getSeedList", async () => {
 
 const initialState = {
   seed: [],
-  total: 0,
-  offset: 0,
+  seedData: [],
   fetchSeedListStatus: "idle",
 };
 
@@ -20,8 +19,6 @@ const seekSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSeedList.fulfilled, (state, action) => {
       state.seed = action.payload;
-      state.total = action.payload;
-      state.offset = action.payload;
       state.status = "idle";
     });
     builder.addCase(getSeedList.rejected, (state) => {
