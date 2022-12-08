@@ -8,14 +8,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 function BrowserCard() {
   const seed = useSelector((state) => state.seed.seed);
-<<<<<<< HEAD
   const [isOpenSeedWordsModal, setOpenSeedWordsModal] = useState(false);
   const [currentSeed, setCurrentSeed] = useState({});
   const [seedOffset, setSeedOffset] = useState(0);
   const [seedData, setSeedData] = useState([]);
-=======
-
->>>>>>> 74f036194b827b44d16cad2398bdabba9a051384
   const dispatch = useDispatch();
 
   const openSeedWordsModal = (item) => {
