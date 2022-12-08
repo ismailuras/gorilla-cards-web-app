@@ -21,7 +21,7 @@ function CardList() {
   }, [deckId, dispatch]);
 
   if (cards.length === 0)
-    return <span className="p-6">There is no card yet.</span>;
+    return <span className="p-5">There is no card yet.</span>;
 
   return (
     <div className="flex w-full">
