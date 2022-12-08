@@ -3,7 +3,7 @@ import { fetchCards } from "./cardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { mdToStr } from "helpers";
-import { Plus, Book } from "react-feather";
+import { Book } from "react-feather";
 import ReactMarkdown from "react-markdown";
 
 function CardList() {
@@ -14,19 +14,25 @@ function CardList() {
     (state) => state.cards.errorMessagesOnFetch
   );
 
-  const { id } = useParams();
+  const { deckId } = useParams();
 
   useEffect(() => {
-    dispatch(fetchCards({ id }));
-  }, [id, dispatch]);
+    dispatch(fetchCards({ deckId }));
+  }, [deckId, dispatch]);
 
   if (cards.length === 0)
-    return <span className="p-6">There is no deck yet.</span>;
+    return <span className="p-6">There is no card yet.</span>;
 
   return (
     <div className="flex w-full">
       <div className="relative w-2/4 border-r-2">
-        <div className="flex h-full flex-col p-5">
+        <div className="mt-5 flex flex-none justify-end gap-3 mr-5">
+          <button className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
+            <Book className="mr-2 h-5 w-5" />
+            <span className="text-sm font-medium">Study Now</span>
+          </button>
+        </div>
+        <div className="flex flex-col p-3">
           <div className="grow overflow-auto">
             {errorMessagesOnFetch === "unexpected-error" ? (
               <span>Unexpected error occured.</span>
@@ -39,7 +45,7 @@ function CardList() {
                       key={card.id}
                       className="mb-2 flex h-20 cursor-pointer items-center justify-between rounded-lg bg-blue-100 text-blue-900 px-5 transition">
                       <Link
-                        to={`/decks/${card.deckId}/cards/${card.id}`}
+                        to={`/decks/${deckId}/cards/${card.id}`}
                         className="grow truncate">
                         <ReactMarkdown className="truncate text-sm font-semibold">
                           {`${mdToStr(card.note.front)}`}
@@ -52,16 +58,6 @@ function CardList() {
                     </div>
                   );
                 })}
-          </div>
-          <div className="mt-4 flex flex-none justify-end gap-3">
-            <button className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
-              <Book className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Study Now</span>
-            </button>
-            <button className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
-              <Plus className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Add Card</span>
-            </button>
           </div>
         </div>
       </div>

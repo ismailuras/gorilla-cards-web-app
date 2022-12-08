@@ -10,7 +10,6 @@ import AddCards from "features/cards/AddCards";
 import MyModal from "components/MyModal";
 import EditDeck from "./EditDeck";
 import DeleteDeck from "./DeleteDeck";
-import SearchField from "components/SearchField";
 
 function DeckList() {
   const decks = useSelector((state) => state.decks.decks);
@@ -24,7 +23,6 @@ function DeckList() {
   const [isEditDeckModalOpen, setEditDeckModal] = useState(false);
   const [isDeleteDeckModalOpen, setDeleteDeckModal] = useState(false);
   const [isAddCardModalOpen, setAddCardModalOpen] = useState(false);
-  const [isShowDecksSearchField, setShowDecksSearchField] = useState(false);
   const [isOpenBrowserCardModal, setOpenBrowserCardModal] = useState(false);
 
   const openUpdateDeckModal = (id) => {
@@ -57,10 +55,6 @@ function DeckList() {
     setCreateDeckModalOpen(false);
   };
 
-  const showHideDecksSearchField = () => {
-    setShowDecksSearchField(!isShowDecksSearchField);
-  };
-
   const openBrowserCardModal = () => {
     setOpenBrowserCardModal(true);
   };
@@ -71,13 +65,14 @@ function DeckList() {
 
   return (
     <div className="relative w-1/3 border-r-2">
-      <div className="flex h-full flex-col p-5">
+      <div className="h-full p-5">
         <div className="mb-4">
           <div className="flex justify-between gap-3">
             <button
-              onClick={showHideDecksSearchField}
-              className="flex w-12 h-12 items-center justify-center rounded-full bg-gray-100 px-3 text-gray-700 transition hover:bg-gray-200">
-              <Search className="h-5 w-5" />
+              onClick={openBrowserCardModal}
+              className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
+              <Search className="mr-2 h-5 w-5" />
+              <span className="text-sm font-medium">Browse</span>
             </button>
             <button
               onClick={openAddCardModal}
@@ -85,10 +80,13 @@ function DeckList() {
               <Plus className="mr-2 h-5 w-5" />
               <span className="text-sm font-medium">Add Card</span>
             </button>
+            <button
+              onClick={openCreateDeckModal}
+              className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
+              <Plus className="mr-2 h-5 w-5" />
+              <span className="text-sm font-medium">Add Deck</span>
+            </button>
           </div>
-          {isShowDecksSearchField ? (
-            <SearchField isShowDecksSearchField={isShowDecksSearchField} />
-          ) : null}
         </div>
         <div className="grow overflow-auto">
           {fetchDeckStatus === "loading" ? <span>Loading...</span> : null}
@@ -125,20 +123,6 @@ function DeckList() {
             })
           )}
         </div>
-        <div className="mt-1 flex flex-none justify-end gap-3">
-          <button
-            onClick={openBrowserCardModal}
-            className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
-            <Search className="mr-2 h-5 w-5" />
-            <span className="text-sm font-medium">Browse</span>
-          </button>
-          <button
-            onClick={openCreateDeckModal}
-            className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
-            <Plus className="mr-2 h-5 w-5" />
-            <span className="text-sm font-medium">Add Deck</span>
-          </button>
-        </div>
       </div>
       <MyModal
         title="Create Deck"
@@ -149,8 +133,7 @@ function DeckList() {
       <MyModal
         isOpen={isAddCardModalOpen}
         setOpen={setAddCardModalOpen}
-        title="Add Card"
-        size="lg">
+        title="Add Card">
         <AddCards />
       </MyModal>
       <MyModal

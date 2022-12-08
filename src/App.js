@@ -8,8 +8,8 @@ import Redirector from "components/redirector/Redirector";
 import RequireNotLogin from "components/require-not-login/RequireNotLogin";
 import DeckLayout from "features/decks/DeckLayout";
 import CardList from "features/cards/CardList";
-import "react-toastify/dist/ReactToastify.css";
 import CardDetails from "features/cards/CardDetails";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -41,8 +41,8 @@ function App() {
               <DeckLayout />
             </RequireAuthRoute>
           }>
-          <Route path=":id" element={<CardList />}>
-            <Route path="cards/:id" element={<CardDetails />} />
+          <Route path=":deckId" element={<CardList />}>
+            <Route path="cards/:cardId" element={<CardDetails />} />
           </Route>
         </Route>
       </Routes>

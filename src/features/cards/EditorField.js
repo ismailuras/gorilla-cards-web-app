@@ -1,41 +1,45 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { Editor } from "@toast-ui/react-editor";
-import { useRef } from "react";
-import "./toast-editor.css";
+import { ErrorMessage } from "@hookform/error-message";
+import { Textarea } from "@chakra-ui/react";
 function EditorField() {
-  const editorFrontRef = useRef();
-  const editorBackRef = useRef();
-
-  const handleChange = (onChange, currentRef) => () => {
-    const cardData = currentRef.current.getInstance().getMarkdown();
-    return onChange(cardData);
-  };
-
-  const { control } = useFormContext();
+  const { control, errors } = useFormContext();
 
   return (
     <div>
-      <div className="flex gap-4 items-center">
-        <div className="w-1/2">
+      <div className="flex gap-4 items-center p-5">
+        <div>
           <div>
             <h5 className="font-semibold mb-3 block">Front</h5>
           </div>
           <Controller
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: { value: true, message: "This is a required field." },
+            }}
             name="front"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Editor
-                initialEditType="wysiwyg"
-                initialValue={value || "# "}
-                onChange={handleChange(onChange, editorFrontRef)}
+              <Textarea
+                width={310}
+                height={150}
+                p={10}
+                outline="#808080 solid 2px"
+                resize="none"
+                onChange={onChange}
                 onBlur={onBlur}
-                ref={editorFrontRef}
+                value={value}
+                placeholder="Here is a sample placeholder"
               />
             )}
           />
+          <ErrorMessage
+            errors={errors}
+            name="front"
+            render={({ message }) => (
+              <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
+            )}
+          />
         </div>
-        <div className="w-1/2">
+        <div>
           <div>
             <h5 className="font-semibold mb-3 block">Back</h5>
           </div>
@@ -43,13 +47,16 @@ function EditorField() {
             control={control}
             name="back"
             render={({ field: { onChange, onBlur, value } }) => (
-              <Editor
-                initialEditType="wysiwyg"
-                initialValue={value || "# "}
-                onChange={handleChange(onChange, editorBackRef)}
+              <Textarea
+                width={310}
+                height={150}
+                p={10}
+                resize="none"
+                outline="#808080 solid 2px"
+                onChange={onChange}
                 onBlur={onBlur}
-                ref={editorBackRef}
-                autofocus={false}
+                value={value}
+                placeholder="Here is a sample placeholder"
               />
             )}
           />
