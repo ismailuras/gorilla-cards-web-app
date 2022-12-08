@@ -9,7 +9,6 @@ import ShowPassword from "components/show-password/ShowPassword";
 import AuthPageLayout from "../AuthPageLayout";
 
 import googleLogo from "assets/images/google-logo.webp";
-import { useState } from "react";
 
 const messages = {
   "auth/not-valid-email": "Invalid e-mail address.",

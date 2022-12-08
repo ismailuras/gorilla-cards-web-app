@@ -18,8 +18,8 @@ function AddCards() {
   const onSubmit = async (data) => {
     let deckId = parseInt(data.deckId);
     let note = {
-      front: data.front,
-      back: data.back,
+      front: data.front || "",
+      back: data.back || "",
     };
     await dispatch(createCards({ deckId, note })).unwrap();
     handleReset();
