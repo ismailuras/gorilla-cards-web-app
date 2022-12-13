@@ -1,80 +1,47 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getSeedList } from "features/seed-cards/seedSlice";
-import axios from "axiosConfig";
-import MyAccordion from "components/MyAccordion";
-import MyModal from "components/MyModal";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useDispatch, useSelector } from "react-redux";
+import { getSeedList } from "features/browser-card/seedSlice";
+import { Spinner } from "@chakra-ui/react";
+import CardAccordion from "components/CardAccordion";
+import PreviewWords from "./PreviewWords";
 
 function BrowserCard() {
-  const seed = useSelector((state) => state.seed.seed);
-  const [isOpenSeedWordsModal, setOpenSeedWordsModal] = useState(false);
-  const [currentSeed, setCurrentSeed] = useState({});
-  const [seedOffset, setSeedOffset] = useState(0);
-  const [seedData, setSeedData] = useState([]);
+  const fetchSeedListStatus = useSelector(
+    (state) => state.seed.fetchSeedListStatus
+  );
+  const [previewData, setPreviewData] = useState({});
+  const [isPreviewWordsOpen, setPreviewWordsOpen] = useState(false);
   const dispatch = useDispatch();
-
-  const openSeedWordsModal = (item) => {
-    setOpenSeedWordsModal(true);
-    setCurrentSeed(item);
-  };
-
-  const getSeedWords = () => {
-    axios
-      .get(`/seed/${currentSeed.id}?limit=20&offset=${seedOffset}`)
-      .then((res) => {
-        setSeedData((state) => {
-          return [...state, ...res.data.data];
-        });
-        setSeedOffset((state) => {
-          return state + 20;
-        });
-      })
-      .catch((err) => err);
-  };
-
-  useEffect(() => {
-    if (currentSeed.id) {
-      getSeedWords();
-    }
-  }, [currentSeed]); //eslint-disable-line
 
   useEffect(() => {
     dispatch(getSeedList());
   }, [dispatch]);
 
+  const getSeed = ({ offset, total }, currentSeed) => {
+    setPreviewWordsOpen(true);
+    setPreviewData({ offset, total, currentSeed });
+  };
+
+  if (isPreviewWordsOpen)
+    return (
+      <PreviewWords backToParent={setPreviewWordsOpen} data={previewData} />
+    );
+
   return (
     <>
-      {seed.map((item) => (
-        <div key={item.id}>
-          <MyAccordion
-            item={item}
-            openSeedWordsModal={openSeedWordsModal}
-            key={item.id}
-            {...item}
+      {fetchSeedListStatus === "loading" ? (
+        <div className="w-full text-center">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="lg"
           />
         </div>
-      ))}
-      <MyModal
-        isOpen={isOpenSeedWordsModal}
-        setOpen={setOpenSeedWordsModal}
-        title={currentSeed.name}>
-        <InfiniteScroll
-          dataLength={seedData.length}
-          next={getSeedWords}
-          hasMore={currentSeed.total > seedData.length}
-          height={400}
-          loader={<h4>Loading...</h4>}
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }>
-          {seedData.map((item) => (
-            <div key={item.id}>{item.title}</div>
-          ))}
-        </InfiniteScroll>
-      </MyModal>
+      ) : (
+        <CardAccordion getSeed={getSeed} />
+      )}
     </>
   );
 }

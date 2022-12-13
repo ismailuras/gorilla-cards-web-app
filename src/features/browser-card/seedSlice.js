@@ -19,14 +19,14 @@ const seekSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSeedList.fulfilled, (state, action) => {
       state.seed = action.payload;
-      state.status = "idle";
+      state.fetchSeedListStatus = "idle";
     });
     builder.addCase(getSeedList.rejected, (state) => {
       state.errorMessagesOnFetch = ["unexpected-error"];
-      state.status = "idle";
+      state.fetchSeedListStatus = "idle";
     });
     builder.addCase(getSeedList.pending, (state) => {
-      state.status = "loading";
+      state.fetchSeedListStatus = "loading";
       state.errorMessagesOnFetch = [];
     });
   },
