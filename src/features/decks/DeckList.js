@@ -4,6 +4,7 @@ import { fetchDecks, setCurrentDeck } from "features/decks/deckSlice";
 import { Link } from "react-router-dom";
 import { Edit, Trash } from "react-feather";
 import { Plus, Search } from "react-feather";
+import { Button } from "@chakra-ui/react";
 import BrowserCard from "../browser-card/BrowserCard";
 import CreateDeck from "features/decks/CreateDeck";
 import AddCards from "features/cards/AddCards";
@@ -67,25 +68,14 @@ function DeckList() {
     <div className="relative w-1/3 border-r-2">
       <div className="h-full p-5">
         <div className="mb-4">
-          <div className="flex justify-between gap-3">
-            <button
-              onClick={openBrowserCardModal}
-              className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
-              <Search className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Browse</span>
-            </button>
-            <button
+          <div className="flex justify-start gap-3">
+            <Button
+              colorScheme="linkedin"
               onClick={openAddCardModal}
               className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
               <Plus className="mr-2 h-5 w-5" />
               <span className="text-sm font-medium">Add Card</span>
-            </button>
-            <button
-              onClick={openCreateDeckModal}
-              className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
-              <Plus className="mr-2 h-5 w-5" />
-              <span className="text-sm font-medium">Add Deck</span>
-            </button>
+            </Button>
           </div>
         </div>
         <div className="grow overflow-auto">
@@ -123,6 +113,22 @@ function DeckList() {
             })
           )}
         </div>
+        <div className="flex justify-start mt-4 gap-3">
+          <Button
+            colorScheme="linkedin"
+            onClick={openCreateDeckModal}
+            className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
+            <Plus className="mr-2 h-5 w-5" />
+            <span className="text-sm font-medium">Add Deck</span>
+          </Button>
+          <Button
+            colorScheme="linkedin"
+            onClick={openBrowserCardModal}
+            className="flex h-12 items-center rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300">
+            <Search className="mr-2 h-5 w-5" />
+            <span className="text-sm font-medium">Browse</span>
+          </Button>
+        </div>
       </div>
       <MyModal
         title="Create Deck"
@@ -133,7 +139,8 @@ function DeckList() {
       <MyModal
         isOpen={isAddCardModalOpen}
         setOpen={setAddCardModalOpen}
-        title="Add Card">
+        title="Add Card"
+        size="cs">
         <AddCards />
       </MyModal>
       <MyModal
@@ -151,6 +158,7 @@ function DeckList() {
       <MyModal
         isOpen={isOpenBrowserCardModal}
         setOpen={setOpenBrowserCardModal}
+        size="cs"
         title="Cards">
         <BrowserCard />
       </MyModal>

@@ -12,6 +12,8 @@ function MyModal({ title, children, isOpen, setOpen, size = "md" }) {
     switch (size) {
       case "md":
         return "w-[720px]";
+      case "cs":
+        return "w-[1000px]";
       case "lg":
         return "w-[1200px]";
       default:

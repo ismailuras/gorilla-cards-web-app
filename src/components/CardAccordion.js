@@ -22,7 +22,7 @@ function CardAccordion({ getSeed }) {
 
   return (
     <>
-      <Accordion allowToggle>
+      <Accordion defaultIndex={[0]} allowToggle>
         {seed.map((item) => {
           return (
             <AccordionItem key={item.id}>
@@ -44,7 +44,7 @@ function CardAccordion({ getSeed }) {
                         <Image
                           boxSize="200px"
                           objectFit="cover"
-                          borderRadius="full"
+                          borderRadius="4px"
                           src={
                             item.name === "business"
                               ? businessLogo
@@ -52,14 +52,15 @@ function CardAccordion({ getSeed }) {
                           }
                           alt="logos"
                         />
-                        <Heading size="sm" className="capitalize">
+                        <Heading size="md" className="capitalize text-center">
                           {item.name} {i + 1}
                         </Heading>
-                        <div>
-                          <Button onClick={() => getSeed(words, item)}>
-                            Preview
-                          </Button>
-                        </div>
+                        <Button
+                          colorScheme="linkedin"
+                          size="lg"
+                          onClick={() => getSeed(words, item)}>
+                          Preview
+                        </Button>
                       </Stack>
                     ))}
                   </CardBody>

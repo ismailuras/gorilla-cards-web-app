@@ -39,7 +39,7 @@ function CardDetails() {
     dispatch(getSingleCard({ cardId }));
   }, [dispatch, cardId]);
 
-  if (getSingleCardStatus === "loading") return "Loading";
+  if (getSingleCardStatus === "loading") return "Loading...";
 
   return (
     <>

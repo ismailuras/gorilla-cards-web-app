@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "react-feather";
-import { Card, CardBody, Spinner } from "@chakra-ui/react";
+import { Card, CardBody, Text, Spinner } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axiosConfig";
 function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
@@ -32,7 +32,7 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
 
   return (
     <>
-      <button onClick={getBack}>
+      <button className="mb-4" onClick={getBack}>
         <ArrowLeft />
       </button>
       <InfiniteScroll
@@ -58,7 +58,9 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
         }>
         {seedData.map((words) => (
           <Card key={words.id}>
-            <CardBody>{words.title}</CardBody>
+            <CardBody>
+              <Text fontSize="2xl">{words.title}</Text>
+            </CardBody>
           </Card>
         ))}
       </InfiniteScroll>

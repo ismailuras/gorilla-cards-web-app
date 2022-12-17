@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { showToast } from "helpers";
 import { useState } from "react";
 import { ErrorMessage } from "@hookform/error-message";
+import { Button } from "@chakra-ui/react";
 import EditorField from "./EditorField";
 
 function AddCards() {
@@ -73,11 +74,13 @@ function AddCards() {
           <EditorField />
         </div>
         <div className="flex justify-end">
-          <button
+          <Button
+            type="submit"
+            colorScheme="linkedin"
             disabled={createStatus === "loading"}
             className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
             {createStatus === "loading" ? "Loading..." : "Add Card"}
-          </button>
+          </Button>
         </div>
         <div>
           {errorMessagesOnCreateCards === "unexpected-error" ? (

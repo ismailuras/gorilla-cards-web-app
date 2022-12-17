@@ -9,19 +9,16 @@ import ReactMarkdown from "react-markdown";
 function CardList() {
   const cards = useSelector((state) => state.cards.cards);
   const fetchCardsStatus = useSelector((state) => state.cards.fetchCardsStatus);
-  const dispatch = useDispatch();
   const errorMessagesOnFetch = useSelector(
     (state) => state.cards.errorMessagesOnFetch
   );
 
+  const dispatch = useDispatch();
   const { deckId } = useParams();
 
   useEffect(() => {
     dispatch(fetchCards({ deckId }));
   }, [deckId, dispatch]);
-
-  if (cards.length === 0)
-    return <span className="p-6">There is no card yet.</span>;
 
   return (
     <div className="flex w-full">

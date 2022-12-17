@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Mail, Lock } from "react-feather";
 import { ErrorMessage } from "@hookform/error-message";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { showToast } from "helpers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,6 @@ function Signin() {
   const errorMessagesOnSignin = useSelector(
     (state) => state.auth.errorMessagesOnSignin
   );
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const openForgotModal = () => {
@@ -50,7 +49,6 @@ function Signin() {
     await dispatch(signin({ email, password })).unwrap();
     showToast("You have been successfully signed in.", "success");
     reset();
-    navigate("/decks");
   };
 
   return (
@@ -162,13 +160,15 @@ function Signin() {
                 <hr className="grow" />
               </div>
               <div className="mb-6">
-                <button className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
+                <button
+                  type="button"
+                  className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
                   <img
                     className="h-6 inline mr-3"
                     src={googleLogo}
                     alt="Google"
                   />
-                  <span>Sign in with Google</span>
+                  <span>Sign in with Google (Coming soon)</span>
                 </button>
               </div>
               <div>

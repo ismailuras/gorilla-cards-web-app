@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { showToast } from "helpers";
 import { signup } from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,6 @@ function Signup() {
   const status = useSelector((state) => state.auth.status);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -42,7 +41,6 @@ function Signup() {
     await dispatch(signup({ email, password, repassword })).unwrap();
     showToast("You have been sign in succesfully.", "success");
     reset();
-    navigate("/signin");
   };
 
   const passwordWatch = watch("password");
@@ -194,13 +192,15 @@ function Signup() {
                 <hr className="grow" />
               </div>
               <div className="mb-6">
-                <button className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
+                <button
+                  type="button"
+                  className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
                   <img
                     className="h-6 inline mr-3"
                     src={googleLogo}
                     alt="Google"
                   />
-                  <span>Sign in with Google</span>
+                  <span>Sign in with Google (Coming soon)</span>
                 </button>
               </div>
               <div>
