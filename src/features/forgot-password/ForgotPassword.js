@@ -9,8 +9,10 @@ const messages = {
   "unexpected-error-occured": "Unexpected error occured.",
 };
 
-function ForgotPassword({ onClose }) {
-  const status = useSelector((state) => state.auth.status);
+function ForgotPassword() {
+  const resetPasswordMailStatus = useSelector(
+    (state) => state.auth.resetPasswordMailStatus
+  );
   const errorMessagesOnResetPassword = useSelector(
     (state) => state.auth.errorMessagesOnResetPassword
   );
@@ -64,9 +66,11 @@ function ForgotPassword({ onClose }) {
           </span>
         ))}
         <button
-          disabled={status === "loading"}
+          disabled={resetPasswordMailStatus === "loading"}
           className="px-5 rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
-          {status === "loading" ? "Loading..." : "Send Reset Mail"}
+          {resetPasswordMailStatus === "loading"
+            ? "Loading..."
+            : "Send Reset Mail"}
         </button>
       </div>
     </form>

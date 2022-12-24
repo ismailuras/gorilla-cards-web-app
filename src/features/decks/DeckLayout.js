@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
 import DeckList from "features/decks/DeckList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LogOut } from "react-feather";
 import { userLogout } from "features/auth-user/authSlice";
 import gorilla from "assets/images/gorilla-logo.png";
+import NoCards from "features/cards/NoCards";
 
 function DeckLayout() {
+  const cards = useSelector((state) => state.cards.cards);
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -30,7 +32,7 @@ function DeckLayout() {
       <div style={{ height: "calc(100vh - 62px)" }}>
         <div className="flex h-full">
           <DeckList />
-          <Outlet />
+          {cards.length === 0 ? <NoCards /> : <Outlet />}
         </div>
       </div>
     </>

@@ -10,19 +10,19 @@ function UpdatePassword() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      newPassword: "",
-      rePassword: "",
+      password: "",
+      repassword: "",
     },
   });
 
   const onSubmit = async () => {};
 
-  const newPassword = watch("newPassword");
+  const password = watch("password");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
-        <label className="font-semibold mb-3 block" htmlFor="newPassword">
+        <label className="font-semibold mb-3 block" htmlFor="password">
           New Password
         </label>
         <div className="relative">
@@ -30,10 +30,10 @@ function UpdatePassword() {
             {(type) => (
               <input
                 className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
-                id="newPassword"
+                id="password"
                 type={type}
                 placeholder="New Password"
-                {...register("newPassword", {
+                {...register("password", {
                   required: "This is a required field.",
                   minLength: { message: "Min length 6", value: 6 },
                 })}
@@ -41,7 +41,7 @@ function UpdatePassword() {
             )}
           </ShowPassword>
         </div>
-        <label className="font-semibold mb-3 block" htmlFor="rePassword">
+        <label className="font-semibold mb-3 block" htmlFor="repassword">
           New Password (Again)
         </label>
         <div className="relative">
@@ -49,12 +49,12 @@ function UpdatePassword() {
             {(type) => (
               <input
                 className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
-                id="rePassword"
+                id="repassword"
                 type={type}
                 placeholder="Re-Password"
-                {...register("rePassword", {
+                {...register("repassword", {
                   validate: (value) =>
-                    value === newPassword || "This password does not match.",
+                    value === password || "This password does not match.",
                   required: "This is a required field.",
                   minLength: { message: "Min length 6", value: 6 },
                 })}
@@ -64,14 +64,12 @@ function UpdatePassword() {
         </div>
         <ErrorMessage
           errors={errors}
-          name="rePassword"
+          name="repassword"
           render={({ message }) => (
             <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
           )}
         />
-        <label
-          className="font-semibold mb-3 block"
-          htmlFor="currentPasswordForUpdate">
+        <label className="font-semibold mb-3 block" htmlFor="currentPassword">
           Current Password
         </label>
         <div className="relative">
@@ -79,10 +77,10 @@ function UpdatePassword() {
             {(type) => (
               <input
                 className="h-14 w-full px-4 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700 disabled:opacity-50"
-                id="currentPasswordForUpdate"
+                id="currentPassword"
                 type={type}
                 placeholder="Current Password"
-                {...register("currentPasswordForUpdate", {
+                {...register("currentPassword", {
                   required: "This is a required field.",
                   minLength: { message: "Min length 6 ", value: 6 },
                 })}
@@ -93,7 +91,7 @@ function UpdatePassword() {
       </div>
       <ErrorMessage
         errors={errors}
-        name="currentPasswordForUpdate"
+        name="currentPassword"
         render={({ message }) => (
           <div className="pl-1 pt-2 text-red-400 text-sm">{message}</div>
         )}

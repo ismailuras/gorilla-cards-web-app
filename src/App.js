@@ -1,5 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 import Home from "components/home";
 import Signup from "features/auth-user/signup/Signup";
 import Signin from "features/auth-user/signin/Signin";
@@ -13,40 +14,42 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <div className="min-h-screen w-full ">
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Redirector />} />
-        <Route path="/home" element={<Home />} />
-        <Route
-          path="/signup"
-          element={
-            <RequireNotLogin>
-              <Signup />
-            </RequireNotLogin>
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <RequireNotLogin>
-              <Signin />
-            </RequireNotLogin>
-          }
-        />
-        <Route
-          path="/decks"
-          element={
-            <RequireAuthRoute>
-              <DeckLayout />
-            </RequireAuthRoute>
-          }>
-          <Route path=":deckId" element={<CardList />}>
-            <Route path="cards/:cardId" element={<CardDetails />} />
+    <ChakraProvider>
+      <div className="min-h-screen w-full ">
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Redirector />} />
+          <Route path="/home" element={<Home />} />
+          <Route
+            path="/signup"
+            element={
+              <RequireNotLogin>
+                <Signup />
+              </RequireNotLogin>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <RequireNotLogin>
+                <Signin />
+              </RequireNotLogin>
+            }
+          />
+          <Route
+            path="/decks"
+            element={
+              <RequireAuthRoute>
+                <DeckLayout />
+              </RequireAuthRoute>
+            }>
+            <Route path=":deckId" element={<CardList />}>
+              <Route path="cards/:cardId" element={<CardDetails />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </div>
+        </Routes>
+      </div>
+    </ChakraProvider>
   );
 }
 
