@@ -13,9 +13,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-
-import marketingLogo from "assets/images/marketing.png";
-import businessLogo from "assets/images/bussiness.png";
+import { logos } from "../logos.js";
 
 function CardAccordion({ getSeed }) {
   const seed = useSelector((state) => state.seed.seed);
@@ -42,15 +40,11 @@ function CardAccordion({ getSeed }) {
                     {item.children.map((words, i) => (
                       <Stack className="shrink-0" key={i}>
                         <Image
+                          key={i}
+                          src={logos[item.name]}
                           boxSize="200px"
                           objectFit="cover"
                           borderRadius="4px"
-                          src={
-                            item.name === "business"
-                              ? businessLogo
-                              : marketingLogo
-                          }
-                          alt="logos"
                         />
                         <Heading size="md" className="capitalize text-center">
                           {item.name} {i + 1}

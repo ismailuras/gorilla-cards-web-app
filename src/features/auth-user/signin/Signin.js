@@ -20,7 +20,7 @@ const messages = {
 
 function Signin() {
   const [isForgotModalOpen, setForgotModalOpen] = useState(false);
-  const status = useSelector((state) => state.auth.status);
+  const signInStatus = useSelector((state) => state.auth.signInStatus);
   const errorMessagesOnSignin = useSelector(
     (state) => state.auth.errorMessagesOnSignin
   );
@@ -148,10 +148,12 @@ function Signin() {
               ))}
               <div className="relative mb-5">
                 <button
-                  disabled={status === "loading"}
+                  disabled={signInStatus === "loading"}
                   type="submit"
                   className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
-                  <span>{status === "loading" ? "Loading..." : "Sign in"}</span>
+                  <span>
+                    {signInStatus === "loading" ? "Loading..." : "Sign in"}
+                  </span>
                 </button>
               </div>
               <div className="flex items-center mb-5">

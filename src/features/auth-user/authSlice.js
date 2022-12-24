@@ -50,10 +50,14 @@ export const sendResetPasswordMail = createAsyncThunk(
 
 const initialState = {
   isLoggedIn: localStorage.getItem("token") ? true : false,
-  status: "idle",
+  signInStatus: "idle",
+  signUpStatus: "idle",
+  resetPasswordMailStatus: "idle",
   errorMessagesOnSignin: [],
   errorMessagesOnSignup: [],
   errorMessagesOnResetPassword: [],
+  errorMessagesOnUpdatePassoword: [],
+  errorMessagesOnUpdateMail: [],
 };
 
 const authSlice = createSlice({
@@ -67,37 +71,37 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signin.fulfilled, (state) => {
       state.isLoggedIn = true;
-      state.status = "idle";
+      state.signInStatus = "idle";
     });
     builder.addCase(signin.rejected, (state, action) => {
       state.errorMessagesOnSignin = action.payload;
-      state.status = "idle";
+      state.signInStatus = "idle";
     });
     builder.addCase(signin.pending, (state) => {
-      state.status = "loading";
+      state.signInStatus = "loading";
       state.errorMessagesOnSignin = [];
     });
     builder.addCase(signup.fulfilled, (state) => {
       state.isLoggedIn = true;
-      state.status = "idle";
+      state.signUpStatus = "idle";
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.errorMessagesOnSignup = action.payload;
-      state.status = "idle";
+      state.signUpStatus = "idle";
     });
     builder.addCase(signup.pending, (state) => {
-      state.status = "loading";
+      state.signUpStatus = "loading";
       state.errorMessagesOnSignup = [];
     });
     builder.addCase(sendResetPasswordMail.fulfilled, (state) => {
-      state.status = "idle";
+      state.resetPasswordMailStatus = "idle";
     });
     builder.addCase(sendResetPasswordMail.rejected, (state, action) => {
       state.errorMessagesOnResetPassword = [action.payload];
-      state.status = "idle";
+      state.resetPasswordMailStatus = "idle";
     });
     builder.addCase(sendResetPasswordMail.pending, (state) => {
-      state.status = "loading";
+      state.resetPasswordMailStatus = "loading";
     });
   },
 });

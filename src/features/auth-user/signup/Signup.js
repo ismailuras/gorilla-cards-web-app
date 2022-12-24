@@ -20,7 +20,7 @@ function Signup() {
   const errorMessagesOnSignup = useSelector(
     (state) => state.auth.errorMessagesOnSignup
   );
-  const status = useSelector((state) => state.auth.status);
+  const signUpStatus = useSelector((state) => state.auth.signUpStatus);
 
   const dispatch = useDispatch();
   const {
@@ -180,10 +180,12 @@ function Signup() {
                   </div>
                 ))}
                 <button
-                  disabled={status === "loading"}
+                  disabled={signUpStatus === "loading"}
                   type="submit"
                   className="w-full rounded-lg h-14 bg-blue-500 hover:bg-blue-600 transition text-white font-semibold">
-                  <span>{status === "loading" ? "Loading" : "Sign up"}</span>
+                  <span>
+                    {signUpStatus === "loading" ? "Loading..." : "Sign up"}
+                  </span>
                 </button>
               </div>
               <div className="flex items-center mb-5">

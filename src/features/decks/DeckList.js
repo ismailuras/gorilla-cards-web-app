@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Edit, Trash } from "react-feather";
 import { Plus, Search } from "react-feather";
 import { Button } from "@chakra-ui/react";
-import BrowserCard from "../browser-card/BrowserCard";
+import BrowseCard from "../browse-card/BrowseCard";
 import CreateDeck from "features/decks/CreateDeck";
 import AddCards from "features/cards/AddCards";
 import MyModal from "components/MyModal";
@@ -160,7 +160,7 @@ function DeckList() {
         setOpen={setOpenBrowserCardModal}
         size="cs"
         title="Cards">
-        <BrowserCard />
+        <BrowseCard />
       </MyModal>
     </div>
   );

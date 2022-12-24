@@ -31,9 +31,9 @@ function CardList() {
         </div>
         <div className="flex flex-col p-3">
           <div className="grow overflow-auto">
-            {errorMessagesOnFetch === "unexpected-error" ? (
+            {errorMessagesOnFetch === "unexpected-error" && (
               <span>Unexpected error occured.</span>
-            ) : null}
+            )}
             {fetchCardsStatus === "loading"
               ? "Loading..."
               : cards.map((card) => {

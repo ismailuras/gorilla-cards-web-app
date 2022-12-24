@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSeedList } from "features/browser-card/seedSlice";
+import { getSeedList } from "features/browse-card/seedSlice";
 import { Spinner } from "@chakra-ui/react";
 import CardAccordion from "components/CardAccordion";
 import PreviewWords from "./PreviewWords";
 
-function BrowserCard() {
-  const fetchSeedListStatus = useSelector(
-    (state) => state.seed.fetchSeedListStatus
+function BrowseCard() {
+  const seedListStatus = useSelector((state) => state.seed.seedListStatus);
+  const errorMessageOnSeedList = useSelector(
+    (state) => state.seed.errorMessageOnSeedList
   );
   const [previewData, setPreviewData] = useState({});
   const [isPreviewWordsOpen, setPreviewWordsOpen] = useState(false);
@@ -22,14 +23,15 @@ function BrowserCard() {
     setPreviewData({ offset, total, currentSeed });
   };
 
-  if (isPreviewWordsOpen)
+  if (isPreviewWordsOpen) {
     return (
       <PreviewWords backToParent={setPreviewWordsOpen} data={previewData} />
     );
+  }
 
   return (
     <>
-      {fetchSeedListStatus === "loading" ? (
+      {seedListStatus === "loading" ? (
         <div className="w-full text-center">
           <Spinner
             thickness="4px"
@@ -42,8 +44,11 @@ function BrowserCard() {
       ) : (
         <CardAccordion getSeed={getSeed} />
       )}
+      {errorMessageOnSeedList === "unexpected-error" && (
+        <span>Unexpected error occured.</span>
+      )}
     </>
   );
 }
 
-export default BrowserCard;
+export default BrowseCard;

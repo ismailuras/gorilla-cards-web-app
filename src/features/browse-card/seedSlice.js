@@ -9,7 +9,8 @@ export const getSeedList = createAsyncThunk("decks/getSeedList", async () => {
 const initialState = {
   seed: [],
   seedData: [],
-  fetchSeedListStatus: "idle",
+  seedListStatus: "idle",
+  errorMessageOnSeedList: [],
 };
 
 const seekSlice = createSlice({
@@ -19,15 +20,15 @@ const seekSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSeedList.fulfilled, (state, action) => {
       state.seed = action.payload;
-      state.fetchSeedListStatus = "idle";
+      state.seedListStatus = "idle";
     });
     builder.addCase(getSeedList.rejected, (state) => {
-      state.errorMessagesOnFetch = ["unexpected-error"];
-      state.fetchSeedListStatus = "idle";
+      state.errorMessageOnSeedList = ["unexpected-error"];
+      state.seedListStatus = "idle";
     });
     builder.addCase(getSeedList.pending, (state) => {
-      state.fetchSeedListStatus = "loading";
-      state.errorMessagesOnFetch = [];
+      state.seedListStatus = "loading";
+      state.errorMessageOnSeedList = [];
     });
   },
 });
