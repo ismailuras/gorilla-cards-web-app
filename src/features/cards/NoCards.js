@@ -15,7 +15,7 @@ function NoCards() {
         <Text className="text-xl">There is no card yet. Add a card first.</Text>
       </GridItem>
       <GridItem>
-        <img className="w-96" src={noContentImg} alt="no-content" />
+        <img className="w-full h-full" src={noContentImg} alt="no-content" />
         <Button
           colorScheme="linkedin"
           onClick={() => setAddCardModalOpen(true)}>

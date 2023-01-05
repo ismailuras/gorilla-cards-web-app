@@ -11,3 +11,9 @@ body {
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
+
+.splide-slice {
+  display: flex;
+  flex-direction: column;
+  gap: 5;
+}

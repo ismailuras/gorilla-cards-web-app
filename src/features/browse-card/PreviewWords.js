@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft } from "react-feather";
-import { Card, CardBody, Spinner } from "@chakra-ui/react";
-import ReactMarkdown from "react-markdown";
+import { Spinner, Flex, Spacer, Container } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axiosConfig";
+import FrontOfPreviewCards from "./FrontOfPreviewCards";
+import BackOfPreviewCards from "./BackOfPreviewCards";
 
 function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
   const [seedData, setSeedData] = useState([]);
@@ -65,13 +66,13 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
               />
             </div>
           }>
-          {seedData.map((words, i) => (
-            <Card key={i}>
-              <CardBody>
-                <ReactMarkdown fontSize="2xl">{words.note}</ReactMarkdown>
-              </CardBody>
-            </Card>
-          ))}
+          <Container maxW="container.lg">
+            <Flex>
+              <FrontOfPreviewCards seedData={seedData} />
+              <Spacer />
+              <BackOfPreviewCards seedData={seedData} />
+            </Flex>
+          </Container>
         </InfiniteScroll>
       )}
     </>
