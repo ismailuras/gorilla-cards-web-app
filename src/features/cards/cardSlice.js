@@ -44,7 +44,7 @@ const initialState = {
   createStatus: "idle",
   updateStatus: "idle",
   deleteStatus: "idle",
-  fetchCardstaus: "idle",
+  fetchCardsStatus: "idle",
   getSingleCardStatus: "loading",
   errorMessagesOnFetch: [],
   errorMessagesOnCreateCards: [],
@@ -72,14 +72,14 @@ const cardSlice = createSlice({
     });
     builder.addCase(fetchCards.fulfilled, (state, action) => {
       state.cards = [...action.payload];
-      state.fetchCardstaus = "idle";
+      state.fetchCardsStatus = "idle";
     });
     builder.addCase(fetchCards.rejected, (state) => {
       state.errorMessagesOnFetch = ["unexpected-error"];
-      state.fetchCardstaus = "idle";
+      state.fetchCardsStatus = "idle";
     });
     builder.addCase(fetchCards.pending, (state) => {
-      state.fetchCardstaus = "loading";
+      state.fetchCardsStatus = "loading";
       state.errorMessagesOnFetch = [];
     });
     builder.addCase(getSingleCard.fulfilled, (state, action) => {
