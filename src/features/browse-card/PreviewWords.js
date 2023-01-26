@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft } from "react-feather";
-import { Spinner, Flex, Spacer, Container } from "@chakra-ui/react";
+import { Spinner, Container } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axiosConfig";
 import FrontOfPreviewCards from "./FrontOfPreviewCards";
@@ -67,11 +67,10 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
             </div>
           }>
           <Container maxW="container.lg">
-            <Flex>
+            <div className="flex">
               <FrontOfPreviewCards seedData={seedData} />
-              <Spacer />
               <BackOfPreviewCards seedData={seedData} />
-            </Flex>
+            </div>
           </Container>
         </InfiniteScroll>
       )}

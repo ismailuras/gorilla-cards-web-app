@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
@@ -12,8 +12,13 @@ body {
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
 
-.splide-slice {
+.splide__slide {
   display: flex;
   flex-direction: column;
-  gap: 5;
+  align-items: center;
+  margin: 0 5px;
+}
+
+.splide__arrows {
+  color: red;
 }

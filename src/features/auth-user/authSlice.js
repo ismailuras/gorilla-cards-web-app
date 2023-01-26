@@ -102,6 +102,7 @@ const authSlice = createSlice({
     });
     builder.addCase(sendResetPasswordMail.pending, (state) => {
       state.resetPasswordMailStatus = "loading";
+      state.errorMessagesOnResetPassword = [];
     });
   },
 });

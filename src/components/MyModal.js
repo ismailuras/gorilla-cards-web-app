@@ -13,7 +13,7 @@ function MyModal({ title, children, isOpen, setOpen, size = "md" }) {
       case "md":
         return "w-[720px]";
       case "cs":
-        return "w-[1200px]";
+        return "w-[900px]";
       case "lg":
         return "w-[1200px]";
       default:
