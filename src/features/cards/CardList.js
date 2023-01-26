@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { fetchCards } from "./cardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { Skeleton, Stack } from "@chakra-ui/react";
 import { mdToStr } from "helpers";
 import { Book } from "react-feather";
 import ReactMarkdown from "react-markdown";
@@ -24,11 +23,7 @@ function CardList() {
 
   const renderComponents = () => {
     if (fetchCardsStatus === "loading") {
-      return (
-        <Stack>
-          <Skeleton height="20px" />
-        </Stack>
-      );
+      return <div>Loading...</div>;
     }
     if (cards.length === 0) return <NoCards />;
 

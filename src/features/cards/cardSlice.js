@@ -40,7 +40,7 @@ export const getSingleCard = createAsyncThunk(
 
 const initialState = {
   cards: [],
-  currentCard: null,
+  currentCard: [],
   createStatus: "idle",
   updateStatus: "idle",
   deleteStatus: "idle",

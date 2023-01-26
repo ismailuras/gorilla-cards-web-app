@@ -1,3 +1,8 @@
 {
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.debug": false
 }

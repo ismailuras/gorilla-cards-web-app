@@ -1,20 +1,16 @@
-import { Card, CardBody, Heading, Flex } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 
 function FrontOfCards({ seedData }) {
   return (
-    <Flex w="full" h="full" p={4} flexDirection="column">
-      <Heading size="md">Front of Card</Heading>
+    <div className="w-1/3">
       {seedData.map((words) => (
-        <Card key={words.id} p={2} border="4px" minH="150px">
-          <CardBody>
-            <ReactMarkdown className="text-xl font-medium  leading-9">
-              {`${words.note}. `}
-            </ReactMarkdown>
-          </CardBody>
-        </Card>
+        <div className="border-b-2 h-[300px]" key={words.id}>
+          <ReactMarkdown className="text-xl font-medium  leading-9">
+            {`${words.note}. `}
+          </ReactMarkdown>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 }
 

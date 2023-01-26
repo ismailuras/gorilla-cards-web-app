@@ -26,7 +26,6 @@ function AddCards() {
     handleReset();
     showToast("Card has been added succesfully.", "success");
   };
-
   const handleReset = () => {
     reset();
     setForceRenderState(!forceRenderState);
@@ -34,14 +33,6 @@ function AddCards() {
 
   const methods = useForm();
   const { register, reset, errors } = methods;
-
-  if (decks.length === 0) {
-    return (
-      <div>
-        There is no deck yet. Please, create a deck and start to add cards.
-      </div>
-    );
-  }
 
   return (
     <FormProvider key={forceRenderState} {...methods}>

@@ -140,7 +140,7 @@ function DeckList() {
         isOpen={isAddCardModalOpen}
         setOpen={setAddCardModalOpen}
         title="Add Card"
-        size="cs">
+        size="md">
         <AddCards />
       </MyModal>
       <MyModal

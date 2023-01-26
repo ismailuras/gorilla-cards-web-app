@@ -67,7 +67,6 @@ function Signin() {
                 <input
                   type="email"
                   className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
-                  aria-invalid={errors.email ? "true" : "false"}
                   placeholder="*  Email"
                   {...register("email", {
                     required: "This is a required field.",
@@ -77,12 +76,6 @@ function Signin() {
                     },
                   })}
                 />
-                {errors.email && errors.email.type === "required" && (
-                  <span role="alert">This is a required field.</span>
-                )}
-                {errors.email && errors.email.type === "pattern" && (
-                  <span role="alert">"Invalid email address."</span>
-                )}
                 <ErrorMessage
                   errors={errors}
                   name="email"
@@ -103,7 +96,6 @@ function Signin() {
                       id="password"
                       type={type}
                       placeholder="*  Password"
-                      aria-invalid={errors.password ? "true" : "false"}
                       {...register("password", {
                         required: "This is a required field.",
                         minLength: {
@@ -115,14 +107,6 @@ function Signin() {
                     />
                   )}
                 </ShowPassword>
-                {errors.password && errors.password.type === "required" && (
-                  <span role="alert">This is a required field.</span>
-                )}
-                {errors.password && errors.password.type === "minLength" && (
-                  <span role="alert">
-                    Your password must be at least six characters.
-                  </span>
-                )}
                 <ErrorMessage
                   errors={errors}
                   name="password"
