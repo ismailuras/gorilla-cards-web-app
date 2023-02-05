@@ -7,11 +7,11 @@ function BackOfPreviewCards({ seedData }) {
     }, Object.create(null));
   });
   return (
-    <div className="w-2/3">
+    <div>
       {groupDefinition.map((groups, i) => (
-        <div className="border-b-2 h-[300px] overflow-auto" key={i}>
+        <div className="h-[300px] overflow-scroll" key={i}>
           {Object.keys(groups).map((category, i) => (
-            <div key={i}>
+            <div className="px-3" key={i}>
               <b>{category}</b>
               {[...new Set(groups[category])]
                 .map((groupItem) => ` ${groupItem.tr} (${groupItem.type})`)

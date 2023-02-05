@@ -6,7 +6,7 @@ import { signup } from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Mail, Lock } from "react-feather";
 import ShowPassword from "components/show-password/ShowPassword";
-import AuthPageLayout from "../AuthPageLayout";
+import AuthPageLayout from "./authpagelayout/AuthPageLayout";
 
 import googleLogo from "assets/images/google-logo.webp";
 

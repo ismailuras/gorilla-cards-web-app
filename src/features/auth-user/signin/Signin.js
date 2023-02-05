@@ -9,7 +9,8 @@ import { signin } from "../authSlice";
 import ShowPassword from "components/show-password/ShowPassword";
 import MyModal from "components/MyModal";
 import ForgotPassword from "features/forgot-password/ForgotPassword";
-import AuthPageLayout from "../AuthPageLayout";
+import AuthPageLayout from "../signup/authpagelayout/AuthPageLayout";
+import styles from "./signin.module.css";
 
 import googleLogo from "assets/images/google-logo.webp";
 
@@ -53,20 +54,18 @@ function Signin() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="container bg-white px-16">
-        <div className="flex">
+      <div className={styles.signinContent}>
+        <div className={styles.layout}>
           <AuthPageLayout />
-          <div className="w-1/3">
-            <h3 className="text-2xl font-semibold mb-10">
-              Welcome back Gorilla 🦍
-            </h3>
+          <div className={styles.inclusive}>
+            <h3 className={styles.header}>Welcome back Gorilla 🦍</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="relative mb-5">
+              <div className={styles.formContent}>
                 <label htmlFor="email"></label>
-                <Mail className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
+                <Mail className={styles.formIcons} />
                 <input
                   type="email"
-                  className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg font-medium text-gray-700"
+                  className={styles.formInputs}
                   placeholder="*  Email"
                   {...register("email", {
                     required: "This is a required field.",
@@ -80,19 +79,17 @@ function Signin() {
                   errors={errors}
                   name="email"
                   render={({ message }) => (
-                    <div className="pl-1 pt-2 text-red-400 text-sm">
-                      {message}
-                    </div>
+                    <div className={styles.errorMessages}>{message}</div>
                   )}
                 />
               </div>
-              <div className="relative mb-5">
-                <Lock className="flex-none text-gray-300 h-6 w-6 left-4 top-4 absolute" />
+              <div className={styles.passwordField}>
+                <Lock className={styles.formIcons} />
                 <label htmlFor="password"></label>
                 <ShowPassword>
                   {(type) => (
                     <input
-                      className="h-14 w-full pl-14 border-2 bg-gray-50 focus:bg-white outline-none rounded-lg"
+                      className={styles.formInputs}
                       id="password"
                       type={type}
                       placeholder="*  Password"
@@ -111,26 +108,24 @@ function Signin() {
                   errors={errors}
                   name="password"
                   render={({ message }) => (
-                    <div className="pl-1 pt-2 text-red-400 text-sm">
-                      {message}
-                    </div>
+                    <div className={styles.errorMessages}>{message}</div>
                   )}
                 />
               </div>
-              <div className="flex justify-end mb-5">
+              <div className={styles.forgotPassword}>
                 <button
                   onClick={openForgotModal}
                   type="button"
-                  className="font-semibold text-sm text-blue-500 hover:underline">
-                  Forgot password?
+                  className={styles.forgotPasswordBtn}>
+                  Forgot password ?
                 </button>
               </div>
               {errorMessagesOnSignin.map((error) => (
-                <div key={error} className="pl-1 pt-2 text-red-400 text-sm">
+                <div key={error} className={styles.errorMessages}>
                   {messages[error]}
                 </div>
               ))}
-              <div className="relative mb-5">
+              <div className={styles.signinField}>
                 <button
                   disabled={signInStatus === "loading"}
                   type="submit"
@@ -140,15 +135,13 @@ function Signin() {
                   </span>
                 </button>
               </div>
-              <div className="flex items-center mb-5">
+              <div className={styles.option}>
                 <hr className="grow" />
-                <span className="flex-none px-5 text-gray-400"> or </span>
+                <span className={styles.optionSpan}> or </span>
                 <hr className="grow" />
               </div>
               <div className="mb-6">
-                <button
-                  type="button"
-                  className="w-full rounded-lg h-14 bg-white hover:bg-gray-200 transition border-2 text-gray-700 font-semibold mb-3">
+                <button type="button" className={styles.signinBtnWithGoogle}>
                   <img
                     className="h-6 inline mr-3"
                     src={googleLogo}
@@ -160,9 +153,7 @@ function Signin() {
               <div>
                 <p className="text-sm text-gray-500">
                   Don't have an account ?
-                  <Link
-                    className="text-blue-500 hover:underline font-semibold ml-3"
-                    to="/signup">
+                  <Link className={styles.signupLink} to="/signup">
                     Sign Up
                   </Link>
                 </p>

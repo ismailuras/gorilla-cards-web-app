@@ -47,9 +47,6 @@ function CardAccordion({ getSeed }) {
                         alt={item.name}
                         src={logos[item.name]}
                       />
-                      {/* <Heading size="md" className="capitalize text-center">
-                        {`${item.name} ${i + 1}`}
-                      </Heading> */}
                       <div className="text-center mt-3">
                         <Button
                           colorScheme="teal"

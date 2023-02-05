@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+
+.header {
+  @apply font-semibold text-xl text-gray-700 mb-2;
+}
+
+.infoText {
+  @apply text-gray-400;
+}
+
+.link {
+  @apply text-gray-500 hover:underline;
+}
+
+.checkIcon {
+  @apply flex-none text-blue-500 h-6 w-6;
+}
+
+.infoList {
+  @apply flex flex-wrap text-sm gap-x-5;
+}
