@@ -60,6 +60,10 @@ function DeckList() {
     setOpenBrowserCardModal(true);
   };
 
+  const handleCloseBrowserCardModal = () => {
+    setOpenBrowserCardModal(false);
+  };
+
   useEffect(() => {
     dispatch(fetchDecks());
   }, [dispatch]);
@@ -70,6 +74,7 @@ function DeckList() {
         <div className="mb-4">
           <div className="flex justify-start gap-3">
             <Button
+              isDisabled={decks.length === 0}
               colorScheme="linkedin"
               onClick={openAddCardModal}
               className="flex h-12 items-center rounded-lg bg-blue-500 px-4 text-white transition hover:bg-blue-400">
@@ -139,8 +144,7 @@ function DeckList() {
       <MyModal
         isOpen={isAddCardModalOpen}
         setOpen={setAddCardModalOpen}
-        title="Add Card"
-        size="md">
+        title="Add Card">
         <AddCards />
       </MyModal>
       <MyModal
@@ -160,7 +164,7 @@ function DeckList() {
         setOpen={setOpenBrowserCardModal}
         size="cs"
         title="Cards">
-        <BrowseCard />
+        <BrowseCard closeBrowserCardModal={handleCloseBrowserCardModal} />
       </MyModal>
     </div>
   );

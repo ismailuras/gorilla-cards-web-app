@@ -3,8 +3,7 @@ import { ArrowLeft } from "react-feather";
 import { Spinner } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axiosConfig";
-import FrontOfPreviewCards from "./FrontOfPreviewCards";
-import BackOfPreviewCards from "./BackOfPreviewCards";
+import WordsDetail from "./WordsDetail";
 
 function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
   const [seedData, setSeedData] = useState([]);
@@ -66,13 +65,8 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
               />
             </div>
           }>
-          <div className="flex p-7">
-            <div className="w-1/2">
-              <FrontOfPreviewCards seedData={seedData} />
-            </div>
-            <div className="w-1/2">
-              <BackOfPreviewCards seedData={seedData} />
-            </div>
+          <div>
+            <WordsDetail seedData={seedData} />
           </div>
         </InfiniteScroll>
       )}

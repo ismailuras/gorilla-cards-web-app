@@ -7,20 +7,24 @@ import {
   Box,
   Heading,
   Button,
+  Flex,
+  Center,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
 import { logos } from "../logos.js";
 
-import "@splidejs/react-splide/css/skyblue";
+import "swiper/css";
+import "swiper/css/navigation";
 import "../index.css";
 
-function CardAccordion({ getSeed }) {
+function CardAccordion({ getSeed, closeModal }) {
   const seed = useSelector((state) => state.seed.seed);
 
   return (
     <>
-      <Accordion defaultIndex={[0]} allowToggle>
+      <Accordion defaultIndex={[0]} allowToggle position="relative">
         {seed.map((item) => {
           return (
             <AccordionItem key={item.id}>
@@ -33,35 +37,40 @@ function CardAccordion({ getSeed }) {
                 <AccordionIcon fontSize="24px" />
               </AccordionButton>
               <AccordionPanel>
-                <Splide
-                  className="splide"
-                  options={{
-                    perPage: 4,
-                    pagination: false,
-                  }}>
+                <Swiper
+                  modules={[Navigation]}
+                  spaceBetween={0}
+                  slidesPerView={3}
+                  navigation>
                   {item.children.map((words, i) => (
-                    <SplideSlide className="splide-slice" key={i}>
+                    <SwiperSlide className="swiper_slide" key={i}>
                       <img
-                        className="w-52 rounded hover:opacity-80"
+                        className="w-48 rounded hover:opacity-80"
                         key={i}
                         alt={item.name}
                         src={logos[item.name]}
                       />
-                      <div className="text-center mt-3">
+                      <Center>
                         <Button
-                          colorScheme="teal"
+                          colorScheme="blue"
+                          variant="solid"
                           size="sm"
+                          mt={3}
                           onClick={() => getSeed(words, item)}>
                           Preview
                         </Button>
-                      </div>
-                    </SplideSlide>
+                      </Center>
+                    </SwiperSlide>
                   ))}
-                </Splide>
+                </Swiper>
               </AccordionPanel>
             </AccordionItem>
           );
         })}
+        <Flex position={"absolute"} bottom="0" right="0">
+          <Button>Continue</Button>
+          <Button onClick={closeModal}>Skip</Button>
+        </Flex>
       </Accordion>
     </>
   );
