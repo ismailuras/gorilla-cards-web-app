@@ -13,7 +13,7 @@ const initialState = {
   errorMessageOnSeedList: [],
 };
 
-const seekSlice = createSlice({
+const seedSlice = createSlice({
   name: "seed",
   initialState,
   reducers: {},
@@ -33,4 +33,4 @@ const seekSlice = createSlice({
   },
 });
 
-export default seekSlice.reducer;
+export default seedSlice.reducer;

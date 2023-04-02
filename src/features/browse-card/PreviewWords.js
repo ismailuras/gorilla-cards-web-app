@@ -37,13 +37,13 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
     }
   }, [currentSeed, getSeedWords]);
 
-  const goBack = () => {
+  const backToBrowseCard = () => {
     backToParent(false);
   };
 
   return (
     <>
-      <button className="mb-4" onClick={goBack}>
+      <button className="mb-4" onClick={backToBrowseCard}>
         <ArrowLeft />
       </button>
       {seedWordsErrorMessage === "unexpected-error" ? (

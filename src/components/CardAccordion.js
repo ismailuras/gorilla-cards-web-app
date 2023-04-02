@@ -9,6 +9,8 @@ import {
   Button,
   Flex,
   Center,
+  Image,
+  Checkbox,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -18,20 +20,32 @@ import { logos } from "../logos.js";
 import "swiper/css";
 import "swiper/css/navigation";
 import "../index.css";
+import CreateSeed from "features/create-seed/CreateSeed.js";
+import { useState } from "react";
 
 function CardAccordion({ getSeed, closeModal }) {
   const seed = useSelector((state) => state.seed.seed);
 
+  const [checkedSeedItems, setCheckedSeetItems] = useState({});
+
+  const handleChecked = (queryParams, seedItem) => {
+    setCheckedSeetItems({
+      id: seedItem.id,
+      deckName: seedItem.name,
+      offset: queryParams.offset,
+    });
+  };
+
   return (
     <>
       <Accordion defaultIndex={[0]} allowToggle position="relative">
-        {seed.map((item) => {
+        {seed.map((seedItem) => {
           return (
-            <AccordionItem key={item.id}>
+            <AccordionItem key={seedItem.id}>
               <AccordionButton>
                 <Box flex="1" textAlign="left" className="capitalize">
                   <Heading size="md" className="p-2">
-                    {item.name}
+                    {seedItem.name}
                   </Heading>
                 </Box>
                 <AccordionIcon fontSize="24px" />
@@ -42,13 +56,16 @@ function CardAccordion({ getSeed, closeModal }) {
                   spaceBetween={0}
                   slidesPerView={3}
                   navigation>
-                  {item.children.map((words, i) => (
+                  {seedItem.children.map((queryParams, i) => (
                     <SwiperSlide className="swiper_slide" key={i}>
-                      <img
-                        className="w-48 rounded hover:opacity-80"
+                      <Image
+                        boxSize="180px"
+                        borderRadius="5px"
+                        fallbackSrc="Loading"
+                        objectFit="cover"
                         key={i}
-                        alt={item.name}
-                        src={logos[item.name]}
+                        alt={seedItem.name}
+                        src={logos[seedItem.name]}
                       />
                       <Center>
                         <Button
@@ -56,9 +73,13 @@ function CardAccordion({ getSeed, closeModal }) {
                           variant="solid"
                           size="sm"
                           mt={3}
-                          onClick={() => getSeed(words, item)}>
-                          Preview
+                          onClick={() => getSeed(queryParams, seedItem)}>
+                          Preview {i + 1}
                         </Button>
+                        <Checkbox
+                          onChange={() =>
+                            handleChecked(queryParams, seedItem)
+                          }></Checkbox>
                       </Center>
                     </SwiperSlide>
                   ))}
@@ -68,8 +89,8 @@ function CardAccordion({ getSeed, closeModal }) {
           );
         })}
         <Flex position={"absolute"} bottom="0" right="0">
-          <Button>Continue</Button>
           <Button onClick={closeModal}>Skip</Button>
+          <CreateSeed checkedSeedItems={checkedSeedItems} />
         </Flex>
       </Accordion>
     </>

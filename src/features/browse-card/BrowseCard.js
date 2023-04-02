@@ -11,7 +11,7 @@ function BrowseCard({ closeBrowserCardModal }) {
     (state) => state.seed.errorMessageOnSeedList
   );
   const [previewData, setPreviewData] = useState({});
-  const [isPreviewWordsOpen, setPreviewWordsOpen] = useState(false);
+  const [isPreviewWordsWindowOpen, setPreviewWordsWindowOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,16 +19,18 @@ function BrowseCard({ closeBrowserCardModal }) {
   }, [dispatch]);
 
   const getSeed = ({ offset, total }, currentSeed) => {
-    setPreviewWordsOpen(true);
+    setPreviewWordsWindowOpen(true);
     setPreviewData({ offset, total, currentSeed });
   };
 
-  if (isPreviewWordsOpen) {
+  if (isPreviewWordsWindowOpen) {
     return (
-      <PreviewWords backToParent={setPreviewWordsOpen} data={previewData} />
+      <PreviewWords
+        backToParent={setPreviewWordsWindowOpen}
+        data={previewData}
+      />
     );
   }
-
   return (
     <>
       {seedListStatus === "loading" ? (

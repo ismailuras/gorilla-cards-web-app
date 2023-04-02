@@ -11,7 +11,7 @@ import {
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
-function FrontOfCards({ seedData }) {
+function WordDetail({ seedData }) {
   const groupDefinition = seedData.map((words) => {
     return words.tr.definitions.reduce((defs, acc) => {
       defs[acc.category] = defs[acc.category] || [];
@@ -75,4 +75,4 @@ function FrontOfCards({ seedData }) {
   );
 }
 
-export default FrontOfCards;
+export default WordDetail;
