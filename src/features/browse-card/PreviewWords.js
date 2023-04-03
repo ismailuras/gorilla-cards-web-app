@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft } from "react-feather";
-import { Spinner, Container } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axiosConfig";
-import FrontOfPreviewCards from "./FrontOfPreviewCards";
-import BackOfPreviewCards from "./BackOfPreviewCards";
+import WordsDetail from "./WordsDetail";
 
 function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
   const [seedData, setSeedData] = useState([]);
@@ -38,13 +37,13 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
     }
   }, [currentSeed, getSeedWords]);
 
-  const goBack = () => {
+  const backToBrowseCard = () => {
     backToParent(false);
   };
 
   return (
     <>
-      <button className="mb-4" onClick={goBack}>
+      <button className="mb-4" onClick={backToBrowseCard}>
         <ArrowLeft />
       </button>
       {seedWordsErrorMessage === "unexpected-error" ? (
@@ -66,12 +65,9 @@ function PreviewWords({ data: { currentSeed, offset, total }, backToParent }) {
               />
             </div>
           }>
-          <Container maxW="container.lg">
-            <div className="flex">
-              <FrontOfPreviewCards seedData={seedData} />
-              <BackOfPreviewCards seedData={seedData} />
-            </div>
-          </Container>
+          <div>
+            <WordsDetail seedData={seedData} />
+          </div>
         </InfiniteScroll>
       )}
     </>

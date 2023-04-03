@@ -21,6 +21,7 @@ function ForgotPassword() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -31,6 +32,7 @@ function ForgotPassword() {
   const onSubmit = async ({ email }) => {
     await dispatch(sendResetPasswordMail({ email })).unwrap();
     showToast("Password reset mail sent successfully.", "success");
+    reset();
   };
 
   return (

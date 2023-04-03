@@ -61,7 +61,7 @@ function AddCards() {
             )}
           />
         </div>
-        <div className="mb-5">
+        <div>
           <EditorField />
         </div>
         <div className="flex justify-end">

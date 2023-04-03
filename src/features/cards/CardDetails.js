@@ -90,8 +90,7 @@ function CardDetails() {
       <MyModal
         isOpen={isOpenEditCardModal}
         setOpen={setOpenEditCardModal}
-        title="Edit Card"
-        size="lg">
+        title="Edit Card">
         <EditCard closeEditCardModal={closeEditCardModal} />
       </MyModal>
     </>

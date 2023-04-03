@@ -5,13 +5,13 @@ import { Spinner } from "@chakra-ui/react";
 import CardAccordion from "components/CardAccordion";
 import PreviewWords from "./PreviewWords";
 
-function BrowseCard() {
+function BrowseCard({ closeBrowseCardModal }) {
   const seedListStatus = useSelector((state) => state.seed.seedListStatus);
   const errorMessageOnSeedList = useSelector(
     (state) => state.seed.errorMessageOnSeedList
   );
   const [previewData, setPreviewData] = useState({});
-  const [isPreviewWordsOpen, setPreviewWordsOpen] = useState(false);
+  const [isPreviewWordsWindowOpen, setPreviewWordsWindowOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,16 +19,18 @@ function BrowseCard() {
   }, [dispatch]);
 
   const getSeed = ({ offset, total }, currentSeed) => {
-    setPreviewWordsOpen(true);
+    setPreviewWordsWindowOpen(true);
     setPreviewData({ offset, total, currentSeed });
   };
 
-  if (isPreviewWordsOpen) {
+  if (isPreviewWordsWindowOpen) {
     return (
-      <PreviewWords backToParent={setPreviewWordsOpen} data={previewData} />
+      <PreviewWords
+        backToParent={setPreviewWordsWindowOpen}
+        data={previewData}
+      />
     );
   }
-
   return (
     <>
       {seedListStatus === "loading" ? (
@@ -42,7 +44,10 @@ function BrowseCard() {
           />
         </div>
       ) : (
-        <CardAccordion getSeed={getSeed} />
+        <CardAccordion
+          closeBrowseCardModal={closeBrowseCardModal}
+          getSeed={getSeed}
+        />
       )}
       {errorMessageOnSeedList === "unexpected-error" && (
         <span>Unexpected error occured.</span>

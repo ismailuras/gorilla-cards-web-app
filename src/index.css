@@ -11,14 +11,3 @@ body {
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
-
-.splide__slide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 5px;
-}
-
-.splide__arrows {
-  color: red;
-}
