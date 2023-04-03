@@ -6,11 +6,25 @@ export const getSeedList = createAsyncThunk("decks/getSeedList", async () => {
   return result.data.data;
 });
 
+export const createSeed = createAsyncThunk(
+  "createSeedByDeckName",
+  async ({ id, deckName, offset }) => {
+    const res = await axios.post(`/seed/${id}`, {
+      deckName,
+      offset,
+    });
+    return res.data.data;
+  }
+);
+
 const initialState = {
   seed: [],
+  createdSeed: [],
   seedData: [],
   seedListStatus: "idle",
+  createSeedStatus: "idle",
   errorMessageOnSeedList: [],
+  errorMessagesOnCreateSeed: [],
 };
 
 const seedSlice = createSlice({
@@ -29,6 +43,17 @@ const seedSlice = createSlice({
     builder.addCase(getSeedList.pending, (state) => {
       state.seedListStatus = "loading";
       state.errorMessageOnSeedList = [];
+    });
+    builder.addCase(createSeed.fulfilled, (state) => {
+      state.createSeedStatus = "idle";
+    });
+    builder.addCase(createSeed.rejected, (state) => {
+      state.errorMessagesOnCreateSeed = ["unexpected-error"];
+      state.createSeedStatus = "idle";
+    });
+    builder.addCase(createSeed.pending, (state) => {
+      state.createSeedStatus = "loading";
+      state.errorMessagesOnCreateSeed = [];
     });
   },
 });

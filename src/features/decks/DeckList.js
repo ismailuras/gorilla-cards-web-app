@@ -60,7 +60,7 @@ function DeckList() {
     setOpenBrowserCardModal(true);
   };
 
-  const handleCloseBrowserCardModal = () => {
+  const handleCloseBrowseCardModal = () => {
     setOpenBrowserCardModal(false);
   };
 
@@ -164,7 +164,7 @@ function DeckList() {
         setOpen={setOpenBrowserCardModal}
         size="cs"
         title="Cards">
-        <BrowseCard closeBrowserCardModal={handleCloseBrowserCardModal} />
+        <BrowseCard closeBrowseCardModal={handleCloseBrowseCardModal} />
       </MyModal>
     </div>
   );

@@ -5,7 +5,7 @@ import { Spinner } from "@chakra-ui/react";
 import CardAccordion from "components/CardAccordion";
 import PreviewWords from "./PreviewWords";
 
-function BrowseCard({ closeBrowserCardModal }) {
+function BrowseCard({ closeBrowseCardModal }) {
   const seedListStatus = useSelector((state) => state.seed.seedListStatus);
   const errorMessageOnSeedList = useSelector(
     (state) => state.seed.errorMessageOnSeedList
@@ -44,7 +44,10 @@ function BrowseCard({ closeBrowserCardModal }) {
           />
         </div>
       ) : (
-        <CardAccordion closeModal={closeBrowserCardModal} getSeed={getSeed} />
+        <CardAccordion
+          closeBrowseCardModal={closeBrowseCardModal}
+          getSeed={getSeed}
+        />
       )}
       {errorMessageOnSeedList === "unexpected-error" && (
         <span>Unexpected error occured.</span>

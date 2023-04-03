@@ -3,7 +3,6 @@ import deckSlice from "../features/decks/deckSlice";
 import cardSlice from "../features/cards/cardSlice";
 import seedSlice from "features/browse-card/seedSlice";
 import authSlice from "features/auth-user/authSlice";
-import createSeedSlice from "features/decks/create-seed/createSeedSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ export const store = configureStore({
     cards: cardSlice,
     auth: authSlice,
     seed: seedSlice,
-    createSeed: createSeedSlice,
   },
 });
 
